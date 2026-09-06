@@ -1,1 +1,42 @@
-# Validate art asset wiring (canon faces, outfits, props, checklists).\n# Full LFS pull is required for strict validate against real binaries.\n# If assets missing/empty and VALIDATE_ART_ALLOW_MISSING=1, script skips OK.\nname: validate-art\n\non:\n  push:\n    branches: [main, master]\n  pull_request:\n    branches: [main, master]\n\njobs:\n  validate-art:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout\n        uses: actions/checkout@v4\n        with:\n          lfs: true\n\n      - name: Setup Node 20\n        uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n\n      - name: Setup pnpm\n        uses: pnpm/action-setup@v4\n        with:\n          version: 9\n\n      - name: Install dependencies\n        run: pnpm install --frozen-lockfile\n\n      - name: Validate art assets\n        run: pnpm validate:art\n        env:\n          VALIDATE_ART_ALLOW_MISSING: "1"\n
+# Validate art asset wiring (canon faces, outfits, props, checklists).
+# Full LFS pull is required for strict validate against real binaries.
+# If assets missing/empty and VALIDATE_ART_ALLOW_MISSING=1, script skips OK.
+name: validate-art
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate-art:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm install --frozen-lockfile
+          else
+            pnpm install
+          fi
+
+      - name: Validate art assets
+        run: pnpm validate:art
+        env:
+          VALIDATE_ART_ALLOW_MISSING: "1"
