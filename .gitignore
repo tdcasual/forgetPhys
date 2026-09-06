@@ -13,3 +13,4 @@ grok-scaffold.log
 assets/_archive/
 assets/_downloads/
 *.local
+assets/atlas/ne-raster/
