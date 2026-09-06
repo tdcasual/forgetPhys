@@ -1,0 +1,143 @@
+.pc-dialogue {
+  position: relative;
+  width: min(640px, calc(100vw - 2.5rem));
+  padding: 1.15rem 1.35rem 1rem;
+  background: #f3e6c8;
+  color: #3a2a20;
+  border: 1.5px solid #5c3d2e;
+  box-shadow:
+    0 0 0 1px #8b5a3c55 inset,
+    0 18px 40px #1a120c88;
+  font-family: Palatino, "Palatino Linotype", "Songti SC", "Noto Serif CJK SC", Georgia, serif;
+}
+
+.pc-dialogue-speaker {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6a4a38;
+  margin-bottom: 0.45rem;
+}
+
+.pc-dialogue-text {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.pc-dialogue-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pc-dialogue-actions button {
+  appearance: none;
+  background: #5c3d2e;
+  color: #f3e6c8;
+  border: 1px solid #3a2a20;
+  padding: 0.35rem 0.9rem;
+  font: inherit;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.pc-dialogue-actions button:hover {
+  background: #7a5340;
+}
+
+.pc-cite {
+  font-size: 0.78rem;
+  color: #5c3d2e;
+}
+
+.pc-cite summary {
+  cursor: pointer;
+  list-style: none;
+  letter-spacing: 0.12em;
+}
+
+.pc-cite summary::-webkit-details-marker {
+  display: none;
+}
+
+.pc-cite-body {
+  margin-top: 0.4rem;
+  padding: 0.45rem 0.55rem;
+  border-top: 1px solid #8b5a3c88;
+  line-height: 1.45;
+}
+
+.pc-tier {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0 0.35rem;
+  border: 1px solid #5c3d2e;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+}
+
+.pc-tier-interpretation {
+  background: #b33a2b;
+  color: #f3e6c8;
+  border-color: #5c3d2e;
+}
+
+.pc-badge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.15rem 0.65rem 0.15rem 0.35rem;
+  background: #f0e2c4;
+  border: 1.5px solid #5c3d2e;
+  color: #5c3d2e;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+}
+
+.pc-badge-tab {
+  display: inline-block;
+  width: 6px;
+  height: 1.05em;
+  background: #b33a2b;
+}
+
+.pc-badge-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4.4rem;
+  height: 4.4rem;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pc-badge-corner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-style: solid;
+  border-width: 0 4.4rem 4.4rem 0;
+  border-color: transparent #b33a2b transparent transparent;
+}
+
+.pc-badge-corner span {
+  position: absolute;
+  top: 0.7rem;
+  right: -0.15rem;
+  width: 4.6rem;
+  transform: rotate(45deg);
+  color: #f0e2c4;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-align: center;
+}
+
+.pc-badge-img {
+  height: 1.7rem;
+  display: block;
+}

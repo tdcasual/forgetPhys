@@ -1,0 +1,19 @@
+{
+  "name": "physics-chronicle",
+  "private": true,
+  "version": "0.0.1",
+  "description": "物理编年图志 — atlas travel, venue labs, sourced dialogue",
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "dev": "pnpm --filter @physics-chronicle/web dev",
+    "build": "pnpm --filter @physics-chronicle/web build",
+    "preview": "pnpm --filter @physics-chronicle/web preview",
+    "typecheck": "pnpm -r --if-present typecheck"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

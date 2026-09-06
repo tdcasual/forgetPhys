@@ -1,0 +1,84 @@
+{
+  "id": "ch1-manchester",
+  "city": "Manchester",
+  "era": "1909–1911",
+  "atlas": {
+    "title": "曼彻斯特",
+    "caption": "Coupland Street 物理实验室 · α 散射",
+    "nodes": [
+      {
+        "id": "coupland-street",
+        "label": "Coupland Street",
+        "subtitle": "Physical Laboratories, 1909–1911",
+        "x": 0.55,
+        "y": 0.12,
+        "venueId": "coupland-lab"
+      }
+    ]
+  },
+  "venues": [
+    {
+      "id": "coupland-lab",
+      "name": "Physical Laboratories",
+      "place": "Coupland Street, Manchester",
+      "years": "1909–1911",
+      "kind": "lab",
+      "labId": "mc-scattering",
+      "dialogue": [
+        {
+          "id": "mcr-1",
+          "speaker": "伴灵",
+          "speakerRole": "companion",
+          "text": "1909 年，曼彻斯特 Coupland Street。盖革和马斯登在暗室里数硫化锌屏上的闪光。从放射源出来的 α 粒子，绝大多数几乎沿直线穿过金箔。",
+          "claim": {
+            "source_tier": "primary",
+            "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
+            "notes": "大角“漫反射”的实验报告。盖革主导实验，马斯登以本科生参与。"
+          }
+        },
+        {
+          "id": "mcr-2",
+          "speaker": "伴灵",
+          "speakerRole": "companion",
+          "text": "少数会偏过很大的角度，有的甚至折回来。他们把这叫做 α 粒子的“漫反射”。卢瑟福提供理论框架，并不坐在屏前一闪一闪地数。",
+          "claim": {
+            "source_tier": "primary",
+            "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500"
+          }
+        },
+        {
+          "id": "mcr-3",
+          "speaker": "伴灵",
+          "speakerRole": "companion",
+          "text": "卢瑟福 1911 年的论文用“集中的中心电荷”——原子中心一个微小的带正电体——来说明这件事。那篇正文里没有用后来的词 nucleus。",
+          "claim": {
+            "source_tier": "primary",
+            "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
+            "notes": "中心电荷模型。游戏结算可以用教材用语“核式结构”，时代对话保持“中心电荷 / 微小正电体”。"
+          }
+        },
+        {
+          "id": "mcr-4",
+          "speaker": "伴灵",
+          "speakerRole": "companion",
+          "text": "后来的回忆里有个比喻：像十五英寸炮弹打在薄纸上，纸把它弹了回来。那是事后讲的故事，不是 1909 年暗室里的现场记录。",
+          "claim": {
+            "source_tier": "interpretation",
+            "citation": "Late recollection (often 1930s); not a 1909 laboratory quotation",
+            "notes": "D 级戏剧许可。勿当 1909 现场台词史实。"
+          }
+        },
+        {
+          "id": "mcr-5",
+          "speaker": "旁白",
+          "speakerRole": "narrator",
+          "text": "教材把这叫做原子的核式结构：几乎全部的质量和正电荷集中在很小的中心，电子在外围。枣糕模型解释不了那些不可能的大角偏转。",
+          "claim": {
+            "source_tier": "textbook",
+            "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）"
+          }
+        }
+      ]
+    }
+  ]
+}

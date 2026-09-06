@@ -1,0 +1,9 @@
+node_modules
+dist
+.turbo
+.vite
+*.local
+.DS_Store
+*.log
+.pnpm-store
+grok-scaffold.log
