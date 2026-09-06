@@ -1,0 +1,74 @@
+name: Art asset
+description: Track a single art asset through gate columns
+title: "[art] "
+labels: ["art"]
+body:
+  - type: input
+    id: asset_path
+    attributes:
+      label: Asset path
+      description: Repo-relative path under assets/
+      placeholder: assets/chars/char-rutherford/_canon/face.png
+    validations:
+      required: true
+
+  - type: dropdown
+    id: asset_kind
+    attributes:
+      label: Kind
+      options:
+        - char
+        - bg
+        - prop
+        - map
+        - ui
+    validations:
+      required: true
+
+  - type: input
+    id: gate_ids
+    attributes:
+      label: Gate IDs
+      description: B background / I instrument / W Watson / S style / U UI / M map / G scene QA
+      placeholder: "G1-G8, S1-S3"
+    validations:
+      required: true
+
+  - type: input
+    id: era
+    attributes:
+      label: Era / chapter
+      description: e.g. manchester-1909, edwardian-1909
+      placeholder: manchester-1909
+    validations:
+      required: false
+
+  - type: input
+    id: owner
+    attributes:
+      label: Owner
+      description: Artist or assignee handle
+      placeholder: "@artist"
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / refs
+      description: Provenance, QA shot links, blockers
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: board_column
+    attributes:
+      label: Current board column
+      options:
+        - label: Backlog
+        - label: 史料卡
+        - label: 出图中
+        - label: 并排QA
+        - label: 导演过检
+        - label: PASS/入库
+        - label: 精修

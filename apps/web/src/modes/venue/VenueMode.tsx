@@ -13,7 +13,7 @@ export function VenueHud({
   large: number;
   bins: number[];
 }) {
-  const { mode, venue, returnToAtlas, openDialogue, dialogueOpen } = useGame();
+  const { mode, venue, returnToPlate, openDialogue, dialogueOpen } = useGame();
   if (mode !== "venue" || !venue) return null;
   const max = Math.max(1, ...bins);
 
@@ -25,8 +25,8 @@ export function VenueHud({
           {venue.place} · {venue.years}
         </p>
       </div>
-      <button type="button" className="paper-btn hud-back" onClick={returnToAtlas}>
-        返回图志
+      <button type="button" className="paper-btn hud-back" onClick={returnToPlate}>
+        返回章节图志
       </button>
       <aside className="hud-readout" aria-label="散射计数">
         <h2>荧光计数（粗直方图）</h2>

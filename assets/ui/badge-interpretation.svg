@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="40" viewBox="0 0 128 40" role="img" aria-label="演绎">
+  <title>演绎角标</title>
+  <defs>
+    <filter id="paper" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
+      <feDiffuseLighting in="n" lighting-color="#f3e6c8" surfaceScale="0.6">
+        <feDistantLight azimuth="45" elevation="60"/>
+      </feDiffuseLighting>
+    </filter>
+  </defs>
+  <!-- parchment chip -->
+  <rect x="1" y="1" width="126" height="38" rx="3" ry="3" fill="#f0e2c4" stroke="#5c3d2e" stroke-width="1.5"/>
+  <rect x="4" y="4" width="120" height="32" rx="2" ry="2" fill="none" stroke="#8b5a3c" stroke-width="0.75" opacity="0.55"/>
+  <!-- vermillion tab -->
+  <rect x="8" y="10" width="6" height="20" rx="1" fill="#b33a2b"/>
+  <!-- label -->
+  <text x="72" y="26" text-anchor="middle"
+        font-family="Georgia, 'Songti SC', 'Noto Serif CJK SC', serif"
+        font-size="16" font-weight="600" fill="#5c3d2e"
+        letter-spacing="0.12em">演绎</text>
+</svg>

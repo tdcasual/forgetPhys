@@ -1,52 +1,48 @@
-import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
-import { CutMask, GameCameras } from "../camera/CameraDirector";
-import { DialogueController } from "../dialogue/DialogueController";
-import { AtlasHud, AtlasScene } from "../modes/atlas/AtlasMode";
-import { VenueHud, VenueScene } from "../modes/venue/VenueMode";
-import { CanvasGameBridge, GameProvider, useGame } from "./GameState";
+/**
+ * Pure-2D main playable path (80 Days structure × Pentiment skin).
+ * Legacy Three.js / R3F atlas+venue kept under modes/atlas and modes/venue
+ * but is NOT mounted here — flip USE_LEGACY_3D only for experiments.
+ */
+import { CutMask } from "../camera/CameraDirector";
+import { CityPage } from "../modes/city/CityPage";
+import { LabEmbed } from "../modes/lab/LabEmbed";
+import { ChroniclePlate } from "../modes/plate/ChroniclePlate";
+import { Venue2D } from "../modes/venue2d/Venue2D";
+import { WorldMap2D } from "../modes/worldmap2d/WorldMap2D";
+import { GameProvider, useGame } from "./GameState";
 
-function World({
-  onMeasure,
-}: {
-  onMeasure: (total: number, large: number, bins: number[]) => void;
-}) {
-  const { mode } = useGame();
-  return mode === "atlas" ? <AtlasScene /> : <VenueScene onMeasure={onMeasure} />;
-}
+const USE_LEGACY_3D = false;
 
-function Shell() {
-  const game = useGame();
-  const [total, setTotal] = useState(0);
-  const [large, setLarge] = useState(0);
-  const [bins, setBins] = useState<number[]>([0, 0, 0, 0, 0, 0]);
-
+function Shell2D() {
+  const { cutPhase } = useGame();
   return (
-    <div className="shell">
-      <Canvas className="stage" dpr={[1, 1.75]} gl={{ antialias: true }}>
-        <CanvasGameBridge value={game}>
-          <GameCameras />
-          <World
-            onMeasure={(t, l, b) => {
-              setTotal(t);
-              setLarge(l);
-              setBins(b);
-            }}
-          />
-        </CanvasGameBridge>
-      </Canvas>
-      <CutMask />
-      <AtlasHud />
-      <VenueHud total={total} large={large} bins={bins} />
-      <DialogueController />
+    <div className="shell shell--2d">
+      <WorldMap2D />
+      <ChroniclePlate />
+      <CityPage />
+      <Venue2D />
+      <LabEmbed />
+      <CutMask phase={cutPhase} />
     </div>
   );
 }
 
 export function App() {
+  if (USE_LEGACY_3D) {
+    // Legacy 3D entry kept for reference — not the default path.
+    // Import modes/atlas + modes/venue + R3F Canvas if needed.
+    return (
+      <GameProvider>
+        <div className="shell">
+          <p className="webgl-fallback">USE_LEGACY_3D is on — remount R3F App manually.</p>
+        </div>
+      </GameProvider>
+    );
+  }
+
   return (
     <GameProvider>
-      <Shell />
+      <Shell2D />
     </GameProvider>
   );
 }

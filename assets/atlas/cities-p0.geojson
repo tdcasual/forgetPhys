@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "manchester",
+        "name": "Manchester",
+        "era": "1909-1911",
+        "p0_entry": true,
+        "venue": "coupland-lab"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.2426,
+          53.4808
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cambridge",
+        "name": "Cambridge",
+        "era": "1897",
+        "p0_entry": false,
+        "venue": "cavendish"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.1218,
+          52.2053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "copenhagen",
+        "name": "Copenhagen",
+        "era": "1913",
+        "p0_entry": false,
+        "venue": "apartment-study"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.5683,
+          55.6761
+        ]
+      }
+    }
+  ]
+}

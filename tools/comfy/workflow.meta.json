@@ -1,0 +1,13 @@
+{
+  "name": "faceid-bust-api",
+  "version": "0.1.0",
+  "format": "comfy-api-prompt",
+  "description": "Minimal FaceID bust stub — load and adapt in ComfyUI; not a production graph.",
+  "style_block": "docs/CHAR_CONSISTENCY_CONSTRAINTS.md",
+  "canon_target": "assets/chars/{id}/_canon/face.png",
+  "forbidden": ["pose_to_pose_chaining"],
+  "custom_nodes": [
+    "https://github.com/cubiq/ComfyUI_IPAdapter_plus",
+    "https://github.com/cubiq/ComfyUI_InstantID"
+  ]
+}

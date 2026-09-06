@@ -1,0 +1,21 @@
+{
+  "id": "char-watson",
+  "dialogueDefault": "bust",
+  "layout": "left-right-split",
+  "defaultOutfit": "edwardian-1909",
+  "sets": {
+    "bust": {
+      "path": "outfits/{outfit}/",
+      "poses": ["stand__idle", "stand__speak", "stand__think", "stand__surprise"],
+      "crop": "waist-up",
+      "slot": "right",
+      "scale": 0.90,
+      "use": "P0 main dialogue"
+    },
+    "sit-baked": {
+      "path": "outfits/edwardian-1909/sit-with-chair/",
+      "status": "optional-ambient"
+    }
+  },
+  "nameplate": "dialogue-namebox"
+}

@@ -1,7 +1,7 @@
 .pc-dialogue {
   position: relative;
   width: min(640px, calc(100vw - 2.5rem));
-  padding: 1.15rem 1.35rem 1rem;
+  padding: 1.35rem 1.35rem 1rem;
   background: #f3e6c8;
   color: #3a2a20;
   border: 1.5px solid #5c3d2e;
@@ -11,12 +11,36 @@
   font-family: Palatino, "Palatino Linotype", "Songti SC", "Noto Serif CJK SC", Georgia, serif;
 }
 
+/* Ren'Py-style parchment namebox (primary name — G7 revised) */
+.pc-dialogue-namebox {
+  position: absolute;
+  left: 0.75rem;
+  top: -0.95rem;
+  z-index: 2;
+  padding: 0.22rem 0.85rem 0.28rem;
+  min-width: 3.6rem;
+  max-width: 46%;
+  font-size: 14.5px;
+  line-height: 1.25;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: #3a2a20;
+  background: linear-gradient(180deg, #f8edd4 0%, #e4cfa0 100%);
+  border: 1.5px solid #5c3d2e;
+  border-bottom-color: #c4a874;
+  border-radius: 3px 3px 0 0;
+  box-shadow:
+    0 0 0 1px #8b5a3c44 inset,
+    0 4px 10px #1a120c66;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* Legacy inline speaker row — kept for any caller still using the class */
 .pc-dialogue-speaker {
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #6a4a38;
-  margin-bottom: 0.45rem;
+  display: none;
 }
 
 .pc-dialogue-text {
@@ -108,36 +132,26 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 4.4rem;
-  height: 4.4rem;
+  width: 3.5rem;
+  height: 3.5rem;
   overflow: hidden;
   pointer-events: none;
 }
 
-.pc-badge-corner::before {
-  content: "";
+.pc-badge-corner-img {
   position: absolute;
   top: 0;
   right: 0;
-  border-style: solid;
-  border-width: 0 4.4rem 4.4rem 0;
-  border-color: transparent #b33a2b transparent transparent;
-}
-
-.pc-badge-corner span {
-  position: absolute;
-  top: 0.7rem;
-  right: -0.15rem;
-  width: 4.6rem;
-  transform: rotate(45deg);
-  color: #f0e2c4;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-align: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: block;
 }
 
 .pc-badge-img {
   height: 1.7rem;
   display: block;
+}
+
+.pc-badge-chip-img {
+  height: 1.85rem;
 }

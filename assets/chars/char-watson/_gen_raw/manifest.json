@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "victorian-1890s",
+    "pose": "stand__speak",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/victorian-1890s__stand__speak.png",
+    "url": "https://files-cdn.x.ai/lyhB1U4URIWuGQZtXLqI-A/file_ca38fdb2-f2fc-4c6f-95dd-ab11340f3bfe.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "victorian-1890s",
+    "pose": "stand__think",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/victorian-1890s__stand__think.png",
+    "url": "https://files-cdn.x.ai/UXPL-ZdBQxKteH5W6GQbiQ/file_d0d587e4-d03d-4a38-9c02-6f88c9168be6.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "victorian-1890s",
+    "pose": "stand__surprise",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/victorian-1890s__stand__surprise.png",
+    "url": "https://files-cdn.x.ai/YU7zNoaiRNGsk6NA9sAmYQ/file_7621e232-d4ec-4a66-a516-9608caa18ae5.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "belle-epoque-1913",
+    "pose": "stand__idle",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/belle-epoque-1913__stand__idle.png",
+    "url": "https://files-cdn.x.ai/SoD4x1jNRoW5fm8PeaPmBg/file_fd82e042-9073-4319-b991-07316299b472.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "belle-epoque-1913",
+    "pose": "stand__speak",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/belle-epoque-1913__stand__speak.png",
+    "url": "https://files-cdn.x.ai/zniLMeZsQB6n8dbnf9Uw2g/file_454dc865-491b-46f4-8d40-4ee6b9a84ea3.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "belle-epoque-1913",
+    "pose": "stand__think",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/belle-epoque-1913__stand__think.png",
+    "url": "https://files-cdn.x.ai/r_d-gyEyRwuMGctn-nzeQg/file_1509303e-5eec-4070-9fda-d1bd402e65e6.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "belle-epoque-1913",
+    "pose": "stand__surprise",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/belle-epoque-1913__stand__surprise.png",
+    "url": "https://files-cdn.x.ai/EemwA8hxQ1Cfa3ixyAgJyA/file_e3f9cd7c-ac37-494b-bbaa-7d351195069d.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "classical-mediterranean",
+    "pose": "stand__idle",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/classical-mediterranean__stand__idle.png",
+    "url": "https://files-cdn.x.ai/aeZQ9GBJTQ6zQhhBKJHp2Q/file_48bde8a5-80d7-49f6-9c65-baffb365007e.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "early-modern-eu",
+    "pose": "stand__idle",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/early-modern-eu__stand__idle.png",
+    "url": "https://files-cdn.x.ai/gMWh_JLHQ7aJMf4oYoJvyQ/file_edc89478-d56c-45ed-a044-799a70db90b7.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "interwar",
+    "pose": "stand__idle",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/interwar__stand__idle.png",
+    "url": "https://files-cdn.x.ai/Ot2W9QXORMOy2LISKgAAZw/file_6618a559-592b-4705-929e-a7e149337120.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "midcentury",
+    "pose": "stand__idle",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/midcentury__stand__idle.png",
+    "url": "https://files-cdn.x.ai/-fMUfL8ZQWipanUtpkur9Q/file_3672e32e-976b-4da9-a7bb-fd432def66c0.png",
+    "model": "grok-imagine-image"
+  },
+  {
+    "slug": "contemporary-lab",
+    "pose": "stand__idle",
+    "path": "/workspace/physics-game/assets/chars/char-watson/_gen_raw/contemporary-lab__stand__idle.png",
+    "url": "https://files-cdn.x.ai/_22au77hRw-x7kv_pBsw2g/file_2a3098ca-3dac-404f-a471-46935b8de69d.png",
+    "model": "grok-imagine-image"
+  }
+]

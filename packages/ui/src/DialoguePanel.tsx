@@ -16,7 +16,10 @@ export function DialoguePanel({
   return (
     <section className="pc-dialogue" role="dialog" aria-label="对话">
       {showBadge ? <InterpretationBadge variant="corner" /> : null}
-      <div className="pc-dialogue-speaker">{line.speaker}</div>
+      {/* Ren'Py-style namebox — primary name UI (G7 revised) */}
+      <div className="pc-dialogue-namebox" aria-label="说话人">
+        {line.speaker}
+      </div>
       <p className="pc-dialogue-text">{line.text}</p>
       <div className="pc-dialogue-actions">
         <CitationDrawer claim={line.claim} />

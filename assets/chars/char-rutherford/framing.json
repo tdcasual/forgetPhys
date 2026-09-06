@@ -1,0 +1,24 @@
+{
+  "id": "char-rutherford",
+  "dialogueDefault": "bust",
+  "layout": "left-right-split",
+  "sets": {
+    "bust": {
+      "path": "bust/",
+      "poses": ["idle", "speak", "think"],
+      "crop": "waist-up",
+      "slot": "left",
+      "use": "P0 main dialogue"
+    },
+    "sit-baked": {
+      "path": "sit-with-chair/",
+      "poses": ["sit__think"],
+      "includesChair": true,
+      "status": "optional-ambient",
+      "use": "scene insert / cutaway only — NOT main dialogue",
+      "note": "room-scale PASS 2026-09-06; too small for dialogue close-up"
+    },
+    "full": {"path": ".", "note": "backup only"}
+  },
+  "nameplate": "dialogue-namebox"
+}

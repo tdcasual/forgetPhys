@@ -7,3 +7,9 @@ dist
 *.log
 .pnpm-store
 grok-scaffold.log
+.env
+
+# Art bulk / local-only
+assets/_archive/
+assets/_downloads/
+*.local

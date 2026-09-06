@@ -5,6 +5,13 @@
   --line: #5c3d2e;
   --vermillion: #b33a2b;
   --night: #14110e;
+  /* 方案 B: L/R bust, bottoms at lower ~1/3; companion ~0.9× scientist */
+  --portrait-scientist-h: min(46vh, 400px);
+  --portrait-companion-scale: 0.9;
+  --portrait-companion-h: calc(var(--portrait-scientist-h) * var(--portrait-companion-scale));
+  --portrait-ground-gap: 0;
+  --desk-occluder-h: 22%;
+  --contact-line: 22%;
   font-family: Palatino, "Palatino Linotype", "Songti SC", "Noto Serif CJK SC",
     Georgia, serif;
 }
@@ -72,6 +79,33 @@ body,
   font-size: 0.9rem;
   letter-spacing: 0.06em;
   opacity: 0.85;
+}
+
+.hud-title--parchment {
+  color: var(--ink);
+  background: #f3e6c8ee;
+  border: 1.5px solid var(--line);
+  padding: 0.65rem 0.9rem 0.75rem;
+  box-shadow: 0 8px 22px #0005;
+  max-width: 28rem;
+}
+
+.hud-title--parchment h1 {
+  color: var(--ink);
+}
+
+.hud-title--parchment p {
+  color: #5c3d2e;
+  opacity: 0.92;
+}
+
+.hud-hint--parchment {
+  color: var(--ink);
+  background: #f3e6c8ee;
+  border: 1.5px solid var(--line);
+  padding: 0.4rem 0.75rem;
+  box-shadow: 0 6px 16px #0004;
+  opacity: 1;
 }
 
 .paper-btn {
@@ -184,4 +218,972 @@ body,
 
 .cut-mask.idle {
   visibility: hidden;
+}
+
+
+/* ChroniclePlate — full-screen fate-book chapter illustration */
+.chronicle-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: #14110ef2;
+  pointer-events: auto;
+}
+
+.chronicle-plate-frame {
+  position: relative;
+  width: min(1100px, 96vw);
+  max-height: 94vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 0;
+  background: #e8d4a8;
+  border: 2px solid #5c3d2e;
+  box-shadow: 0 24px 64px #000a;
+  overflow: hidden;
+}
+
+.chronicle-plate-art {
+  display: block;
+  width: 100%;
+  height: min(58vh, 520px);
+  object-fit: cover;
+  object-position: center 40%;
+  background: #e8d4a8;
+}
+
+.chronicle-plate-copy {
+  padding: 1rem 1.4rem 1.25rem;
+  color: #3a2a20;
+  background: linear-gradient(180deg, #f3e6c8 0%, #e8d4a8 100%);
+  border-top: 1px solid #5c3d2e55;
+}
+
+.chronicle-plate-kicker {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  opacity: 0.75;
+}
+
+.chronicle-plate-copy h1 {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 1.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.chronicle-plate-blurb {
+  margin: 0;
+  max-width: 52rem;
+  line-height: 1.55;
+  font-size: 0.98rem;
+  opacity: 0.92;
+}
+
+.chronicle-plate-meta {
+  margin: 0.55rem 0 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.chronicle-plate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.paper-btn.ghost {
+  background: transparent;
+  color: #3a2a20;
+  box-shadow: none;
+}
+
+.webgl-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #14110e;
+  color: #f3e6c8;
+  letter-spacing: 0.08em;
+}
+.webgl-fallback pre {
+  max-width: 80vw;
+  font-size: 0.7rem;
+  opacity: 0.6;
+  white-space: pre-wrap;
+}
+
+/* ========== Pure-2D path (WorldMap → Plate → City → Venue → Lab) ========== */
+
+.shell--2d {
+  background: #14110e;
+}
+
+.parchment,
+.parchment-panel {
+  background: #f3e6c8ee;
+  color: #3a2a20;
+  border: 1.5px solid #5c3d2e;
+  box-shadow: 0 10px 28px #0006;
+}
+
+/* --- WorldMap2D --- */
+.wm2d {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, #2a3a48 0%, #14110e 70%);
+}
+
+.wm2d-frame {
+  position: relative;
+  width: min(1100px, 96vw);
+  height: min(75vh, 720px);
+  border: 2px solid #5c3d2e;
+  box-shadow: 0 20px 60px #000a;
+  overflow: hidden;
+  background: #1a120c;
+}
+
+.wm2d-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(0.92) contrast(1.05);
+  user-select: none;
+  pointer-events: none;
+}
+
+.wm2d-hotspots {
+  position: absolute;
+  inset: 0;
+}
+
+.wm2d-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  z-index: 2;
+}
+
+.wm2d-pin-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #f3e6c8;
+  box-shadow: 0 0 0 2px #5c3d2e88, 0 4px 12px #0008;
+}
+
+.wm2d-pin.unlocked .wm2d-pin-dot {
+  background: #d4a017;
+  animation: wm-pulse 1.8s ease-in-out infinite;
+}
+
+.wm2d-pin.locked .wm2d-pin-dot {
+  background: #4a4540;
+  border-color: #7a756e;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.wm2d-pin.active .wm2d-pin-dot {
+  transform: scale(1.25);
+}
+
+.wm2d-pin-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  padding: 0.15rem 0.45rem;
+  background: #f3e6c8ee;
+  color: #3a2a20;
+  border: 1px solid #5c3d2e;
+  white-space: nowrap;
+}
+
+.wm2d-pin.locked .wm2d-pin-label {
+  background: #3a3834ee;
+  color: #c8c2b8;
+  border-color: #6a6560;
+}
+
+@keyframes wm-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px #5c3d2e88, 0 0 0 0 #d4a01766;
+  }
+  50% {
+    box-shadow: 0 0 0 2px #5c3d2e88, 0 0 0 10px #d4a01700;
+  }
+}
+
+.wm2d-card {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  max-width: 16rem;
+  padding: 0.75rem 0.9rem;
+  background: #f3e6c8f2;
+  color: #3a2a20;
+  border: 1.5px solid #5c3d2e;
+  box-shadow: 0 12px 28px #0007;
+  z-index: 3;
+}
+
+.wm2d-card-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  opacity: 0.75;
+}
+
+.wm2d-card h2 {
+  margin: 0.2rem 0 0.35rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.14em;
+}
+
+.wm2d-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.wm2d-card-lock {
+  margin-top: 0.4rem !important;
+  color: #6a6560;
+  font-size: 0.8rem !important;
+}
+
+.wm2d-hud {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.3rem;
+  z-index: 4;
+  padding: 0.65rem 0.9rem 0.75rem;
+  max-width: 28rem;
+}
+
+.wm2d-hud h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+}
+
+.wm2d-hud p {
+  margin: 0.25rem 0 0;
+  font-size: 0.88rem;
+  opacity: 0.9;
+}
+
+.wm2d-hint {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.3rem;
+  z-index: 4;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.wm2d-enter {
+  position: absolute;
+  right: 1.3rem;
+  bottom: 1.2rem;
+  z-index: 4;
+}
+
+/* --- CityPage --- */
+.city-page {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1612;
+}
+
+.city-page-skyline {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #1a1612;
+}
+
+.city-page-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.95) contrast(1.04);
+  user-select: none;
+  pointer-events: none;
+}
+
+.city-page-skyline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #1a161244 0%, #1a161266 55%, #1a1612cc 100%);
+  pointer-events: none;
+}
+
+.city-page-panel {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 92vw);
+  padding: 1.4rem 1.5rem 1.25rem;
+}
+
+.city-kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
+}
+
+.city-page-panel h1 {
+  margin: 0.35rem 0 0.25rem;
+  font-size: 1.85rem;
+  letter-spacing: 0.22em;
+}
+
+.city-street {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+.city-caption {
+  margin: 0.75rem 0 1.1rem;
+  line-height: 1.5;
+  opacity: 0.92;
+}
+
+.city-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.city-btn {
+  min-width: 6.5rem;
+}
+
+.city-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+
+.city-nav {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1.1rem;
+  justify-content: flex-end;
+}
+
+/* --- Venue2D --- */
+.venue2d {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  background: #12161c;
+  --desk-occluder-h: 22%;
+  --contact-line: 22%;
+}
+
+.venue2d--lab {
+  --desk-occluder-h: 22%;
+  --contact-line: 22%;
+}
+
+.venue2d--lodge {
+  background: #1a1410;
+  --desk-occluder-h: 22%;
+  --contact-line: 22%;
+}
+
+.venue2d-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #12161c;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.venue2d-bg-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(0.95) contrast(1.05);
+  user-select: none;
+  pointer-events: none;
+}
+
+.venue2d-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0004 0%, transparent 35%, #0008 100%);
+  pointer-events: none;
+}
+
+.venue2d--lodge .venue2d-bg {
+  background: #1a1410;
+}
+
+/* Immersion: no full-width top parchment bar */
+.venue2d-nav {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 5;
+}
+
+.venue2d-nav-toggle {
+  appearance: none;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 1.5px solid #5c3d2e88;
+  border-radius: 4px;
+  background: #14110ecc;
+  color: #f3e6c8;
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px #0006;
+}
+
+.venue2d-nav-toggle:hover,
+.venue2d-nav-toggle[aria-expanded="true"] {
+  background: #f3e6c8ee;
+  color: #3a2a20;
+  border-color: #5c3d2e;
+}
+
+.venue2d-nav-menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  min-width: 7.5rem;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  z-index: 6;
+}
+
+.venue2d-nav-item {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0.12em;
+  text-align: left;
+  padding: 0.4rem 0.65rem;
+  cursor: pointer;
+}
+
+.venue2d-nav-item:hover {
+  background: #5c3d2e18;
+}
+
+.venue2d-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  opacity: 0.75;
+}
+
+.venue2d-place-caption {
+  margin: 0 0 0.45rem;
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: #f3e6c8cc;
+  text-shadow: 0 1px 4px #000a;
+}
+
+.venue2d-place-caption--solo {
+  width: 100%;
+  margin-bottom: 0.65rem;
+}
+
+/*
+ * Stage 方案 B (SPRITE_PIPELINE_REVISED): left/right bust slots.
+ * Bottoms share contact line (~lower 1/3). Center open for bench/lamp.
+ * Never park companion on chair seat.
+ */
+.venue2d-stage,
+.venue2d-stage--lr {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: var(--contact-line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  column-gap: 0;
+  padding: 0 clamp(1.5%, 2vw, 2.5rem);
+  z-index: 1;
+  min-height: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.venue2d-portrait-wrap--left {
+  justify-self: start;
+  margin-left: 2%;
+  max-width: 46%;
+}
+
+.venue2d-portrait-wrap--right {
+  justify-self: end;
+  margin-right: 2%;
+  max-width: 46%;
+}
+
+.venue2d-portrait-wrap--speaking .venue2d-portrait {
+  filter: drop-shadow(0 10px 22px #0009) brightness(1.04);
+}
+
+.venue2d-portrait-wrap--secondary .venue2d-portrait {
+  filter: drop-shadow(0 8px 18px #0007) brightness(0.92);
+  opacity: 0.92;
+}
+
+.venue2d-portrait-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  /* Anchor: wrap bottom = contact line */
+  align-self: flex-end;
+  max-height: 100%;
+  pointer-events: none;
+}
+
+.venue2d-portrait-wrap--scientist .venue2d-portrait {
+  height: var(--portrait-scientist-h);
+}
+
+.venue2d-portrait-wrap--companion .venue2d-portrait,
+.venue2d-portrait-wrap--companion .venue2d-portrait--secondary {
+  /* Height drives scale (~0.9× scientist). Bust PNGs are landscape canvases. */
+  height: var(--portrait-companion-h);
+  max-width: none;
+  width: auto;
+}
+
+.venue2d-portrait-wrap--other .venue2d-portrait {
+  height: var(--portrait-scientist-h);
+}
+
+.venue2d-portrait-wrap--secondary {
+  opacity: 0.92;
+}
+
+/*
+ * 方案 A: sit-with-chair baked — DISABLED in runtime (preferSitBaked=false).
+ * sit-baked requires scene-matched scale; wrong scale FAIL (full sit at bust
+ * slot height → chairs ON the desk). If re-enabled: ~35–45% of prior height,
+ * feet/chair legs on floor contact BELOW desk top — never overlapping desk.
+ */
+.venue2d-portrait-wrap--sit-baked .venue2d-portrait {
+  /* Kept for future room-scale art; not applied while framing=bust. */
+  height: min(58vh, 520px);
+  max-width: min(48vw, 560px);
+}
+.venue2d-portrait-wrap--sit-baked.venue2d-portrait-wrap--companion .venue2d-portrait,
+.venue2d-portrait-wrap--sit-baked.venue2d-portrait-wrap--companion .venue2d-portrait--secondary {
+  height: min(52vh, 470px);
+}
+
+/* Chest HTML overlay = FAIL (G7 / UI_GATE U3). Primary name = Ren'Py
+   .pc-dialogue-namebox (packages/ui). SHOW_NAMEPLATES.chest defaults false. */
+.venue2d-nameplate,
+.venue2d-nameplate--chest {
+  display: none;
+}
+
+/* Legacy foot nameplate row — disabled */
+.venue2d-nameplate--foot {
+  display: none;
+}
+
+.venue2d-portrait {
+  height: var(--portrait-scientist-h);
+  width: auto;
+  max-width: min(42vw, 480px);
+  max-height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 10px 22px #0009);
+  user-select: none;
+  pointer-events: none;
+}
+
+.venue2d-portrait--secondary {
+  opacity: 0.94;
+}
+
+.venue2d-portrait--empty {
+  width: 12rem;
+  height: 16rem;
+  background: #3a2a2044;
+  border: 1px dashed #5c3d2e88;
+}
+
+/*
+ * Desk occluder (G2.3): full-frame BG clone clipped to bottom desk strip so
+ * bust bottoms read as behind the table (lab) / seated (lodge).
+ * Height % via --desk-occluder-h (or ?desk=NN → inline --desk-occluder-h).
+ */
+.venue2d-desk-occluder {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  clip-path: inset(calc(100% - var(--desk-occluder-h)) 0 0 0);
+}
+
+.venue2d-desk-occluder-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(0.95) contrast(1.05);
+  user-select: none;
+  pointer-events: none;
+}
+
+.venue2d-desk-occluder-shade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--desk-occluder-h);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    #1a120c18 12%,
+    #120e0a55 100%
+  );
+}
+
+.venue2d--lodge .venue2d-desk-occluder-shade {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    #1a141044 18%,
+    #100c08aa 100%
+  );
+}
+
+
+/* Independent prop layers (desk instruments) — positioned by normalized hotspot */
+.venue2d-props {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.venue2d-prop {
+  position: absolute;
+  transform: translate(-50%, -85%);
+  max-width: min(22vw, 220px);
+  max-height: min(28vh, 240px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px #0008);
+  user-select: none;
+  pointer-events: none;
+}
+
+.venue2d-dialogue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem 1.2rem; /* top pad so RenPy namebox is not clipped */
+  overflow: visible;
+  pointer-events: auto;
+}
+
+.venue2d-actions,
+.venue2d-lab-cta {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0 1rem 1.4rem;
+  flex-wrap: wrap;
+}
+
+.venue2d-lab-cta {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  padding: 0;
+  z-index: 4;
+}
+
+/* --- ?debug=contact overlay (dev only) --- */
+.venue2d-debug-contact {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.venue2d-debug-contact__label {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.65rem;
+  color: #6dff8a;
+  font-size: 12px;
+  line-height: 1.35;
+  text-shadow: 0 1px 2px #000c;
+  white-space: pre;
+}
+
+.venue2d-debug-contact__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 2px solid;
+  opacity: 0.95;
+}
+
+.venue2d-debug-contact__line--head {
+  border-color: #f0c040;
+}
+
+.venue2d-debug-contact__line--contact {
+  border-color: #40e0d0;
+}
+
+.venue2d-debug-contact__line--desk {
+  border-color: #e08040;
+  border-top-style: dashed;
+  opacity: 0.85;
+}
+
+.venue2d-debug-contact__line--ground {
+  border-color: #88a0ff88;
+  border-top-style: dashed;
+}
+
+.venue2d-debug-contact__xhair {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+}
+
+.venue2d-debug-contact__xhair::before,
+.venue2d-debug-contact__xhair::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+
+.venue2d-debug-contact__xhair::before {
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.venue2d-debug-contact__xhair::after {
+  top: 50%;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.venue2d-debug-contact__xhair--left {
+  color: #ff4040;
+}
+
+.venue2d-debug-contact__xhair--right {
+  color: #4080ff;
+}
+
+.venue2d-debug-contact__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.venue2d-debug-contact__svg-horizon {
+  stroke: #6ec6ff;
+  stroke-width: 1.5;
+  stroke-dasharray: 10 6;
+  opacity: 0.85;
+}
+
+.venue2d-debug-contact__svg-seat {
+  stroke: #ffd36e;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  opacity: 0.9;
+}
+
+.venue2d-debug-contact__line--horizon {
+  border-top: 1.5px dashed #6ec6ffcc;
+}
+
+.venue2d-debug-contact__line--seat {
+  border-top: 1.5px dashed #ffd36ecc;
+}
+
+.venue2d-debug-contact__xhair--hip {
+  opacity: 0.85;
+}
+
+.venue2d-debug-contact__xhair--hip::before,
+.venue2d-debug-contact__xhair--hip::after {
+  border-color: #ff8fd5;
+}
+
+.venue2d-debug-contact__xhair--foot::before,
+.venue2d-debug-contact__xhair--foot::after {
+  border-color: #8dffb0;
+}
+
+
+/* --- LabEmbed --- */
+.lab-embed {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: #14110ef0;
+}
+
+.lab-embed-chrome {
+  width: min(1100px, 96vw);
+  height: min(88vh, 820px);
+  display: flex;
+  flex-direction: column;
+  padding: 0.85rem 0.95rem 0.75rem;
+  background: #f3e6c8;
+  color: #3a2a20;
+}
+
+.lab-embed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.lab-embed-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  opacity: 0.7;
+}
+
+.lab-embed-header h1 {
+  margin: 0.2rem 0 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.14em;
+}
+
+.lab-embed-frame {
+  flex: 1;
+  min-height: 0;
+  border: 2px solid #5c3d2e;
+  background: #0e1014;
+  overflow: hidden;
+}
+
+.lab-embed-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #111;
+}
+
+.lab-embed-footnote {
+  margin: 0.55rem 0 0;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  letter-spacing: 0.04em;
+}
+
+.lab-embed-footnote code {
+  font-size: 0.72rem;
+  background: #e8d4a8;
+  padding: 0.05rem 0.3rem;
+}
+
+.chronicle-plate-margin {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: #8b5a3c;
+  opacity: 0.85;
 }

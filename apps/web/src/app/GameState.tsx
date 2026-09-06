@@ -7,6 +7,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -25,9 +26,29 @@ export type GameApi = {
   cutPhase: CutPhase;
   chapter: typeof manchester;
   venue: VenueContent | null;
+  pendingVenueId: string | null;
+  cityId: string | null;
   dialogueIndex: number;
   dialogueOpen: boolean;
-  enterNode: (venueId: string) => void;
+  /** WorldMap → ChroniclePlate (after Manchester / city chosen). */
+  selectDestiny: (venueId: string, cityId?: string) => void;
+  /** ChroniclePlate → CityPage (80 Days structure). */
+  continueToCity: () => void;
+  /** @deprecated Prefer continueToCity; kept for call-site migration. */
+  continueToVenue: () => void;
+  /** CityPage → Venue dialogue (lab or lodge). */
+  enterVenue: (venueId: string) => void;
+  /** Venue → LabEmbed iframe. */
+  openLab: () => void;
+  /** LabEmbed → Venue dialogue. */
+  closeLab: () => void;
+  /** Venue → CityPage. */
+  returnToCity: () => void;
+  /** CityPage / Venue → ChroniclePlate. */
+  returnToPlate: () => void;
+  /** ChroniclePlate / CityPage → WorldMap. */
+  returnToWorldMap: () => void;
+  /** @deprecated Prefer returnToPlate. */
   returnToAtlas: () => void;
   advanceDialogue: () => void;
   openDialogue: () => void;
@@ -35,24 +56,53 @@ export type GameApi = {
 
 const GameContext = createContext<GameApi | null>(null);
 
-/** Call outside the canvas, wrap children inside it. R3F has its own reconciler. */
-export function CanvasGameBridge({
-  value,
-  children,
-}: {
-  value: GameApi;
-  children: ReactNode;
-}) {
-  return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
-}
-
 export function GameProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<GameMode>("atlas");
+  const [mode, setMode] = useState<GameMode>("worldMap");
   const [cutPhase, setCutPhase] = useState<CutPhase>("idle");
   const [venueId, setVenueId] = useState<string | null>(null);
+  const [pendingVenueId, setPendingVenueId] = useState<string | null>(null);
+  const [cityId, setCityId] = useState<string | null>(null);
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [dialogueOpen, setDialogueOpen] = useState(false);
   const busy = useRef(false);
+
+  // QA / screenshot deep-link:
+  // ?mode=worldMap|chroniclePlate|cityPage|venue|labEmbed&venue=coupland-lab&line=0
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const m = q.get("mode");
+    const v = q.get("venue") || "coupland-lab";
+    const lineRaw = q.get("line");
+    const lineIdx =
+      lineRaw != null && lineRaw !== "" && !Number.isNaN(Number(lineRaw))
+        ? Math.max(0, Math.floor(Number(lineRaw)))
+        : null;
+    if (m === "chroniclePlate") {
+      setMode("chroniclePlate");
+      setPendingVenueId(v);
+      setCityId("manchester");
+    } else if (m === "cityPage") {
+      setMode("cityPage");
+      setPendingVenueId(v);
+      setCityId("manchester");
+    } else if (m === "venue") {
+      setMode("venue");
+      setPendingVenueId(v);
+      setVenueId(v);
+      setCityId("manchester");
+      setDialogueOpen(true);
+      if (lineIdx != null) setDialogueIndex(lineIdx);
+    } else if (m === "labEmbed") {
+      setMode("labEmbed");
+      setPendingVenueId(v);
+      setVenueId(v);
+      setCityId("manchester");
+      setDialogueOpen(true);
+      if (lineIdx != null) setDialogueIndex(lineIdx);
+    } else if (m === "worldMap") {
+      setMode("worldMap");
+    }
+  }, []);
 
   const cutTo = useCallback((next: GameMode, afterHold?: () => void) => {
     if (busy.current) return;
@@ -72,10 +122,34 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }, CUT_COVER_MS);
   }, []);
 
-  const enterNode = useCallback(
+  const selectDestiny = useCallback(
+    (id: string, city = "manchester") => {
+      cutTo("chroniclePlate", () => {
+        setPendingVenueId(id);
+        setCityId(city);
+        setVenueId(null);
+        setDialogueOpen(false);
+        setDialogueIndex(0);
+      });
+    },
+    [cutTo],
+  );
+
+  const continueToCity = useCallback(() => {
+    cutTo("cityPage", () => {
+      setVenueId(null);
+      setDialogueOpen(false);
+      setDialogueIndex(0);
+    });
+  }, [cutTo]);
+
+  const continueToVenue = continueToCity;
+
+  const enterVenue = useCallback(
     (id: string) => {
       cutTo("venue", () => {
         setVenueId(id);
+        setPendingVenueId(id);
         setDialogueIndex(0);
         setDialogueOpen(true);
       });
@@ -83,9 +157,39 @@ export function GameProvider({ children }: { children: ReactNode }) {
     [cutTo],
   );
 
-  const returnToAtlas = useCallback(() => {
-    cutTo("atlas", () => {
+  const openLab = useCallback(() => {
+    cutTo("labEmbed", () => {
+      /* keep venueId + dialogue state */
+    });
+  }, [cutTo]);
+
+  const closeLab = useCallback(() => {
+    cutTo("venue", () => {
+      setDialogueOpen(true);
+    });
+  }, [cutTo]);
+
+  const returnToCity = useCallback(() => {
+    cutTo("cityPage", () => {
       setVenueId(null);
+      setDialogueOpen(false);
+      setDialogueIndex(0);
+    });
+  }, [cutTo]);
+
+  const returnToPlate = useCallback(() => {
+    cutTo("chroniclePlate", () => {
+      setVenueId(null);
+      setDialogueOpen(false);
+      setDialogueIndex(0);
+    });
+  }, [cutTo]);
+
+  const returnToWorldMap = useCallback(() => {
+    cutTo("worldMap", () => {
+      setVenueId(null);
+      setPendingVenueId(null);
+      setCityId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
     });
@@ -108,10 +212,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
       cutPhase,
       chapter: manchester,
       venue,
+      pendingVenueId,
+      cityId,
       dialogueIndex,
       dialogueOpen,
-      enterNode,
-      returnToAtlas,
+      selectDestiny,
+      continueToCity,
+      continueToVenue,
+      enterVenue,
+      openLab,
+      closeLab,
+      returnToCity,
+      returnToPlate,
+      returnToWorldMap,
+      returnToAtlas: returnToPlate,
       advanceDialogue,
       openDialogue: () => setDialogueOpen(true),
     }),
@@ -119,10 +233,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
       mode,
       cutPhase,
       venue,
+      pendingVenueId,
+      cityId,
       dialogueIndex,
       dialogueOpen,
-      enterNode,
-      returnToAtlas,
+      selectDestiny,
+      continueToCity,
+      continueToVenue,
+      enterVenue,
+      openLab,
+      closeLab,
+      returnToCity,
+      returnToPlate,
+      returnToWorldMap,
       advanceDialogue,
     ],
   );

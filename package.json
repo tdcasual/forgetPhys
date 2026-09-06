@@ -1,14 +1,15 @@
 {
-  "name": "physics-chronicle",
+  "name": "forgetphys",
   "private": true,
   "version": "0.0.1",
-  "description": "物理编年图志 — atlas travel, venue labs, sourced dialogue",
+  "description": "ForgetPhys — forget physicists (so you remember them). High-school physics chronicle game.",
   "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "pnpm --filter @physics-chronicle/web dev",
     "build": "pnpm --filter @physics-chronicle/web build",
     "preview": "pnpm --filter @physics-chronicle/web preview",
-    "typecheck": "pnpm -r --if-present typecheck"
+    "typecheck": "pnpm -r --if-present typecheck",
+    "validate:art": "node scripts/validate-art-assets.mjs"
   },
   "engines": {
     "node": ">=20"
