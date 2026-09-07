@@ -1,0 +1,80 @@
+{
+  "id": "hard-slots-alpha-1909",
+  "title_zh": "Coupland α 散射 · Hard 证据槽",
+  "venue_id": "coupland-lab",
+  "docs": "docs/HARD_EVIDENCE_SLOTS_ALPHA.md",
+  "win": {
+    "M": 6,
+    "N": 4,
+    "require_critic_pass": true,
+    "judge": "rules",
+    "rewrite_chronicle_ending": false,
+    "suggested_turn_budget": 12,
+    "persuade_target": "era_peers_board",
+    "persuade_target_note": "B2=A: win = convince era peers / EvidenceBoard (4/6 + Critic pass); NOT Rutherford",
+    "rutherford_is_win_object": false
+  },
+  "slots": [
+    {
+      "id": "slot-large-angle-exists",
+      "label_zh": "存在大角偏转 / 漫反射",
+      "what_counts": "Cite rare large-angle / diffuse reflection from FactStore (or validated labEmbed large-deflection readout).",
+      "linked_fact_ids": [
+        "fact-gm1909-diffuse-reflection",
+        "fact-gm1909-paper"
+      ],
+      "accepts_lab_embed": true
+    },
+    {
+      "id": "slot-forward-majority",
+      "label_zh": "绝大多数几乎沿直线前进",
+      "what_counts": "Cite forward-going majority / rarity of large angles.",
+      "linked_fact_ids": [
+        "fact-gm1909-forward-majority"
+      ],
+      "accepts_lab_embed": true
+    },
+    {
+      "id": "slot-foil-extremely-thin",
+      "label_zh": "箔极薄仍可大角偏转（体积/薄层效应）",
+      "what_counts": "Cite thin-foil thickness / volume-effect cards only — no invented numbers.",
+      "linked_fact_ids": [
+        "fact-gm1909-thin-gold-layer",
+        "fact-ruth1911-gold-1-in-20000"
+      ],
+      "accepts_lab_embed": false
+    },
+    {
+      "id": "slot-charge-mass-concentrated",
+      "label_zh": "电荷/质量高度集中（中心电荷）",
+      "what_counts": "Cite central-charge / single-scattering or labeled textbook nuclear model.",
+      "linked_fact_ids": [
+        "fact-ruth1911-central-charge",
+        "fact-textbook-nuclear-model",
+        "fact-ruth1911-paper"
+      ],
+      "accepts_lab_embed": false
+    },
+    {
+      "id": "slot-plum-pudding-fails",
+      "label_zh": "枣糕 / 弥散正电 + 多次散射解释失败",
+      "what_counts": "FactStore cite that diffuse positive + compound scattering fails large-angle probabilities; era opinions do not fill.",
+      "linked_fact_ids": [
+        "fact-ruth1911-plum-pudding-fails-large-angle",
+        "fact-textbook-nuclear-model"
+      ],
+      "accepts_lab_embed": false
+    },
+    {
+      "id": "slot-experimental-method",
+      "label_zh": "实验方法：ZnS 闪烁 + 几何屏蔽",
+      "what_counts": "Cite ZnS scintillation and/or 1909 apparatus geometry.",
+      "linked_fact_ids": [
+        "fact-gm1909-zns-method",
+        "fact-gm1909-geometry",
+        "fact-roles-geiger-marsden-rutherford"
+      ],
+      "accepts_lab_embed": false
+    }
+  ]
+}

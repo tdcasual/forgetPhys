@@ -1,0 +1,231 @@
+{
+  "id": "era-opinions-1909-atomic",
+  "era": "1909-1911",
+  "venue_tags": [
+    "manchester",
+    "coupland-lab",
+    "alpha-scattering"
+  ],
+  "note": "Era opinions may color free/Hard speech when labeled. They must NOT fill Hard evidence slots. Numbers belong only on FactStore cards. Cards era-op-alpha-outer-layer / incomplete-without-electrons / thick-target-suspicion / method-doubt-zns added 2026-09-07 for abstract Critic (fills_slots always false).",
+  "cards": [
+    {
+      "id": "era-op-thomson-uniform-sphere",
+      "keys": [
+        "plum pudding",
+        "thomson",
+        "枣糕",
+        "均匀正电",
+        "corpuscles"
+      ],
+      "content": "Around 1909–1910, a widely taught picture (after J. J. Thomson) places many negative corpuscles in a sphere of compensating positive electricity spread through the atom's volume. Large α deflections are often expected only as the rare sum of many small encounters (compound scattering), not as a single catastrophic kick.",
+      "content_zh": "约 1909–1910，主流教学图景（循 J. J. Thomson）把许多带负电的微粒放在弥散于原子体积内的正电球中。大角 α 偏转常被期待为多次小偏转的稀有叠加（compound scattering），而非单次剧烈遭遇。",
+      "year_range": [
+        1904,
+        1911
+      ],
+      "tier": "era_opinion",
+      "citation": "Thomson atomic models as summarized in Rutherford, Phil. Mag. 21 (1911) §1 (historical framing); classroom name \"plum pudding\" is later vernacular."
+    },
+    {
+      "id": "era-op-compound-scattering-default",
+      "keys": [
+        "compound scattering",
+        "多次散射",
+        "small angle sum"
+      ],
+      "content": "Before accepting single scattering from a concentrated charge, a cautious 1909 reader asks whether large angles could still be the tail of many weak deflections inside a diffuse atom.",
+      "content_zh": "在接受「集中电荷的单次散射」之前，1909 年谨慎的读者会先问：大角是否仍可能只是弥散原子内多次弱偏转的尾部。",
+      "year_range": [
+        1908,
+        1911
+      ],
+      "tier": "era_opinion",
+      "citation": "Rutherford 1911 contrast with Thomson/Crowther compound-scattering expectations (as era foil, not a fact fill)."
+    },
+    {
+      "id": "era-op-caution-before-central-charge",
+      "keys": [
+        "caution",
+        "central charge",
+        "中心电荷",
+        "不要急着下结论"
+      ],
+      "content": "Even when diffuse reflection is reported, theorists may withhold a full structural verdict until angular laws and foil-thickness behaviour are clearer. Central charge is a working hypothesis, not instant dogma.",
+      "content_zh": "即便已有漫反射报告，理论家仍可能暂缓完整结构判决，直到角分布与箔厚行为更清楚。中心电荷是工作假说，不是瞬间教条。",
+      "year_range": [
+        1909,
+        1911
+      ],
+      "tier": "era_opinion"
+    },
+    {
+      "id": "era-op-nucleus-word-anachronism",
+      "keys": [
+        "nucleus",
+        "原子核",
+        "用词"
+      ],
+      "content": "The 1911 scattering paper speaks of a concentrated central charge; the later textbook word \"nucleus\" is not the paper's banner term. Era-faithful debate should prefer central charge unless modern textbook mode is explicit.",
+      "content_zh": "1911 散射论文谈的是集中的中心电荷；后世教材用语「原子核」并非该文旗号。忠于时代的辩论应优先说中心电荷，除非明确进入现代教材模式。",
+      "year_range": [
+        1911,
+        1913
+      ],
+      "tier": "era_opinion",
+      "citation": "Historiography note (e.g. Kragh); see FactStore for the paper's own wording."
+    },
+    {
+      "id": "era-op-shell-metaphor-late",
+      "keys": [
+        "15-inch shell",
+        "tissue paper",
+        "炮弹",
+        "薄纸"
+      ],
+      "content": "The famous \"fifteen-inch shell against tissue paper\" image is a later recollection/rhetoric, not a 1909 dark-room quotation. Allowed as labeled reminiscence, not as primary lab speech.",
+      "content_zh": "著名的「十五英寸炮弹打在薄纸上」是事后回忆/修辞，不是 1909 暗室现场原话。可作标注过的回忆，不可当一手实验台词。",
+      "year_range": [
+        1930,
+        1939
+      ],
+      "tier": "era_opinion",
+      "citation": "Late Rutherford recollection (often 1930s); flagged in manchester.json as interpretation."
+    },
+    {
+      "id": "era-op-who-reported-backscattering",
+      "keys": [
+        "marsden",
+        "geiger",
+        "谁来报信",
+        "漫反射发现"
+      ],
+      "content": "Memories disagree on whether Marsden or Geiger first excitedly reported particles coming back. Treat teller identity as unsettled era chatter; the 1909 paper authorship is Geiger & Marsden.",
+      "content_zh": "回忆在「马斯登还是盖革先来报粒子折回」上不一致。报告者身份当作未定的时代闲谈；1909 论文署名为 Geiger & Marsden。",
+      "year_range": [
+        1909,
+        1962
+      ],
+      "tier": "era_opinion",
+      "citation": "AIP Rutherford's Nuclear World notes memory conflict; Birks ed. reminiscences."
+    },
+    {
+      "id": "era-op-nagaoka-aside",
+      "keys": [
+        "nagaoka",
+        "saturnian",
+        "土星型"
+      ],
+      "content": "Nagaoka's earlier Saturnian atom is an available mathematical aside in the literature; it is not the main motive story for Manchester α work and should not be oversold as Rutherford's adopted planetary model.",
+      "content_zh": "长冈半太郎更早的土星型原子是文献中可提及的数学旁支；不应夸大成曼彻斯特 α 工作的主因，或写成卢瑟福「采用了」行星模型。",
+      "year_range": [
+        1904,
+        1911
+      ],
+      "tier": "era_opinion"
+    },
+    {
+      "id": "era-op-sign-of-central-charge-open",
+      "keys": [
+        "sign",
+        "正负",
+        "中心电荷符号"
+      ],
+      "content": "A 1911-era reading can keep the sign of the central charge formally open even while preferring positive for convenience. Do not smuggle later certainty into Hard slots.",
+      "content_zh": "1911 年的读法可以在为方便假定为正的同时，形式上保留中心电荷符号未决。勿把后世定论偷运进 Hard 证据槽。",
+      "year_range": [
+        1911,
+        1913
+      ],
+      "tier": "era_opinion",
+      "citation": "Aligned to Rutherford 1911 remarks; FactStore holds the paper claim."
+    },
+    {
+      "id": "era-op-alpha-outer-layer",
+      "keys": [
+        "outer layer",
+        "外层放出",
+        "alpha from periphery",
+        "α 外层",
+        "pleiade",
+        "fajans-style"
+      ],
+      "claim": "α particles leave (or scatter from) the atom's outer layers, so large-angle events need not imply a concentrated central charge.",
+      "content": "A cautious radiochemical stance c. 1910–1913 can place α emission or reflection in the atom's outer layers rather than a tiny centre. Large-angle scintillations then need not force a concentrated central-charge picture. (Optional named skin later: Fajans-style reservation; keep Critic abstract by default.)",
+      "content_zh": "约 1910–1913 的审慎放射化学立场，可将 α 放出或反射置于原子外层，而非极小中心。大角闪烁不必立刻逼出集中中心电荷图景。（可选具名皮肤：Fajans 式保留；默认保持抽象 Critic。）",
+      "year_range": [
+        1910,
+        1913
+      ],
+      "tier": "era_opinion",
+      "source_tier": "C",
+      "fills_slots": false,
+      "citation": "Historiography: Kasimir Fajans initially resisted Rutherford's nuclear atom and argued α from outer layers; withdrew reservations after Bohr 1913 (letter 13 Dec 1913). Kragh, arXiv:1112.2339; Kragh, arXiv:1202.0954 §5. Critic uses stance, not forced personal name."
+    },
+    {
+      "id": "era-op-incomplete-without-electrons",
+      "keys": [
+        "incomplete",
+        "electrons",
+        "chemistry",
+        "不谈电子",
+        "完整原子论",
+        "scattering only"
+      ],
+      "claim": "A concentrated central-charge hypothesis that barely addresses electron arrangement or chemistry is not yet a full atomic theory.",
+      "content": "Even granting a concentrated central charge for scattering, a 1911-era peer may refuse to treat it as a finished atomic constitution: the 1911 scattering paper says little about electronic architecture or chemical behaviour. Explaining rare large angles is not the same as a complete atom model.",
+      "content_zh": "即便承认集中中心电荷可解释散射，1911 年的同行仍可不把它当作完整原子结构论：该散射论文对电子排布与化学行为着墨甚少。解释稀有大角 ≠ 完整原子模型。",
+      "year_range": [
+        1911,
+        1913
+      ],
+      "tier": "era_opinion",
+      "source_tier": "C",
+      "fills_slots": false,
+      "citation": "Historiography (Kragh et al.): Rutherford 1911 received as incomplete scattering theory until Bohr 1913 made the nuclear atom fertile; Solvay 1911 barely engaged it."
+    },
+    {
+      "id": "era-op-thick-target-suspicion",
+      "keys": [
+        "thick target",
+        "surface",
+        "impurity",
+        "厚靶",
+        "表面效应",
+        "杂质"
+      ],
+      "claim": "If large angles appear, they may still be thick-target, surface, or impurity stories rather than volume scattering in an extremely thin foil.",
+      "content": "A cautious 1909 reader may grant scintillations yet suspect thick-target geometry, surface reflection, or contaminants — preferring not to infer atomic interior structure from rare large angles until foil thinness and volume-effect behaviour are secured.",
+      "content_zh": "1909 年谨慎读者可承认闪烁，仍怀疑厚靶几何、表面反射或杂质——在箔极薄与体积效应行为落实之前，不愿从稀有大角推断原子内部结构。",
+      "year_range": [
+        1909,
+        1911
+      ],
+      "tier": "era_opinion",
+      "source_tier": "C",
+      "fills_slots": false,
+      "citation": "Era-foil caution reconstructed for Hard Critic (not a single primary quote). Rebuttal Facts: fact-gm1909-thin-gold-layer; fact-ruth1911-gold-1-in-20000. Must NOT invent thicknesses."
+    },
+    {
+      "id": "era-op-method-doubt-zns",
+      "keys": [
+        "ZnS doubt",
+        "scintillation error",
+        "geometry leak",
+        "闪烁误差",
+        "方法不可靠",
+        "暗室"
+      ],
+      "claim": "ZnS scintillation counting and dark-room geometry may be too error-prone to establish genuine diffuse reflection.",
+      "content": "Method skepticism: counting faint ZnS sparks by eye, plus lead/mica/reflector geometry, can be challenged as leak, glare, or observer error. Until method credibility is granted, \"diffuse reflection\" need not compel a new atom picture.",
+      "content_zh": "方法怀疑：肉眼计数微弱 ZnS 闪点，加之铅板/云母/反射体几何，可被质疑为漏光、眩光或观测误差。在方法可信度成立前，「漫反射」不必逼出新原子图景。",
+      "year_range": [
+        1908,
+        1911
+      ],
+      "tier": "era_opinion",
+      "source_tier": "C",
+      "fills_slots": false,
+      "citation": "Era Critic foil for Hard (method caution). Rebuttal Facts: fact-gm1909-zns-method; fact-gm1909-geometry (Geiger & Marsden 1909 pp. 496–497). Do not invent count rates."
+    }
+  ]
+}
