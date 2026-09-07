@@ -1,6 +1,6 @@
 # Debate UI Redesign — 案卷拖牌（Hard / Coupland）
 
-**Status:** moodboard locked for direction · content text in mocks is illustrative only  
+**Status:** P1b implementing (派 游戏架构) · moodboard locked · mock copy illustrative only  
 **Persuade target:** 时代主流理解（era Critic stance）— not Rutherford  
 **Non-goals:** HP / cost / rarity / combo deckbuilder
 
@@ -39,8 +39,8 @@ Mocks show illustrative Chinese labels. Implement from JSON `slots[]`, not from 
 
 ## Open for director sign-off
 
-- [ ] Prefer **拖牌入档** as default interaction (vs present-from-record strip only)
-- [ ] Coupland mock as visual north star for P1b UI pass
+- [x] Prefer **拖牌入档** as default interaction (vs present-from-record strip only)
+- [x] Coupland mock as visual north star for P1b UI pass
 
 ## Color palettes (exploratory; not locked)
 
