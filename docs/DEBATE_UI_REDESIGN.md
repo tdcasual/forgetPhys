@@ -1,6 +1,6 @@
 # Debate UI Redesign — 案卷拖牌（Hard / Coupland）
 
-**Status:** P1b implementing (派 游戏架构) · moodboard locked · mock copy illustrative only  
+**Status:** P1b done (派 游戏架构) · dossier shell shipped · moodboard locked · mock copy illustrative only  
 **Persuade target:** 时代主流理解（era Critic stance）— not Rutherford  
 **Non-goals:** HP / cost / rarity / combo deckbuilder
 
@@ -70,3 +70,12 @@ Mocks: `docs/refs/debate-ui/palette-A-court-blue.png` … `palette-D-lab-phospho
 | `era-industrial-print` | late 19c cities | cooler newsprint gray-cream | iron-blue ink | fantasy gold leaf overload |
 
 Director rule: **shell constant, skin per chapter/venue**. Content SoT unchanged. Coupland ships `era-1909-lab` first.
+
+
+## P1b ship notes
+
+- Skin: `era-1909-lab` CSS tokens (`--era-paper`, `--era-ink`, `--era-seal`, `--era-zns`, …)
+- Components: `DossierBoard`, `HandRail`, `ChallengeCard` under `apps/web/src/modes/debate/`
+- Interaction: drag-into-slot default; click-pick → click-slot + ProposeFillSheet fallback
+- Player chrome: 入档 / 质疑 / 回合 (no `filledCount` / `criticPass` strings)
+- Screenshots: `shots/debate-ui/` (+ harness `/?harness=debate-ui&state=empty|filed2|persuaded`)

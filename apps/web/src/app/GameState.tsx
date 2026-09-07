@@ -142,6 +142,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setDialogueOpen(true);
       if (lineIdx != null) setDialogueIndex(lineIdx);
       if (debateQ === "free" || debateQ === "hard") {
+        // QA deep-link: unlock debate gates so screenshots/acceptance work
+        setProgressState((prev) => {
+          const next = markVisitOnProgress(prev);
+          saveProgress(next);
+          return next;
+        });
         setPendingDebate(debateQ);
       }
     } else if (m === "labEmbed") {

@@ -3,3 +3,6 @@ export { EvidenceBoardPanel } from "./EvidenceBoardPanel";
 export { ProposeFillSheet } from "./ProposeFillSheet";
 export { CriticToast, pickCriticTemplate } from "./CriticToast";
 export { getCouplandDebateRuntime } from "./runtime";
+export { DossierBoard } from "./components/DossierBoard";
+export { HandRail } from "./components/HandRail";
+export { ChallengeCard } from "./components/ChallengeCard";

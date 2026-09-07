@@ -1276,7 +1276,8 @@ body,
 .venue2d--debate-dim .venue2d-bg,
 .venue2d--debate-dim .venue2d-stage,
 .venue2d--debate-dim .venue2d-props {
-  filter: brightness(0.55);
+  /* P1b: venue stays readable under half dossier overlay */
+  filter: brightness(0.72);
 }
 
 .venue2d-nav-sep {

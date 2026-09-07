@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>debate qa</title></head>
+<body style="background:#111;color:#eee;font:14px sans-serif;padding:2rem">
+<p>Preparing hard debate…</p>
+<script>
+try {
+  const key = 'forgetphys:progress:v1:ch1';
+  const raw = localStorage.getItem(key);
+  const base = raw ? JSON.parse(raw) : { v:1, chapterId:'ch1', unlock:{}, debateModeLast:'scripted', debateSession:{scratch:null,durable:{byVenue:{}}}, evidenceBoard:{byVenue:{}} };
+  base.unlock = Object.assign({}, base.unlock||{}, { labEmbedVisit:true, freeUnlocked:true, hardUnlocked:true });
+  localStorage.setItem(key, JSON.stringify(base));
+} catch (e) {}
+setTimeout(function(){ location.replace('/?mode=venue&venue=coupland-lab&debate=hard&_t=' + Date.now()); }, 250);
+</script></body></html>
