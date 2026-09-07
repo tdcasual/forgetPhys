@@ -171,3 +171,5 @@ DEBATE_SCHEME_V3 (CN SoT)
     ├── debate/README → packages/content/src/debate/*
     └── DEBATE_SCHEME_REFINED (archive → V3)
 ```
+
+- `DEBATE_UI_REDESIGN.md` — Hard 案卷拖牌 UI + era skins
