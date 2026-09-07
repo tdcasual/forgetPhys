@@ -1,0 +1,1 @@
+P1a debate runtime (FactStore, Retriever, CriticPolicy, EvidenceBoard, Judge, DebateSession). No DOM/fetch/secrets. Venue canon: lab-coupland. Hard win = era stance/board (not Rutherford). Run package test script or vitest run in this package.

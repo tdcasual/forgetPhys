@@ -1,4 +1,8 @@
-import type { DialogueLine } from "@physics-chronicle/content";
+import type {
+  DialogueLine,
+  PropLayout,
+  VenueProp,
+} from "@physics-chronicle/content";
 import { DialoguePanel } from "@physics-chronicle/ui";
 import {
   useCallback,
@@ -33,6 +37,7 @@ const CHAR = {
   watson: "char-watson",
   weiguang: "char-weiguang",
   companion: "char-companion",
+  /** Legacy id only — Geiger is CUT from release dialogue; assets archived as char-geiger-ARCHIVED. */
   geiger: "char-geiger",
   thomson: "char-thomson",
   bohr: "char-bohr",
@@ -207,6 +212,9 @@ function sitBakedCandidates(
   lit: LitSuffix,
   outfit: string = DEFAULT_WATSON_OUTFIT,
 ): string[] {
+  if (charId === CHAR.geiger) {
+    return sitBakedCandidates(CHAR.rutherford, emotion, lit, outfit);
+  }
   const urls: string[] = [];
   const root = sitWithChairRoot(charId, outfit);
   if (root) {
@@ -229,7 +237,9 @@ function sitBakedCandidates(
 
 /**
  * Bust candidate chain: lit emotion → plain emotion → idle lit → idle.
- * Geiger / others fall back to char-root stills (no bust pack yet).
+ * Geiger is cut from release dialogue — remap to Rutherford so missing
+ * char-geiger / char-geiger-ARCHIVED assets never break portrait load.
+ * Other stubs fall back to char-root stills (no bust pack yet).
  */
 function bustCandidates(
   charId: string,
@@ -237,6 +247,10 @@ function bustCandidates(
   lit: LitSuffix,
   outfit: string = DEFAULT_WATSON_OUTFIT,
 ): string[] {
+  // Active cast excludes Geiger; legacy dialogue ids fall back to Rutherford.
+  if (charId === CHAR.geiger) {
+    return bustCandidates(CHAR.rutherford, emotion, lit, outfit);
+  }
   const bust = toBustEmotion(emotion);
   const urls: string[] = [];
 
@@ -326,8 +340,10 @@ function resolvePortrait(
   },
 ): PortraitInfo | null {
   if (!line) return null;
-  const charId = line.charId ?? defaultCharForRole(line.speakerRole);
+  let charId = line.charId ?? defaultCharForRole(line.speakerRole);
   if (!charId) return null;
+  // Geiger cut from release dialogue — never require char-geiger assets.
+  if (charId === CHAR.geiger) charId = CHAR.rutherford;
   const emotion = defaultEmotion(
     line.speakerRole,
     line.emotion as Emotion | undefined,
@@ -393,6 +409,7 @@ function secondaryPortrait(
     if (isCompanionChar(primaryId)) {
       return make(CHAR.rutherford, "卢瑟福", "scientist", "think");
     }
+    // CHAR.geiger kept for legacy ids only (cut from release dialogue).
     if (primaryId === CHAR.geiger || primaryId === CHAR.rutherford) {
       return make(CHAR.watson, "华生", "companion", "idle");
     }
@@ -428,6 +445,15 @@ function handlePortraitError(
     img.dataset.fellCompanion = "1";
     // char-companion archived; last-resort watson root idle
     img.src = `/assets/chars/${CHAR.watson}/idle.png`;
+    return;
+  }
+  // Geiger cut from release dialogue; archived assets must not break portraits.
+  if (
+    (src.includes("/char-geiger") || src.includes("char-geiger-ARCHIVED")) &&
+    !img.dataset.fellGeiger
+  ) {
+    img.dataset.fellGeiger = "1";
+    img.src = `/assets/chars/${CHAR.rutherford}/idle.png`;
   }
 }
 
@@ -482,6 +508,68 @@ function PortraitSlot({
   );
 }
 
+type VenuePropRef = {
+  id: string;
+  /** Resolved stage coords [x, y] in 0–1 (from slot+propLayout or hotspot). */
+  hotspot: [number, number];
+  state?: string;
+  label?: string;
+  slot?: string;
+  /** Optional scale from propLayout.slots[slot].scale */
+  scale?: number;
+};
+
+type PropLayoutRef = {
+  deskY: number;
+  slots: Record<
+    string,
+    { x: number; yOffset?: number; scale?: number }
+  >;
+};
+
+/**
+ * Resolve prop stage position: slot + propLayout → [x, deskY+yOffset],
+ * else legacy hotspot. Backward compatible when only hotspot is set.
+ */
+function resolvePropPlacement(
+  prop: VenueProp,
+  propLayout?: PropLayoutRef | PropLayout | null,
+): VenuePropRef {
+  const slotId = prop.slot;
+  const slot =
+    slotId && propLayout?.slots
+      ? propLayout.slots[slotId]
+      : undefined;
+  if (slot && propLayout) {
+    const y = propLayout.deskY + (slot.yOffset ?? 0);
+    return {
+      id: prop.id,
+      hotspot: [slot.x, y],
+      state: prop.state,
+      label: prop.label,
+      slot: slotId,
+      scale: slot.scale,
+    };
+  }
+  if (prop.hotspot) {
+    return {
+      id: prop.id,
+      hotspot: prop.hotspot,
+      state: prop.state,
+      label: prop.label,
+      slot: prop.slot,
+    };
+  }
+  // Schema should prevent this; keep stage center fallback for resilience.
+  return {
+    id: prop.id,
+    hotspot: [0.5, 0.5],
+    state: prop.state,
+    label: prop.label,
+    slot: prop.slot,
+  };
+}
+
 type ContactMetrics = {
   bottomDeltaPx: number;
   bottomDeltaPct: number;
@@ -500,6 +588,8 @@ function ContactDebugOverlay({
   rightRef,
   contactLinePct,
   deskPct,
+  deskY,
+  props: venueProps = [],
 }: {
   slug: string;
   rootRef: RefObject<HTMLElement | null>;
@@ -507,6 +597,9 @@ function ContactDebugOverlay({
   rightRef: RefObject<HTMLElement | null>;
   contactLinePct: number;
   deskPct: number;
+  /** Normalized 0–1 desk surface from propLayout (when present). */
+  deskY?: number | null;
+  props?: VenuePropRef[];
 }) {
   const [m, setM] = useState<ContactMetrics | null>(null);
 
@@ -605,7 +698,11 @@ function ContactDebugOverlay({
           bottomΔ={m.bottomDeltaPx.toFixed(0)}px ({m.bottomDeltaPct.toFixed(1)}%
           H) watsonScale≈{m.watsonScale.toFixed(2)}
         </div>
-        <div>horizon / seat / desk / foot+hip xhairs</div>
+        <div>
+          horizon / seat / desk
+          {deskY != null ? ` / deskY=${deskY.toFixed(2)}` : ""} / foot+hip
+          xhairs
+        </div>
       </div>
       <div
         className="venue2d-debug-contact__line venue2d-debug-contact__line--horizon"
@@ -626,6 +723,13 @@ function ContactDebugOverlay({
         style={{ top: deskTopY }}
         title="desk top"
       />
+      {deskY != null && Number.isFinite(deskY) ? (
+        <div
+          className="venue2d-debug-contact__line venue2d-debug-contact__line--desky"
+          style={{ top: `${deskY * 100}%` }}
+          title={`propLayout.deskY=${deskY}`}
+        />
+      ) : null}
       <div
         className="venue2d-debug-contact__line venue2d-debug-contact__line--contact"
         style={{ top: m.contactY }}
@@ -656,16 +760,24 @@ function ContactDebugOverlay({
         style={{ left: m.rightX, top: rightHipY }}
         title="right hip"
       />
+      {/* Prop hotspot crosshairs + ids (I6) */}
+      {venueProps.map((prop) => {
+        const [hx, hy] = prop.hotspot;
+        return (
+          <div
+            key={`prop-xhair-${prop.id}`}
+            className="venue2d-debug-contact__xhair venue2d-debug-contact__xhair--prop"
+            style={{ left: `${hx * 100}%`, top: `${hy * 100}%` }}
+            title={prop.id}
+          >
+            <span className="venue2d-debug-contact__prop-id">{prop.id}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-
-type VenuePropRef = {
-  id: string;
-  hotspot: [number, number];
-  state?: string;
-};
 
 function propAssetCandidates(prop: VenuePropRef): string[] {
   const root = `/assets/props/${prop.id}`;
@@ -677,38 +789,85 @@ function propAssetCandidates(prop: VenuePropRef): string[] {
   return urls;
 }
 
-function PropLayers({ props }: { props: VenuePropRef[] }) {
+const PROP_LABELS: Record<string, string> = {
+  "znS-scintillation-screen-1909": "硫化锌闪烁屏",
+  "alpha-source-geometry-1909": "α 放射源",
+  "gold-foil-stage": "金箔靶台",
+};
+
+/** Humanize prop id when schema label omitted. */
+function humanizePropId(id: string): string {
+  if (PROP_LABELS[id]) return PROP_LABELS[id];
+  return id
+    .replace(/-\d{4}$/, "")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]+/g, " ")
+    .replace(/\bzns\b/gi, "ZnS")
+    .replace(/\balpha\b/gi, "α")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function PropLayers({
+  props,
+  selectedId,
+  onSelect,
+}: {
+  props: VenuePropRef[];
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
+}) {
   if (!props.length) return null;
   return (
-    <div className="venue2d-props" aria-hidden>
+    <div className="venue2d-props">
       {props.map((prop) => {
         const [hx, hy] = prop.hotspot;
         const candidates = propAssetCandidates(prop);
+        const label = prop.label ?? humanizePropId(prop.id);
+        const selected = selectedId === prop.id;
         return (
-          <img
+          <button
             key={prop.id}
-            className="venue2d-prop"
+            type="button"
+            className={`venue2d-prop${selected ? " venue2d-prop--selected" : ""}`}
             data-prop={prop.id}
             data-state={prop.state ?? "final"}
-            src={candidates[0]}
-            alt=""
-            draggable={false}
-            style={{
-              left: `${hx * 100}%`,
-              top: `${hy * 100}%`,
+            aria-label={label}
+            aria-pressed={selected}
+            style={
+              {
+                left: `${hx * 100}%`,
+                top: `${hy * 100}%`,
+                "--prop-scale": prop.scale != null ? String(prop.scale) : "1",
+              } as CSSProperties
+            }
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect(selected ? null : prop.id);
             }}
-            data-cand-idx="0"
-            onError={(e) => {
-              const img = e.currentTarget;
-              const idx = Number(img.dataset.candIdx || "0") + 1;
-              if (idx < candidates.length) {
-                img.dataset.candIdx = String(idx);
-                img.src = candidates[idx];
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
+          >
+            <img
+              className="venue2d-prop-img"
+              src={candidates[0]}
+              alt=""
+              draggable={false}
+              data-cand-idx="0"
+              onError={(e) => {
+                const img = e.currentTarget;
+                const idx = Number(img.dataset.candIdx || "0") + 1;
+                if (idx < candidates.length) {
+                  img.dataset.candIdx = String(idx);
+                  img.src = candidates[idx];
+                } else {
+                  img.style.display = "none";
+                }
+              }}
+            />
+            {selected ? (
+              <span className="venue2d-prop-label" role="status">
+                {label}
+              </span>
+            ) : null}
+          </button>
         );
       })}
     </div>
@@ -727,7 +886,11 @@ export function Venue2D() {
     returnToCity,
     returnToPlate,
     returnToWorldMap,
+    enterDebate,
+    progress,
+    debateSession,
   } = useGame();
+  const [debateLockHint, setDebateLockHint] = useState<string | null>(null);
 
   const debugContact = useContactDebug();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -742,8 +905,12 @@ export function Venue2D() {
       return false;
     }
   });
+  const [selectedPropId, setSelectedPropId] = useState<string | null>(null);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const onSelectProp = useCallback((id: string | null) => {
+    setSelectedPropId(id);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -770,8 +937,9 @@ export function Venue2D() {
   const lit = layout.lit;
   const line = venue.dialogue[dialogueIndex];
   const watsonOutfit = resolveWatsonOutfit(venue);
+  const propLayout = venue.propLayout;
   const venueProps: VenuePropRef[] = Array.isArray(venue.props)
-    ? (venue.props as VenuePropRef[])
+    ? venue.props.map((p) => resolvePropPlacement(p, propLayout ?? null))
     : [];
 
   const primary = dialogueOpen
@@ -821,7 +989,7 @@ export function Venue2D() {
   return (
     <div
       ref={rootRef}
-      className={`venue2d venue2d--${venue.kind}${debugContact ? " venue2d--debug-contact" : ""}`}
+      className={`venue2d venue2d--${venue.kind}${debugContact ? " venue2d--debug-contact" : ""}${debateSession === "active" ? " venue2d--debate-dim" : ""}`}
       role="main"
       aria-label={venue.name}
       data-emotion={line?.emotion ?? "idle"}
@@ -844,7 +1012,11 @@ export function Venue2D() {
 
       {/* Independent prop layers (not baked into bg) — desk instruments */}
       {venue.kind === "lab" || venueProps.length > 0 ? (
-        <PropLayers props={venueProps} />
+        <PropLayers
+          props={venueProps}
+          selectedId={selectedPropId}
+          onSelect={onSelectProp}
+        />
       ) : null}
 
       <div className="venue2d-nav">
@@ -893,6 +1065,46 @@ export function Venue2D() {
             >
               地图
             </button>
+            <hr className="venue2d-nav-sep" />
+            <button
+              type="button"
+              role="menuitem"
+              className="venue2d-nav-item"
+              disabled={debateSession === "active"}
+              onClick={() => {
+                const r = enterDebate("free");
+                if (!r.ok) {
+                  setDebateLockHint(r.reason);
+                  return;
+                }
+                setDebateLockHint(null);
+                closeMenu();
+              }}
+            >
+              辩论 · 自由 {progress.unlock.freeUnlocked ? "✓" : "🔒"}
+            </button>
+            <button
+              type="button"
+              role="menuitem"
+              className="venue2d-nav-item"
+              disabled={debateSession === "active"}
+              onClick={() => {
+                const r = enterDebate("hard");
+                if (!r.ok) {
+                  setDebateLockHint(r.reason);
+                  return;
+                }
+                setDebateLockHint(null);
+                closeMenu();
+              }}
+            >
+              辩论 · Hard {progress.unlock.hardUnlocked ? "✓" : "🔒"}
+            </button>
+            {debateLockHint ? (
+              <p className="venue2d-nav-hint" role="status">
+                {debateLockHint}
+              </p>
+            ) : null}
           </div>
         ) : null}
       </div>
@@ -945,6 +1157,8 @@ export function Venue2D() {
           rightRef={rightWrapRef}
           contactLinePct={contactPct}
           deskPct={deskPct}
+          deskY={propLayout?.deskY ?? null}
+          props={venueProps}
         />
       ) : null}
 
@@ -953,7 +1167,9 @@ export function Venue2D() {
           <p className="venue2d-place-caption">{placeCaption}</p>
           <DialoguePanel
             line={line}
-            onAdvance={advanceDialogue}
+            onAdvance={
+              debateSession === "active" ? () => undefined : advanceDialogue
+            }
             isLast={dialogueIndex >= venue.dialogue.length - 1}
           />
         </div>
@@ -980,6 +1196,7 @@ export function Venue2D() {
           </button>
         </div>
       ) : null}
+
     </div>
   );
 }

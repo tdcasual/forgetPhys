@@ -51,6 +51,11 @@ export const dialogueLineSchema = z.object({
   /** Body pose; falls back to emotion-only / idle assets when missing */
   pose: dialoguePoseSchema.optional(),
   text: z.string().min(1),
+  /**
+   * Explicit「演绎」badge (U4). Show InterpretationBadge only when true.
+   * Textbook / primary claims stay unset or false.
+   */
+  interpretation: z.boolean().optional(),
   claim: claimMetaSchema,
 });
 
@@ -76,14 +81,50 @@ export const labEmbedSchema = z.object({
 
 export type LabEmbed = z.infer<typeof labEmbedSchema>;
 
-
-export const venuePropSchema = z.object({
-  id: z.string().min(1),
-  /** Normalized stage coords [x, y] in 0–1 (origin top-left of venue stage). */
-  hotspot: z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]),
-  /** Optional prop state stem under assets/props/{id}/states/{state}.png */
-  state: z.string().optional(),
+/** Per-slot placement on a shared desk surface (0–1 stage coords). */
+export const propSlotDefSchema = z.object({
+  /** Normalized X along stage (0–1). */
+  x: z.number().min(0).max(1),
+  /** Optional delta from venue propLayout.deskY (default 0). */
+  yOffset: z.number().optional(),
+  /** Optional multiplier vs default prop size. */
+  scale: z.number().positive().optional(),
 });
+
+export type PropSlotDef = z.infer<typeof propSlotDefSchema>;
+
+/**
+ * Venue-level desk + named slots. Props reference a slot id instead of
+ * (or in addition to) an absolute hotspot.
+ */
+export const propLayoutSchema = z.object({
+  /** Normalized Y of desk surface (prop foot/contact), 0–1 from top. */
+  deskY: z.number().min(0).max(1),
+  slots: z.record(propSlotDefSchema),
+});
+
+export type PropLayout = z.infer<typeof propLayoutSchema>;
+
+export const venuePropSchema = z
+  .object({
+    id: z.string().min(1),
+    /**
+     * Legacy absolute stage coords [x, y] in 0–1 (origin top-left).
+     * Optional when `slot` is set and venue has propLayout.
+     */
+    hotspot: z
+      .tuple([z.number().min(0).max(1), z.number().min(0).max(1)])
+      .optional(),
+    /** Named slot under venue.propLayout.slots (e.g. "source" | "screen"). */
+    slot: z.string().min(1).optional(),
+    /** Optional prop state stem under assets/props/{id}/states/{state}.png */
+    state: z.string().optional(),
+    /** Optional player-facing label; otherwise UI humanizes id. */
+    label: z.string().min(1).optional(),
+  })
+  .refine((p) => p.hotspot != null || (p.slot != null && p.slot.length > 0), {
+    message: "Prop must have at least one of hotspot or slot",
+  });
 
 export type VenueProp = z.infer<typeof venuePropSchema>;
 
@@ -108,6 +149,8 @@ export const venueSchema = z.object({
   companion: companionSchema.optional(),
   /** Alias for companion.outfit when companion block omitted. */
   watsonOutfit: z.string().optional(),
+  /** Shared desk Y + named prop slots (preferred over absolute hotspots). */
+  propLayout: propLayoutSchema.optional(),
   /** Independent prop layers (not baked into bg). */
   props: z.array(venuePropSchema).optional(),
   dialogue: z.array(dialogueLineSchema).min(1),
