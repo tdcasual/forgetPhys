@@ -79,3 +79,25 @@ Director rule: **shell constant, skin per chapter/venue**. Content SoT unchanged
 - Interaction: drag-into-slot default; click-pick → click-slot + ProposeFillSheet fallback
 - Player chrome: 入档 / 质疑 / 回合 (no `filledCount` / `criticPass` strings)
 - Screenshots: `shots/debate-ui/` (+ harness `/?harness=debate-ui&state=empty|filed2|persuaded`)
+
+## P1b.1 visual polish (2026-09-07 director)
+
+User: 字体偏小、主体不够突出。Harness shots confirm flat equal-weight panels.
+
+### Hierarchy (must)
+
+1. **Hero = 案卷** (~55–65% visual weight): thicker leather frame, deeper drop shadow, larger title (`h2` ≥1.4rem), slot labels ≥0.95–1.05rem, empty slots with stronger dashed ink (not hairline).
+2. **Secondary = 挑战卡**: narrower or shorter; kicker small; title ≤1rem; body max 3 lines + “展开”; seal OK but don’t compete with dossier.
+3. **Tertiary = 手牌**: card **title** ≥0.9rem; **hide citation/body by default** (show 1-line on hover/picked only). Hand rail darker so cream cards pop.
+4. **Top bar**: one line, ≤0.85rem; no competing “第二案卷”.
+
+### Anti-patterns to kill
+
+- Six panels same cream = no subject
+- Slot claim text wrapping 3+ lines at 0.78rem
+- Hand cards wall-of-text citations
+- Engineer progress strings dominating header
+
+### Acceptance
+
+New shots under `shots/debate-ui/`: `11-hierarchy-empty.png`, `12-hierarchy-filed2.png` — dossier clearly dominant; titles readable at 1280×800 without squint.

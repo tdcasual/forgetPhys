@@ -32,7 +32,7 @@ export function factShortTitle(fact: FactCard): string {
 
 function shortBody(fact: FactCard): string {
   const zh = fact.content_zh || fact.content;
-  return zh.length > 54 ? `${zh.slice(0, 54)}…` : zh;
+  return zh.length > 36 ? `${zh.slice(0, 36)}…` : zh;
 }
 
 export function HandRail({

@@ -127,8 +127,8 @@ export function DossierBoard({
                     : isGhost
                       ? "可能落入"
                       : ghostOnly
-                        ? "空（预览）"
-                        : "空槽 · 拖入或点选"}
+                        ? "空"
+                        : "空"}
                 </span>
                 {isFilled ? (
                   <span className="debate-dossier-slot__stamp" aria-label="入档">
