@@ -22,17 +22,24 @@ import {
   saveVenueFills,
   setDebateModeLast,
 } from "../../progress";
+import { ChallengeCard } from "./components/ChallengeCard";
+import { DossierBoard } from "./components/DossierBoard";
+import {
+  decodeHandCite,
+  HandRail,
+  type HandCite,
+} from "./components/HandRail";
 import { CriticToast, pickCriticTemplate, type CriticToastState } from "./CriticToast";
-import { EvidenceBoardPanel } from "./EvidenceBoardPanel";
 import { ProposeFillSheet } from "./ProposeFillSheet";
 import { getCouplandDebateRuntime } from "./runtime";
+import "./era-1909-lab.css";
 
 const OUTCOME_COPY: Record<
   Exclude<JudgeOutcome, "continue">,
   string
 > = {
-  persuaded: "证据板已说服时代主流理解。",
-  budget_exhausted: "回合（或预算）用尽，今日未能压过时代成见。",
+  persuaded: "案卷已说服时代主流理解。",
+  budget_exhausted: "回合用尽，今日未能压过时代成见。",
   aborted: "辩论中止。",
 };
 
@@ -57,10 +64,19 @@ export function DebateSessionOverlay() {
   const [proposeSlot, setProposeSlot] = useState<SlotDef | null>(null);
   const [proposeError, setProposeError] = useState<string | null>(null);
   const [criticToast, setCriticToast] = useState<CriticToastState | null>(null);
+  const [challenge, setChallenge] = useState<CriticChallengeTemplate | null>(
+    null,
+  );
   const [essay, setEssay] = useState("");
   const [lastReply, setLastReply] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<JudgeOutcome | null>(null);
   const [busy, setBusy] = useState(false);
+  const [picked, setPicked] = useState<HandCite | null>(null);
+  const [dropHoverSlotId, setDropHoverSlotId] = useState<string | null>(null);
+  const [rejectSlotId, setRejectSlotId] = useState<string | null>(null);
+  const [returningId, setReturningId] = useState<string | null>(null);
+  const [turnsUsed, setTurnsUsed] = useState(0);
+  const rejectTimer = useRef<number | null>(null);
 
   const debateLive =
     debateSession === "active" &&
@@ -73,6 +89,8 @@ export function DebateSessionOverlay() {
     runtime.pack.criticTemplates.templates;
   const facts = runtime.pack.facts.cards;
   const hardSlots = runtime.pack.hardSlots;
+  const turnBudget =
+    hardSlots.win.suggested_turn_budget ?? 12;
 
   const refresh = useCallback(() => {
     setSnap(runtime.session.boardSnapshot());
@@ -80,6 +98,16 @@ export function DebateSessionOverlay() {
 
   /** True after session.enter for this debate episode; cleared on exit/off. */
   const episodeEnteredRef = useRef(false);
+
+  const flashReject = useCallback((slotId: string, citeKey: string) => {
+    setRejectSlotId(slotId);
+    setReturningId(citeKey);
+    if (rejectTimer.current) window.clearTimeout(rejectTimer.current);
+    rejectTimer.current = window.setTimeout(() => {
+      setRejectSlotId(null);
+      setReturningId(null);
+    }, 700);
+  }, []);
 
   // Enter once per debate episode (survives venue↔labEmbed without reset)
   useEffect(() => {
@@ -134,17 +162,29 @@ export function DebateSessionOverlay() {
     setProposeSlot(null);
     setProposeError(null);
     setEssay("");
+    setPicked(null);
+    setTurnsUsed(0);
     refresh();
 
-    // Opening hard: show one stance challenge toast (P1a)
+    // Opening hard: challenge card + demoted toast (P1a)
     if (dm === "hard") {
       const tmpl = pickCriticTemplate(templates);
-      if (tmpl) setCriticToast({ template: tmpl, shownAt: Date.now() });
+      if (tmpl) {
+        setChallenge(tmpl);
+        setCriticToast({ template: tmpl, shownAt: Date.now() });
+      }
     } else {
+      setChallenge(null);
       setCriticToast(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per episode
   }, [debateLive, debateMode]);
+
+  useEffect(() => {
+    return () => {
+      if (rejectTimer.current) window.clearTimeout(rejectTimer.current);
+    };
+  }, []);
 
   // Ghost preview from pending lab in free mode
   useEffect(() => {
@@ -156,7 +196,6 @@ export function DebateSessionOverlay() {
       const cites = hardSlots.slots
         .filter((s) => s.accepts_lab_embed)
         .map((s) => s.id);
-      // Use session ghost via linked facts if any; also mark lab-accepting empty slots
       const fromFacts = runtime.session.ghostPreview([]);
       setGhostSlots([...new Set([...fromFacts, ...cites])]);
     } else {
@@ -196,74 +235,109 @@ export function DebateSessionOverlay() {
   const showCriticForSlot = useCallback(
     (slotId: string) => {
       const t = pickCriticTemplate(templates, slotId);
-      if (t) setCriticToast({ template: t, shownAt: Date.now() });
+      if (t) {
+        setChallenge(t);
+        setCriticToast({ template: t, shownAt: Date.now() });
+      }
     },
     [templates],
+  );
+
+  const applyCiteToSlot = useCallback(
+    (slot: SlotDef, cite: HandCite): boolean => {
+      if (debateMode !== "hard") return false;
+      const already = snap?.fills.some((f) => f.slotId === slot.id);
+      if (already) return false;
+
+      let verdict;
+      const citeKey = cite.kind === "lab" ? "lab" : cite.factId;
+      if (cite.kind === "lab") {
+        if (!pendingLabEmbed) {
+          setProposeError("尚无实验读数 — 先去实验台。");
+          flashReject(slot.id, citeKey);
+          return false;
+        }
+        verdict = runtime.session.proposeFill(slot.id, {
+          labEmbed: pendingLabEmbed,
+        });
+      } else {
+        verdict = runtime.session.proposeFill(slot.id, cite.factId);
+      }
+
+      if (!verdict.ok) {
+        setProposeError(verdict.reasons.join("；"));
+        flashReject(slot.id, citeKey);
+        return false;
+      }
+
+      setProposeSlot(null);
+      setProposeError(null);
+      setPicked(null);
+      refresh();
+      showCriticForSlot(slot.id);
+      persistHardBoard();
+      const phase = runtime.session.phase;
+      if (phase === "persuaded" || phase === "budget_exhausted") {
+        setOutcome(phase);
+      }
+      return true;
+    },
+    [
+      debateMode,
+      snap,
+      pendingLabEmbed,
+      runtime.session,
+      flashReject,
+      refresh,
+      showCriticForSlot,
+      persistHardBoard,
+    ],
   );
 
   const onSelectSlot = useCallback(
     (slot: SlotDef) => {
       if (debateMode === "free") {
-        // ghost: preview linked facts as ghost slots
         setGhostSlots(runtime.session.ghostPreview(slot.linked_fact_ids));
         setProposeSlot(null);
         return;
       }
       const already = snap?.fills.some((f) => f.slotId === slot.id);
       if (already) return;
+
+      // Click-pick → click-slot fallback
+      if (picked) {
+        applyCiteToSlot(slot, picked);
+        return;
+      }
+
       setProposeError(null);
       setProposeSlot(slot);
     },
-    [debateMode, runtime.session, snap],
+    [debateMode, runtime.session, snap, picked, applyCiteToSlot],
+  );
+
+  const onDropCite = useCallback(
+    (slot: SlotDef, payload: string) => {
+      setDropHoverSlotId(null);
+      const cite = decodeHandCite(payload);
+      if (!cite) return;
+      applyCiteToSlot(slot, cite);
+    },
+    [applyCiteToSlot],
   );
 
   const onProposeFact = useCallback(
     (factId: string) => {
       if (!proposeSlot) return;
-      const verdict = runtime.session.proposeFill(proposeSlot.id, factId);
-      if (!verdict.ok) {
-        setProposeError(verdict.reasons.join("；"));
-        return;
-      }
-      setProposeSlot(null);
-      setProposeError(null);
-      refresh();
-      showCriticForSlot(proposeSlot.id);
-      persistHardBoard();
-      const phase = runtime.session.phase;
-      if (phase === "persuaded" || phase === "budget_exhausted") {
-        setOutcome(phase);
-      }
+      applyCiteToSlot(proposeSlot, { kind: "fact", factId });
     },
-    [proposeSlot, runtime.session, refresh, showCriticForSlot, persistHardBoard],
+    [proposeSlot, applyCiteToSlot],
   );
 
   const onProposeLab = useCallback(() => {
-    if (!proposeSlot || !pendingLabEmbed) return;
-    const verdict = runtime.session.proposeFill(proposeSlot.id, {
-      labEmbed: pendingLabEmbed,
-    });
-    if (!verdict.ok) {
-      setProposeError(verdict.reasons.join("；"));
-      return;
-    }
-    setProposeSlot(null);
-    setProposeError(null);
-    refresh();
-    showCriticForSlot(proposeSlot.id);
-    persistHardBoard();
-    const phase = runtime.session.phase;
-    if (phase === "persuaded" || phase === "budget_exhausted") {
-      setOutcome(phase);
-    }
-  }, [
-    proposeSlot,
-    pendingLabEmbed,
-    runtime.session,
-    refresh,
-    showCriticForSlot,
-    persistHardBoard,
-  ]);
+    if (!proposeSlot) return;
+    applyCiteToSlot(proposeSlot, { kind: "lab" });
+  }, [proposeSlot, applyCiteToSlot]);
 
   /** Called from LabEmbed path when hard session is already active. */
   const tryFillFromLabEmbed = useCallback(
@@ -274,7 +348,9 @@ export function DebateSessionOverlay() {
           .boardSnapshot()
           .fills.some((f) => f.slotId === slotId);
         if (already) continue;
-        const verdict = runtime.session.proposeFill(slotId, { labEmbed: readout });
+        const verdict = runtime.session.proposeFill(slotId, {
+          labEmbed: readout,
+        });
         if (verdict.ok) {
           showCriticForSlot(slotId);
         }
@@ -299,8 +375,9 @@ export function DebateSessionOverlay() {
   // LabEmbed → session fill/ghost (works while iframe open; session is singleton)
   useEffect(() => {
     const handler = (ev: Event) => {
-      const detail = (ev as CustomEvent<{ readout: LabEmbedReadout; slots: SlotId[] }>)
-        .detail;
+      const detail = (
+        ev as CustomEvent<{ readout: LabEmbedReadout; slots: SlotId[] }>
+      ).detail;
       if (!detail?.readout || !detail.slots) return;
       setPendingLabEmbed(detail.readout);
       if (!debateLive) return;
@@ -321,6 +398,7 @@ export function DebateSessionOverlay() {
       const result = await runtime.session.submitUserTurn(essay.trim(), {
         essay: true,
       });
+      setTurnsUsed((n) => n + 1);
       setLastReply(result.reply.text || "（P1a stub · 无 live LLM）");
       if (result.reply.cite.length && debateMode === "free") {
         setGhostSlots(runtime.session.ghostPreview(result.reply.cite));
@@ -332,10 +410,12 @@ export function DebateSessionOverlay() {
           persistHardBoard();
         }
       }
-      // Stance challenge after essay turn in hard
       if (debateMode === "hard") {
         const t = pickCriticTemplate(templates);
-        if (t) setCriticToast({ template: t, shownAt: Date.now() });
+        if (t) {
+          setChallenge(t);
+          setCriticToast({ template: t, shownAt: Date.now() });
+        }
       }
     } finally {
       setBusy(false);
@@ -360,6 +440,8 @@ export function DebateSessionOverlay() {
       saveProgress(next);
       setOutcome(null);
       setCriticToast(null);
+      setChallenge(null);
+      setPicked(null);
       exitDebate(action, reason && reason !== "continue" ? reason : undefined);
     },
     [
@@ -373,10 +455,18 @@ export function DebateSessionOverlay() {
   );
 
   const modeLabel = useMemo(() => {
-    if (debateMode === "hard") return "Hard · 证据槽";
-    if (debateMode === "free") return "自由辩论 · 预览板";
+    if (debateMode === "hard") return "硬案 · 拖牌入档";
+    if (debateMode === "free") return "自由 · 案卷预览";
     return "常规";
   }, [debateMode]);
+
+  // Track drop hover via document-level dragover on slots (set in board via class).
+  // Lightweight: clear hover when drag ends.
+  useEffect(() => {
+    const clear = () => setDropHoverSlotId(null);
+    window.addEventListener("dragend", clear);
+    return () => window.removeEventListener("dragend", clear);
+  }, []);
 
   if (!active) return null;
 
@@ -385,116 +475,167 @@ export function DebateSessionOverlay() {
     outcome === "budget_exhausted" ||
     outcome === "aborted";
 
+  const filed = snap?.fills.length ?? 0;
+
   return (
-    <div className="debate-overlay" role="dialog" aria-modal="true" aria-label="辩论会话">
+    <div
+      className="debate-overlay era-1909-lab"
+      role="dialog"
+      aria-modal="true"
+      aria-label="α散射案卷辩论"
+    >
       <div className="debate-overlay__dim" aria-hidden />
-      <div className="debate-session parchment-panel">
-        <header className="debate-session__chrome">
-          <div>
-            <p className="debate-session__kicker">DebateSession · {modeLabel}</p>
-            <h1>Coupland · 证据对话</h1>
+      <div className="debate-dossier-shell">
+        <header className="debate-topbar">
+          <div className="debate-topbar__left">
+            <span className="debate-topbar__turn">
+              回合 {Math.min(turnsUsed, turnBudget)}/{turnBudget}
+            </span>
+            <span className="debate-topbar__target">
+              说服对象: 时代主流理解
+            </span>
+            <span className="debate-topbar__meta">
+              {modeLabel}
+              {debateMode === "hard" ? ` · 入档 ${filed}/${hardSlots.win.M}` : ""}
+            </span>
           </div>
-          <div className="debate-session__actions">
-            <button
-              type="button"
-              className="paper-btn ghost"
-              onClick={openLab}
-              title="会话保持；读数经 CriticPolicy 回填"
-            >
-              去实验台
-            </button>
-            <button
-              type="button"
-              className="paper-btn"
-              onClick={() => onExit("resume", "aborted")}
-            >
-              退出 · 恢复剧本
-            </button>
+          <div className="debate-topbar__right">
+            <div className="debate-topbar__actions">
+              <button
+                type="button"
+                className="paper-btn ghost"
+                onClick={openLab}
+                title="会话保持；读数经质疑规则回填"
+              >
+                去实验台
+              </button>
+              <button
+                type="button"
+                className="paper-btn"
+                onClick={() => onExit("resume", "aborted")}
+              >
+                退出 · 恢复剧本
+              </button>
+            </div>
           </div>
         </header>
 
-        <div className="debate-session__body">
-          <div className="debate-session__main">
-            <div className="debate-dialogue-strip parchment">
-              <p className="debate-dialogue-strip__name">
-                {debateMode === "hard" ? "华生 · 长文反驳" : "自由发言"}
-              </p>
-              {lastReply ? (
-                <p className="debate-dialogue-strip__text">{lastReply}</p>
-              ) : (
-                <p className="debate-dialogue-strip__text debate-dialogue-strip__text--muted">
-                  {debateMode === "hard"
-                    ? "以实验读数与事实卡反驳时代主流理解。长文 alone 不胜 — 须经 CriticPolicy + 板 fills。"
-                    : "自由模式：cite 只做幽灵预览，永不写入耐久 fills。"}
-                </p>
-              )}
-            </div>
+        <div className="debate-desk">
+          <ChallengeCard
+            template={challenge}
+            visible={debateMode === "hard"}
+          />
 
-            {debateMode === "hard" && !terminal ? (
-              <div className="debate-essay">
-                <textarea
-                  className="debate-essay__input"
-                  rows={5}
-                  value={essay}
-                  placeholder="以实验读数与事实卡反驳时代主流理解…"
-                  onChange={(e) => setEssay(e.target.value)}
-                />
-                <div className="debate-essay__actions">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.45rem",
+              minWidth: 0,
+              minHeight: 0,
+            }}
+          >
+            <DossierBoard
+              hardSlots={hardSlots}
+              mode={debateMode}
+              snap={snap}
+              ghostSlots={ghostSlots}
+              onSelectSlot={onSelectSlot}
+              onDropCite={onDropCite}
+              selectedSlotId={proposeSlot?.id ?? null}
+              dropHoverSlotId={dropHoverSlotId}
+              rejectSlotId={rejectSlotId}
+              titleZh="α 散射案卷"
+            />
+
+            <div className="debate-dossier-extras">
+              {lastReply ? (
+                <div className="debate-dialogue-strip parchment">
+                  <p className="debate-dialogue-strip__name">华生 · 回声</p>
+                  <p className="debate-dialogue-strip__text">{lastReply}</p>
+                </div>
+              ) : null}
+
+              {debateMode === "hard" && !terminal ? (
+                <div className="debate-essay debate-essay--compact">
+                  <textarea
+                    className="debate-essay__input"
+                    rows={3}
+                    value={essay}
+                    placeholder="以实验读数与事实卡反驳时代主流理解…"
+                    onChange={(e) => setEssay(e.target.value)}
+                  />
+                  <div className="debate-essay__actions">
+                    <button
+                      type="button"
+                      className="paper-btn"
+                      disabled={busy || !essay.trim()}
+                      onClick={() => void onSubmitEssay()}
+                    >
+                      提交长文
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+
+              {terminal && outcome ? (
+                <div className="debate-outcome era-outcome" role="status">
+                  {outcome === "persuaded" ? (
+                    <span className="debate-outcome__stamp">说服</span>
+                  ) : null}
+                  <p>{OUTCOME_COPY[outcome]}</p>
                   <button
                     type="button"
                     className="paper-btn"
-                    disabled={busy || !essay.trim()}
-                    onClick={() => void onSubmitEssay()}
+                    onClick={() => onExit("resume", outcome)}
                   >
-                    提交 essay
+                    关闭并恢复剧本
                   </button>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
 
-            {terminal && outcome ? (
-              <div className="debate-outcome parchment" role="status">
-                <p>{OUTCOME_COPY[outcome]}</p>
-                <button
-                  type="button"
-                  className="paper-btn"
-                  onClick={() => onExit("resume", outcome)}
-                >
-                  关闭并恢复剧本
-                </button>
-              </div>
-            ) : null}
+              {proposeSlot && debateMode === "hard" && !terminal && !picked ? (
+                <ProposeFillSheet
+                  slot={proposeSlot}
+                  facts={facts}
+                  pendingLab={pendingLabEmbed}
+                  acceptsLab={proposeSlot.accepts_lab_embed}
+                  onCancel={() => {
+                    setProposeSlot(null);
+                    setProposeError(null);
+                  }}
+                  onProposeFact={onProposeFact}
+                  onProposeLab={onProposeLab}
+                  lastError={proposeError}
+                />
+              ) : null}
 
-            {proposeSlot && debateMode === "hard" && !terminal ? (
-              <ProposeFillSheet
-                slot={proposeSlot}
-                facts={facts}
-                pendingLab={pendingLabEmbed}
-                acceptsLab={proposeSlot.accepts_lab_embed}
-                onCancel={() => {
-                  setProposeSlot(null);
-                  setProposeError(null);
-                }}
-                onProposeFact={onProposeFact}
-                onProposeLab={onProposeLab}
-                lastError={proposeError}
-              />
-            ) : null}
+              {proposeError && !proposeSlot ? (
+                <p className="debate-propose__error" role="alert">
+                  {proposeError}
+                </p>
+              ) : null}
+            </div>
           </div>
-
-          <EvidenceBoardPanel
-            hardSlots={hardSlots}
-            mode={debateMode}
-            snap={snap}
-            ghostSlots={ghostSlots}
-            onSelectSlot={onSelectSlot}
-            selectedSlotId={proposeSlot?.id ?? null}
-          />
         </div>
+
+        <HandRail
+          facts={facts}
+          pendingLab={pendingLabEmbed}
+          picked={picked}
+          onPick={(c) => {
+            setPicked(c);
+            setProposeSlot(null);
+            setProposeError(null);
+          }}
+          visible={debateMode === "hard" && !terminal}
+          returningId={returningId}
+        />
 
         <CriticToast
           toast={debateMode === "hard" ? criticToast : null}
           onDismiss={() => setCriticToast(null)}
+          demoted
         />
       </div>
     </div>

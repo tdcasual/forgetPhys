@@ -5,13 +5,15 @@ export type CriticToastState = {
   shownAt: number;
 };
 
-/** P1a Stance Critic — toast-only (no silhouette / no bust). */
+/** P1a Stance Critic — demoted toast (ChallengeCard is primary on table). */
 export function CriticToast({
   toast,
   onDismiss,
+  demoted = false,
 }: {
   toast: CriticToastState | null;
   onDismiss: () => void;
+  demoted?: boolean;
 }) {
   if (!toast) return null;
   const { template } = toast;
@@ -19,16 +21,16 @@ export function CriticToast({
 
   return (
     <div
-      className="debate-critic-toast parchment-panel"
+      className={`debate-critic-toast parchment-panel${demoted ? " debate-critic-toast--demoted" : ""}`}
       role="status"
       aria-live="polite"
     >
       <header className="debate-critic-toast__head">
-        <span className="debate-critic-toast__kicker">时代主流理解 · 挑战</span>
+        <span className="debate-critic-toast__kicker">质疑 · 短讯</span>
         <button
           type="button"
           className="debate-critic-toast__close"
-          aria-label="关闭挑战"
+          aria-label="关闭质疑"
           onClick={onDismiss}
         >
           ×
