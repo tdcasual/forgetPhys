@@ -546,6 +546,7 @@ export function DebateSessionOverlay() {
               dropHoverSlotId={dropHoverSlotId}
               rejectSlotId={rejectSlotId}
               titleZh="α 散射案卷"
+              facts={facts}
             />
 
             <div className="debate-dossier-extras">

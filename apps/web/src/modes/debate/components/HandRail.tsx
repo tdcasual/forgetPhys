@@ -22,7 +22,8 @@ export function decodeHandCite(payload: string): HandCite | null {
   return null;
 }
 
-function shortTitle(fact: FactCard): string {
+/** Short label for fact cards (hand + dossier fills). */
+export function factShortTitle(fact: FactCard): string {
   const zh = fact.content_zh || fact.content;
   const keys = fact.keys?.filter((k) => /[\u4e00-\u9fff]/.test(k)) ?? [];
   if (keys[0]) return keys[0];
@@ -132,7 +133,7 @@ export function HandRail({
               }
             >
               <span className="debate-hand-card__tag">事实卡</span>
-              <span className="debate-hand-card__title">{shortTitle(f)}</span>
+              <span className="debate-hand-card__title">{factShortTitle(f)}</span>
               <span className="debate-hand-card__body">{shortBody(f)}</span>
             </button>
           );
