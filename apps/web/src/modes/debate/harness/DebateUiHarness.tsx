@@ -128,6 +128,7 @@ export function DebateUiHarness() {
               dropHoverSlotId={null}
               rejectSlotId={null}
               titleZh="α 散射案卷"
+              facts={facts}
             />
             {terminal ? (
               <div className="debate-outcome era-outcome" role="status">

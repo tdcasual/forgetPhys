@@ -1,17 +1,24 @@
-import type { HardSlotsFile, SlotDef } from "@physics-chronicle/content";
+import type { FactCard, HardSlotsFile, SlotDef } from "@physics-chronicle/content";
 import type {
   DebateMode,
   EvidenceBoardSnapshot,
   SlotId,
 } from "@physics-chronicle/debate";
+import { factShortTitle } from "./HandRail";
 
 function fillCaption(
   slotId: SlotId,
   snap: EvidenceBoardSnapshot | null,
+  factById: Map<string, FactCard>,
 ): string | null {
   const fill = snap?.fills.find((f) => f.slotId === slotId);
   if (!fill) return null;
-  if (fill.factId) return fill.factId.replace(/^fact-/, "");
+  if (fill.factId) {
+    const card = factById.get(fill.factId);
+    if (card) return factShortTitle(card);
+    // Prefer never showing raw ids; last-resort if pack missing the card.
+    return "事实卡";
+  }
   if (fill.labEmbedKind) return `实验读数 · ${fill.labEmbedKind}`;
   return "已入档";
 }
@@ -27,6 +34,7 @@ export function DossierBoard({
   dropHoverSlotId,
   rejectSlotId,
   titleZh,
+  facts = [],
 }: {
   hardSlots: HardSlotsFile;
   mode: DebateMode;
@@ -38,12 +46,15 @@ export function DossierBoard({
   dropHoverSlotId: string | null;
   rejectSlotId: string | null;
   titleZh?: string;
+  /** Coupland pack / FactStore cards — used to resolve fill captions. */
+  facts?: FactCard[];
 }) {
   const filed = snap?.fills.length ?? 0;
   const need = hardSlots.win.N;
   const ghostOnly = mode === "free";
   const ghostSet = new Set(ghostSlots);
   const dossierTitle = titleZh ?? "α 散射案卷";
+  const factById = new Map(facts.map((f) => [f.id, f]));
 
   return (
     <section
@@ -65,7 +76,7 @@ export function DossierBoard({
 
         <div className="debate-dossier__grid" role="list">
           {hardSlots.slots.map((slot, i) => {
-            const caption = fillCaption(slot.id, snap);
+            const caption = fillCaption(slot.id, snap, factById);
             const isFilled = Boolean(caption) && !ghostOnly;
             const isGhost = ghostOnly && ghostSet.has(slot.id);
             const selected = selectedSlotId === slot.id;

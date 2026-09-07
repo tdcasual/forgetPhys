@@ -2,7 +2,7 @@
  * Legacy engineer panel — kept for imports; P1b hard/free shell uses DossierBoard.
  * Player chrome must not show filledCount / criticPass strings.
  */
-import type { HardSlotsFile, SlotDef } from "@physics-chronicle/content";
+import type { FactCard, HardSlotsFile, SlotDef } from "@physics-chronicle/content";
 import type {
   DebateMode,
   EvidenceBoardSnapshot,
@@ -17,6 +17,7 @@ export function EvidenceBoardPanel({
   ghostSlots,
   onSelectSlot,
   selectedSlotId,
+  facts = [],
 }: {
   hardSlots: HardSlotsFile;
   mode: DebateMode;
@@ -24,6 +25,7 @@ export function EvidenceBoardPanel({
   ghostSlots: SlotId[];
   onSelectSlot: (slot: SlotDef) => void;
   selectedSlotId: string | null;
+  facts?: FactCard[];
 }) {
   return (
     <DossierBoard
@@ -36,6 +38,7 @@ export function EvidenceBoardPanel({
       selectedSlotId={selectedSlotId}
       dropHoverSlotId={null}
       rejectSlotId={null}
+      facts={facts}
     />
   );
 }
