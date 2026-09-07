@@ -8,6 +8,7 @@ import { CityPage } from "../modes/city/CityPage";
 import { LabEmbed } from "../modes/lab/LabEmbed";
 import { ChroniclePlate } from "../modes/plate/ChroniclePlate";
 import { Venue2D } from "../modes/venue2d/Venue2D";
+import { DebateSessionOverlay } from "../modes/debate/DebateSessionOverlay";
 import { WorldMap2D } from "../modes/worldmap2d/WorldMap2D";
 import { GameProvider, useGame } from "./GameState";
 
@@ -22,6 +23,7 @@ function Shell2D() {
       <CityPage />
       <Venue2D />
       <LabEmbed />
+      <DebateSessionOverlay />
       <CutMask phase={cutPhase} />
     </div>
   );

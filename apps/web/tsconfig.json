@@ -8,7 +8,8 @@
     "paths": {
       "@physics-chronicle/lab-core": ["../../packages/lab-core/src/index.ts"],
       "@physics-chronicle/content": ["../../packages/content/src/index.ts"],
-      "@physics-chronicle/ui": ["../../packages/ui/src/index.ts"]
+      "@physics-chronicle/ui": ["../../packages/ui/src/index.ts"],
+      "@physics-chronicle/debate": ["../../packages/debate/src/index.ts"]
     }
   },
   "include": ["src"]

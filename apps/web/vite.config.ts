@@ -19,6 +19,10 @@ export default defineConfig({
         "packages/content/src/index.ts",
       ),
       "@physics-chronicle/ui": path.join(repoRoot, "packages/ui/src/index.ts"),
+      "@physics-chronicle/debate": path.join(
+        repoRoot,
+        "packages/debate/src/index.ts",
+      ),
     },
     dedupe: ["react", "react-dom", "three"],
   },
@@ -32,6 +36,7 @@ export default defineConfig({
       "@physics-chronicle/lab-core",
       "@physics-chronicle/content",
       "@physics-chronicle/ui",
+      "@physics-chronicle/debate",
     ],
   },
 });

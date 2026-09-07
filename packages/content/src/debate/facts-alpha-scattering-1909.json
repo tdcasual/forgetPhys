@@ -1,0 +1,125 @@
+{
+  "id": "facts-alpha-scattering-1909",
+  "era": "1909-1911",
+  "venue_tags": ["manchester", "lab-coupland", "alpha-scattering"],
+  "source_note": "Aligned to Geiger–Marsden / Rutherford primary papers and textbook teaching anchors. Drafted from kaozheng ch1-rutherford; do not invent beyond cards.",
+  "cards": [
+    {
+      "id": "fact-gm1909-paper",
+      "keys": ["geiger", "marsden", "1909", "diffuse reflection", "漫反射"],
+      "content": "H. Geiger & E. Marsden, \"On a Diffuse Reflection of the α-Particles,\" Proc. R. Soc. A 82 (1909) 495–500 (received 19 May, read 17 June 1909; communicated by E. Rutherford).",
+      "content_zh": "H. Geiger & E. Marsden，《论 α 粒子的漫反射》，Proc. R. Soc. A 82 (1909) 495–500。",
+      "year_range": [1909, 1909],
+      "tier": "primary",
+      "citation": "Geiger & Marsden, Proc. R. Soc. A 82 (1909) 495–500"
+    },
+    {
+      "id": "fact-gm1909-zns-method",
+      "keys": ["ZnS", "scintillation", "硫化锌", "闪烁", "microscope"],
+      "content": "Diffuse-reflection observations used a zinc-sulphide screen; scintillations counted with a low-power microscope. Method lineage includes Regener and Rutherford–Geiger 1908 counting work.",
+      "content_zh": "漫反射观测采用硫化锌屏，用低倍显微镜计数闪烁。方法谱系包括 Regener 与 Rutherford–Geiger 1908 计数工作。",
+      "year_range": [1908, 1909],
+      "tier": "primary",
+      "citation": "Geiger & Marsden 1909, p. 496; Rutherford & Geiger, Proc. R. Soc. A 81 (1908)"
+    },
+    {
+      "id": "fact-gm1909-geometry",
+      "keys": ["geometry", "mica", "lead plate", "装置", "云母", "铅板"],
+      "content": "1909 apparatus hook: conical glass tube with radium emanation (radon), mica window at the tip; lead plate blocking the direct path; ZnS screen behind the lead so α cannot strike it directly; metal reflector near the tube mouth (~1 cm); count scintillations per unit area.",
+      "content_zh": "1909 装置钩子：锥形玻璃管盛氡，末端云母窗；铅板挡住直达路径；ZnS 屏置于铅板后使 α 不能直接打上；金属反射体靠近管口（约 1 cm）；按面积计数闪烁。",
+      "year_range": [1909, 1909],
+      "tier": "primary",
+      "citation": "Geiger & Marsden 1909, pp. 496–497, fig. 1"
+    },
+    {
+      "id": "fact-gm1909-diffuse-reflection",
+      "keys": ["large angle", "backscatter", "大角", "折回", "漫反射"],
+      "content": "Some α particles are diffusely reflected — deflected through large angles, including paths that return toward the source side under the stated geometry — observed as ZnS scintillations.",
+      "content_zh": "在所述几何下，部分 α 粒子发生漫反射——偏转很大角度，包括折向源一侧的路径——以 ZnS 闪烁观测。",
+      "year_range": [1909, 1909],
+      "tier": "primary",
+      "citation": "Geiger & Marsden 1909 (title and body: diffuse reflection)"
+    },
+    {
+      "id": "fact-gm1909-forward-majority",
+      "keys": ["most go straight", "forward", "绝大多数", "几乎直线"],
+      "content": "In the broader Manchester α-scattering programme, the vast majority of α particles traversing thin foils continue nearly forward; large-angle events are rare. Teaching dialogue stresses this contrast with the rare diffuse reflections.",
+      "content_zh": "在曼彻斯特 α 散射工作中，绝大多数穿过薄箔的 α 几乎沿前进方向继续；大角事件稀少。教学对话强调与稀有漫反射的对比。",
+      "year_range": [1909, 1911],
+      "tier": "textbook",
+      "citation": "Teaching synthesis from Geiger small-angle series + Geiger–Marsden large-angle reports; see also manchester.json mcr-1"
+    },
+    {
+      "id": "fact-gm1909-thin-gold-layer",
+      "keys": ["thin foil", "gold", "厚度", "金箔", "6e-5"],
+      "content": "With layered gold, reflection rises then saturates (volume effect, not pure surface). Within a gold layer about 6×10^{-5} cm, some α can be turned through 90° or more.",
+      "content_zh": "多层金箔反射随厚度增加后趋于饱和（体积效应而非纯表面）。在约 6×10^{-5} cm 金层内，部分 α 可转过 90° 乃至更大。",
+      "year_range": [1909, 1909],
+      "tier": "primary",
+      "citation": "Geiger & Marsden 1909, pp. 497–498, fig. 2"
+    },
+    {
+      "id": "fact-gm1909-platinum-1-in-8000",
+      "keys": ["1/8000", "platinum", "铂", "90 degrees"],
+      "content": "With a RaC source and platinum reflector, Geiger & Marsden estimate roughly 1 in 8000 incident α are \"reflected\" under their stated assumptions (≈90° class, hemispherical uniformity assumption).",
+      "content_zh": "用 RaC 源与铂反射体，Geiger & Marsden 在所述假定下估计约 1/8000 的入射 α 被「反射」（约 90° 量级，半球均匀分布假定）。",
+      "year_range": [1909, 1909],
+      "tier": "primary",
+      "citation": "Geiger & Marsden 1909, p. 499"
+    },
+    {
+      "id": "fact-ruth1911-paper",
+      "keys": ["rutherford 1911", "phil mag", "scattering theory"],
+      "content": "E. Rutherford, \"The Scattering of α and β Particles by Matter and the Structure of the Atom,\" Phil. Mag. 21 (1911) 669–688 (University of Manchester, April 1911).",
+      "content_zh": "E. Rutherford，《α、β 粒子被物质散射与原子结构》，Phil. Mag. 21 (1911) 669–688。",
+      "year_range": [1911, 1911],
+      "tier": "primary",
+      "citation": "Rutherford, Phil. Mag. 21 (1911) 669–688"
+    },
+    {
+      "id": "fact-ruth1911-gold-1-in-20000",
+      "keys": ["1/20000", "gold foil", "金箔", "90"],
+      "content": "Rutherford 1911 states that Geiger & Marsden's observations imply about 1 in 20000 α particles traversing gold foil ~0.00004 cm thick (≈1.6 mm air equivalent) are deflected on average through 90°.",
+      "content_zh": "Rutherford 1911 写明：按 Geiger & Marsden 观测，穿过约 0.00004 cm 厚金箔（约合 1.6 mm 空气阻止本领）时，约 1/20000 的 α 平均偏转达 90°。",
+      "year_range": [1911, 1911],
+      "tier": "primary",
+      "citation": "Rutherford 1911, §1 — distinct conditions from 1909 Pt 1/8000"
+    },
+    {
+      "id": "fact-ruth1911-central-charge",
+      "keys": ["central charge", "single scattering", "中心电荷", "单次散射", "concentrated"],
+      "content": "Rutherford hypothesizes a concentrated central charge ±Ne with compensating charge in a surrounding volume; large-angle deflections arise mainly from single scattering by a strong localized field, not compound scattering. The 1911 text does not banner the later word \"nucleus\".",
+      "content_zh": "Rutherford 假设集中的中心电荷 ±Ne，周围体积内有补偿电荷；大角偏转主要来自强局域场的单次散射，而非多次散射。1911 正文不以后世用语 nucleus 为旗号。",
+      "year_range": [1911, 1911],
+      "tier": "primary",
+      "citation": "Rutherford 1911, §2, pp. 670–672"
+    },
+    {
+      "id": "fact-ruth1911-plum-pudding-fails-large-angle",
+      "keys": ["plum pudding fails", "thomson fails", "枣糕不行", "大角"],
+      "content": "Rutherford argues Thomson's diffuse positive sphere + compound-scattering expectations struggle to produce the observed large-angle probabilities unless the positive charge is concentrated in a region far smaller than the atomic radius of action.",
+      "content_zh": "Rutherford 指出：若正电弥散于原子作用半径量级，Thomson 式图像与多次散射概率律难以给出所观测的大角概率；除非正电高度集中。",
+      "year_range": [1911, 1911],
+      "tier": "primary",
+      "citation": "Rutherford 1911, §1, pp. 669–670"
+    },
+    {
+      "id": "fact-textbook-nuclear-model",
+      "keys": ["核式结构", "textbook", "人教版", "empty space"],
+      "content": "Modern textbook framing (e.g. 人教版选必三): nearly all mass and positive charge concentrated in a tiny centre; electrons outside; plum-pudding cannot explain the impossible large-angle events. Use as textbook-tier teaching language, distinct from 1909 lab diction.",
+      "content_zh": "现代教材用语（如人教版选必三）：几乎全部质量与正电荷集中在很小的中心，电子在外围；枣糕模型解释不了那些大角偏转。作 textbook 层教学语，区别于 1909 实验室措辞。",
+      "year_range": [2000, 2026],
+      "tier": "textbook",
+      "citation": "人教版选必三 第四§3–§4；manchester.json mcr-5"
+    },
+    {
+      "id": "fact-roles-geiger-marsden-rutherford",
+      "keys": ["roles", "分工", "undergraduate", "counting"],
+      "content": "Rutherford: laboratory head and theoretical framing. Geiger: senior experimenter, scintillation/counting methods. Marsden: undergraduate (Hatfield Scholar) assisting under Geiger on diffuse-reflection work. Rutherford is not the overnight scintillation slave.",
+      "content_zh": "卢瑟福：实验室主任与理论框架。盖革：资深实验、闪烁/计数方法。马斯登：本科生（Hatfield Scholar）在盖革指导下参与漫反射。卢瑟福并非整夜数闪烁之人。",
+      "year_range": [1909, 1911],
+      "tier": "primary",
+      "citation": "Geiger & Marsden 1909 authorship/acknowledgements; AIP Rutherford's Nuclear World; Eve, Rutherford (1939) letter re counting"
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "id": "critic-challenge-templates-alpha-1909",
+  "title_zh": "Coupland α · Era Critic 脚本挑战模板（P1a）",
+  "venue_id": "lab-coupland",
+  "docs": "docs/HARD_CRITIC_CLAIMS_ALPHA.md",
+  "voice": "draft-interim",
+  "voice_note": "Speakable challenge lines derived from claim-map meaning. VoiceCard polish later (COPY_AGENT_CHARTER). P1a may ship with these + persona bans.",
+  "rules": {
+    "fills_slots": false,
+    "store": "era_opinion_only",
+    "cannot_veto_legal_fact_fill": true
+  },
+  "templates": [
+    {
+      "claimId": "C1",
+      "eraOpinionIds": [
+        "era-op-compound-scattering-default",
+        "era-op-thomson-uniform-sphere"
+      ],
+      "aimSlots": [
+        "slot-plum-pudding-fails",
+        "slot-charge-mass-concentrated"
+      ],
+      "text_zh": "大角未必需要集中电荷——弥散正电球里多次小偏转的尾部，也能凑出稀有大角。",
+      "text_en": "Large angles need not imply a concentrated charge — they may still be the compound-scattering tail inside a diffuse positive sphere.",
+      "voice": "draft-interim",
+      "notes": "P1a priority. Rebut with fact-ruth1911-plum-pudding-fails-large-angle / fact-ruth1911-central-charge."
+    },
+    {
+      "claimId": "C2",
+      "eraOpinionIds": [
+        "era-op-thomson-uniform-sphere"
+      ],
+      "aimSlots": [
+        "slot-plum-pudding-fails"
+      ],
+      "text_zh": "课堂主流仍是 Thomson 图景：均匀正电球加微粒。先别急着换整幅原子像。",
+      "text_en": "Classroom mainstream remains Thomson's uniform positive sphere with corpuscles — do not rush a whole new atom picture.",
+      "voice": "draft-interim",
+      "notes": "P1a priority. Rebut as C1 + labeled textbook fact-textbook-nuclear-model."
+    },
+    {
+      "claimId": "C3",
+      "eraOpinionIds": [
+        "era-op-caution-before-central-charge"
+      ],
+      "aimSlots": [
+        "slot-large-angle-exists",
+        "slot-charge-mass-concentrated"
+      ],
+      "text_zh": "即便有「漫反射」，也先别下结构判决——中心电荷顶多是工作假说。",
+      "text_en": "Even with diffuse reflection reported, withhold a structure verdict — central charge is only a working hypothesis.",
+      "voice": "draft-interim",
+      "notes": "P1a priority. Fill large-angle Facts first, then central-charge."
+    },
+    {
+      "claimId": "C4",
+      "eraOpinionIds": [
+        "era-op-alpha-outer-layer"
+      ],
+      "aimSlots": [
+        "slot-charge-mass-concentrated"
+      ],
+      "text_zh": "α 更像从外层离开或散射——大角不必逼出「极小中心」的故事。",
+      "text_en": "α may leave or scatter from the outer layers — large angles need not force a tiny-centre story.",
+      "voice": "draft-interim",
+      "notes": "Extended. Optional Fajans-style skin later."
+    },
+    {
+      "claimId": "C5",
+      "eraOpinionIds": [
+        "era-op-incomplete-without-electrons"
+      ],
+      "aimSlots": [
+        "slot-charge-mass-concentrated"
+      ],
+      "text_zh": "解释稀有大角 ≠ 完整原子论——电子排布与化学几乎未谈。",
+      "text_en": "Explaining rare large angles is not a full atomic theory — electrons and chemistry are barely addressed.",
+      "voice": "draft-interim",
+      "notes": "Extended. Tone challenge; does not require electron-model fill."
+    },
+    {
+      "claimId": "C6",
+      "eraOpinionIds": [
+        "era-op-thick-target-suspicion"
+      ],
+      "aimSlots": [
+        "slot-foil-extremely-thin"
+      ],
+      "text_zh": "若箔真极薄，大角本不该出现；若出现，更像厚靶、表面或杂质故事。",
+      "text_en": "If the foil is truly thin, large angles should not appear; if they do, prefer thick-target, surface, or impurity stories.",
+      "voice": "draft-interim",
+      "notes": "Extended. Rebut with thin-gold / 1-in-20000 Facts — no invented thicknesses."
+    },
+    {
+      "claimId": "C7",
+      "eraOpinionIds": [
+        "era-op-caution-before-central-charge"
+      ],
+      "aimSlots": [
+        "slot-forward-majority",
+        "slot-large-angle-exists"
+      ],
+      "text_zh": "绝大多数几乎直行——所谓「折回」更像稀有噪声或读点误差。",
+      "text_en": "Most α go nearly straight — so-called turn-backs may be rare noise or spot-reading error.",
+      "voice": "draft-interim",
+      "notes": "P1a priority. Needs forward-majority + large-angle Facts together."
+    },
+    {
+      "claimId": "C8",
+      "eraOpinionIds": [
+        "era-op-method-doubt-zns"
+      ],
+      "aimSlots": [
+        "slot-experimental-method"
+      ],
+      "text_zh": "ZnS 肉眼计数与暗室几何太易漏光、眩光或看错——还谈不上真「反射」。",
+      "text_en": "ZnS eye-counting and dark-room geometry invite leak, glare, or misreads — not yet true reflection.",
+      "voice": "draft-interim",
+      "notes": "Extended. Rebut with ZnS method + geometry Facts."
+    },
+    {
+      "claimId": "C9",
+      "eraOpinionIds": [
+        "era-op-sign-of-central-charge-open"
+      ],
+      "aimSlots": [
+        "slot-charge-mass-concentrated"
+      ],
+      "text_zh": "即便承认「集中电荷」，符号仍可正可负——勿当作已定论。",
+      "text_en": "Even granting a concentrated charge, the sign may still be ± — do not treat it as settled.",
+      "voice": "draft-interim",
+      "notes": "P1a priority. Fill concentration; do not lock sign from Critic."
+    },
+    {
+      "claimId": "C10",
+      "eraOpinionIds": [
+        "era-op-nucleus-word-anachronism"
+      ],
+      "aimSlots": [],
+      "text_zh": "开口就说「原子核 / 行星原子」是后世词——先谈中心电荷。",
+      "text_en": "Opening with \"nucleus / planetary atom\" is anachronism — prefer central charge first.",
+      "voice": "draft-interim",
+      "notes": "P1a priority. Speech color only; fills use central-charge Facts."
+    }
+  ]
+}

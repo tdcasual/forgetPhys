@@ -1,8 +1,10 @@
 import {
   manchester,
   venueById,
+  type DebateMode,
   type VenueContent,
 } from "@physics-chronicle/content";
+import type { LabEmbedReadout } from "@physics-chronicle/debate";
 import {
   createContext,
   useCallback,
@@ -20,6 +22,15 @@ import {
   type CutPhase,
   type GameMode,
 } from "../camera/CameraDirector";
+import {
+  loadProgress,
+  markLabEmbedVisit as markVisitOnProgress,
+  saveProgress,
+  setDebateModeLast,
+  type ChapterProgress,
+} from "../progress";
+
+export type DebateSessionFlag = "off" | "active";
 
 export type GameApi = {
   mode: GameMode;
@@ -30,14 +41,23 @@ export type GameApi = {
   cityId: string | null;
   dialogueIndex: number;
   dialogueOpen: boolean;
+  /** Orthogonal to GameMode — scripted | free | hard */
+  debateMode: DebateMode;
+  /** Overlay flag — off | active (does not replace debateMode) */
+  debateSession: DebateSessionFlag;
+  progress: ChapterProgress;
+  pendingLabEmbed: LabEmbedReadout | null;
   /** WorldMap → ChroniclePlate (after Manchester / city chosen). */
   selectDestiny: (venueId: string, cityId?: string) => void;
   /** ChroniclePlate → CityPage (80 Days structure). */
   continueToCity: () => void;
   /** @deprecated Prefer continueToCity; kept for call-site migration. */
   continueToVenue: () => void;
-  /** CityPage → Venue dialogue (lab or lodge). */
-  enterVenue: (venueId: string) => void;
+  /** CityPage → Venue dialogue (lab or lodge). Optional debate entry. */
+  enterVenue: (
+    venueId: string,
+    opts?: { debate?: "free" | "hard" },
+  ) => void;
   /** Venue → LabEmbed iframe. */
   openLab: () => void;
   /** LabEmbed → Venue dialogue. */
@@ -52,6 +72,16 @@ export type GameApi = {
   returnToAtlas: () => void;
   advanceDialogue: () => void;
   openDialogue: () => void;
+  /** Enter DebateSession overlay (pauses scripted beats). */
+  enterDebate: (mode: "free" | "hard") => { ok: true } | { ok: false; reason: string };
+  /** Exit overlay; resume scripted beatIndex by default. */
+  exitDebate: (
+    action?: "resume" | "jump",
+    reason?: string,
+  ) => void;
+  setProgress: (p: ChapterProgress) => void;
+  recordLabEmbedVisit: () => void;
+  setPendingLabEmbed: (r: LabEmbedReadout | null) => void;
 };
 
 const GameContext = createContext<GameApi | null>(null);
@@ -64,15 +94,34 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [cityId, setCityId] = useState<string | null>(null);
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [dialogueOpen, setDialogueOpen] = useState(false);
+  const [debateMode, setDebateMode] = useState<DebateMode>("scripted");
+  const [debateSession, setDebateSession] =
+    useState<DebateSessionFlag>("off");
+  const [pendingDebate, setPendingDebate] = useState<"free" | "hard" | null>(
+    null,
+  );
+  const [progress, setProgressState] = useState<ChapterProgress>(() =>
+    loadProgress(),
+  );
+  const [pendingLabEmbed, setPendingLabEmbed] =
+    useState<LabEmbedReadout | null>(null);
   const busy = useRef(false);
+  /** Frozen while debateSession active — resume keeps this index. */
+  const frozenBeatRef = useRef<number | null>(null);
+
+  const setProgress = useCallback((p: ChapterProgress) => {
+    setProgressState(p);
+  }, []);
 
   // QA / screenshot deep-link:
   // ?mode=worldMap|chroniclePlate|cityPage|venue|labEmbed&venue=coupland-lab&line=0
+  // &debate=free|hard
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const m = q.get("mode");
     const v = q.get("venue") || "coupland-lab";
     const lineRaw = q.get("line");
+    const debateQ = q.get("debate");
     const lineIdx =
       lineRaw != null && lineRaw !== "" && !Number.isNaN(Number(lineRaw))
         ? Math.max(0, Math.floor(Number(lineRaw)))
@@ -92,6 +141,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setCityId("manchester");
       setDialogueOpen(true);
       if (lineIdx != null) setDialogueIndex(lineIdx);
+      if (debateQ === "free" || debateQ === "hard") {
+        setPendingDebate(debateQ);
+      }
     } else if (m === "labEmbed") {
       setMode("labEmbed");
       setPendingVenueId(v);
@@ -122,8 +174,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }, CUT_COVER_MS);
   }, []);
 
+  const clearDebate = useCallback(() => {
+    setDebateMode("scripted");
+    setDebateSession("off");
+    setPendingDebate(null);
+    frozenBeatRef.current = null;
+  }, []);
+
   const selectDestiny = useCallback(
     (id: string, city = "manchester") => {
+      clearDebate();
       cutTo("chroniclePlate", () => {
         setPendingVenueId(id);
         setCityId(city);
@@ -132,26 +192,30 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setDialogueIndex(0);
       });
     },
-    [cutTo],
+    [cutTo, clearDebate],
   );
 
   const continueToCity = useCallback(() => {
+    clearDebate();
     cutTo("cityPage", () => {
       setVenueId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
     });
-  }, [cutTo]);
+  }, [cutTo, clearDebate]);
 
   const continueToVenue = continueToCity;
 
   const enterVenue = useCallback(
-    (id: string) => {
+    (id: string, opts?: { debate?: "free" | "hard" }) => {
       cutTo("venue", () => {
         setVenueId(id);
         setPendingVenueId(id);
         setDialogueIndex(0);
         setDialogueOpen(true);
+        setDebateMode("scripted");
+        setDebateSession("off");
+        setPendingDebate(opts?.debate ?? null);
       });
     },
     [cutTo],
@@ -159,7 +223,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const openLab = useCallback(() => {
     cutTo("labEmbed", () => {
-      /* keep venueId + dialogue state */
+      /* keep venueId + dialogue + debate state */
     });
   }, [cutTo]);
 
@@ -170,22 +234,25 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, [cutTo]);
 
   const returnToCity = useCallback(() => {
+    clearDebate();
     cutTo("cityPage", () => {
       setVenueId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
     });
-  }, [cutTo]);
+  }, [cutTo, clearDebate]);
 
   const returnToPlate = useCallback(() => {
+    clearDebate();
     cutTo("chroniclePlate", () => {
       setVenueId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
     });
-  }, [cutTo]);
+  }, [cutTo, clearDebate]);
 
   const returnToWorldMap = useCallback(() => {
+    clearDebate();
     cutTo("worldMap", () => {
       setVenueId(null);
       setPendingVenueId(null);
@@ -193,18 +260,74 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setDialogueOpen(false);
       setDialogueIndex(0);
     });
-  }, [cutTo]);
+  }, [cutTo, clearDebate]);
 
   const venue = venueId ? (venueById(manchester, venueId) ?? null) : null;
 
+  const enterDebate = useCallback(
+    (dm: "free" | "hard") => {
+      if (dm === "free" && !progress.unlock.freeUnlocked) {
+        return {
+          ok: false as const,
+          reason: "完成一次散射实验以解锁自由辩论",
+        };
+      }
+      if (dm === "hard" && !progress.unlock.hardUnlocked) {
+        return {
+          ok: false as const,
+          reason: "完成一次散射实验以解锁 Hard",
+        };
+      }
+      frozenBeatRef.current = dialogueIndex;
+      setDebateMode(dm);
+      setDebateSession("active");
+      const next = setDebateModeLast(progress, dm);
+      setProgressState(next);
+      saveProgress(next);
+      return { ok: true as const };
+    },
+    [progress, dialogueIndex],
+  );
+
+  const exitDebate = useCallback(
+    (_action: "resume" | "jump" = "resume", _reason?: string) => {
+      if (frozenBeatRef.current != null) {
+        setDialogueIndex(frozenBeatRef.current);
+      }
+      frozenBeatRef.current = null;
+      setDebateMode("scripted");
+      setDebateSession("off");
+      setDialogueOpen(true);
+    },
+    [],
+  );
+
+  // Apply pending debate entry once venue is ready
+  useEffect(() => {
+    if (mode !== "venue" || !pendingDebate || !venue) return;
+    const dm = pendingDebate;
+    setPendingDebate(null);
+    enterDebate(dm);
+  }, [mode, pendingDebate, venue, enterDebate]);
+
   const advanceDialogue = useCallback(() => {
     if (!venue) return;
+    // Pause scripted beats while DebateSession overlay is active
+    if (debateSession === "active") return;
     if (dialogueIndex >= venue.dialogue.length - 1) {
       setDialogueOpen(false);
       return;
     }
     setDialogueIndex((i) => i + 1);
-  }, [dialogueIndex, venue]);
+  }, [dialogueIndex, venue, debateSession]);
+
+  const recordLabEmbedVisit = useCallback(() => {
+    setProgressState((prev) => {
+      const next = markVisitOnProgress(prev);
+      saveProgress(next);
+      return next;
+    });
+  }, []);
 
   const value = useMemo<GameApi>(
     () => ({
@@ -216,6 +339,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       cityId,
       dialogueIndex,
       dialogueOpen,
+      debateMode,
+      debateSession,
+      progress,
+      pendingLabEmbed,
       selectDestiny,
       continueToCity,
       continueToVenue,
@@ -228,6 +355,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       returnToAtlas: returnToPlate,
       advanceDialogue,
       openDialogue: () => setDialogueOpen(true),
+      enterDebate,
+      exitDebate,
+      setProgress,
+      recordLabEmbedVisit,
+      setPendingLabEmbed,
     }),
     [
       mode,
@@ -237,6 +369,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       cityId,
       dialogueIndex,
       dialogueOpen,
+      debateMode,
+      debateSession,
+      progress,
+      pendingLabEmbed,
       selectDestiny,
       continueToCity,
       continueToVenue,
@@ -247,6 +383,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       returnToPlate,
       returnToWorldMap,
       advanceDialogue,
+      enterDebate,
+      exitDebate,
+      setProgress,
+      recordLabEmbedVisit,
     ],
   );
 
