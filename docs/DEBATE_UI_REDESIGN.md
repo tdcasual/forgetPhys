@@ -132,3 +132,19 @@ PR #4 held (不合). User still blocked on: **字太小** · **案卷不够主�
 `shots/debate-ui/21-p1b2-empty.png`, `22-p1b2-filed2.png` at 1280×800.
 Push onto PR #4 branch (or new PR if cleaner); still no merge until director says.
 
+
+## P1b.3 hand rail only (2026-09-08 director)
+
+PR #4 still held. User sign-off focus narrowed to: **手牌仍扁或挤** (dossier type/hero OK enough for now).
+
+### Must (hand only)
+
+1. **Taller cards:** min-height **≥120px** (prefer 128–140px); rail height **≥160px**.
+2. **Less cramped:** card min-width **≥160px**; gap ≥12px; show **3–4 cards** in view at 1280, rest scroll — do not squeeze 5–6 full cards.
+3. **Less text density:** title 1 line; gist **max 2 lines** at ≥0.85rem; drop third citation line from default view entirely.
+4. **Breathing:** padding inside card ≥12px; avoid stacking tag+title+3 body lines flush.
+
+### Acceptance
+`shots/debate-ui/31-hand-empty.png`, `32-hand-filed2.png` — hand must look like a card fan / tray, not a thin button strip.
+Push on PR #4 branch; no merge until director says.
+

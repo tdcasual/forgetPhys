@@ -30,7 +30,7 @@ export function factShortTitle(fact: FactCard): string {
   return zh.length > 18 ? `${zh.slice(0, 18)}…` : zh;
 }
 
-/** Always-visible 1–2 line gist (~40–56 chars). Citations stay hover-only. */
+/** Always-visible gist (~40–56 chars, max 2 lines). No citation row on cards. */
 function shortGist(fact: FactCard): string {
   let zh = (fact.content_zh || fact.content).replace(/\s+/g, " ").trim();
   // Drop Latin bibliographic lead-ins (authors / journal) — keep Chinese gist.
@@ -147,7 +147,6 @@ export function HandRail({
               <span className="debate-hand-card__tag">事实卡</span>
               <span className="debate-hand-card__title">{factShortTitle(f)}</span>
               <span className="debate-hand-card__body">{shortGist(f)}</span>
-              <span className="debate-hand-card__cite">{f.citation}</span>
             </button>
           );
         })}

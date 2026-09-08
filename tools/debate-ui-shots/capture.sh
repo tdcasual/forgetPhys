@@ -23,7 +23,11 @@ shot 12-hierarchy-filed2.png "$BASE/?harness=debate-ui&state=filed2"
 # P1b.2 polish
 shot 21-p1b2-empty.png "$BASE/?harness=debate-ui&state=empty"
 shot 22-p1b2-filed2.png "$BASE/?harness=debate-ui&state=filed2"
+# P1b.3 hand rail only
+shot 31-hand-empty.png "$BASE/?harness=debate-ui&state=empty"
+shot 32-hand-filed2.png "$BASE/?harness=debate-ui&state=filed2"
 cp -f "$OUT"/01-empty-dossier.png "$OUT"/02-filed-2-stamps.png "$OUT"/03-persuaded.png \
   "$OUT"/11-hierarchy-empty.png "$OUT"/12-hierarchy-filed2.png \
   "$OUT"/21-p1b2-empty.png "$OUT"/22-p1b2-filed2.png \
+  "$OUT"/31-hand-empty.png "$OUT"/32-hand-filed2.png \
   "$REF/"

@@ -1,4 +1,4 @@
-/* era-1909-lab — Coupland dossier shell (P1b + P1b.1 + P1b.2 polish). Do not ship palettes A–D. */
+/* era-1909-lab — Coupland dossier shell (P1b + P1b.1 + P1b.2 + P1b.3 hand). Do not ship palettes A–D. */
 
 .era-1909-lab {
   --era-paper: #e8d9b8;
@@ -502,16 +502,16 @@
   overflow: hidden;
 }
 
-/* ── Hand rail (thicker — readable cards, scroll OK) ─── */
+/* ── Hand rail (P1b.3 tray / fan — tall cards, 3–4 in view) ─── */
 .debate-hand {
   box-sizing: border-box;
   display: flex;
   align-items: stretch;
-  gap: 0.65rem;
-  padding: 0.5rem 0.65rem 0.55rem;
-  min-height: 136px;
-  height: 136px;
-  max-height: 140px;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem 0.6rem;
+  min-height: 168px;
+  height: 168px;
+  max-height: 176px;
   background: linear-gradient(180deg, #3a2618ee, #22150ecc);
   border: 2px solid #140c08;
   border-radius: 4px;
@@ -528,7 +528,7 @@
   align-self: center;
   writing-mode: horizontal-tb;
   max-width: 3.6rem;
-  padding: 0.3rem 0.35rem;
+  padding: 0.35rem 0.4rem;
   background: #2a1c14;
   border: 1px solid #6b4a32;
   border-radius: 2px;
@@ -541,7 +541,7 @@
 
 .debate-hand__cards {
   display: flex;
-  gap: 0.5rem;
+  gap: 12px;
   align-items: stretch;
   flex: 1;
   min-width: 0;
@@ -550,11 +550,12 @@
 .debate-hand-card {
   appearance: none;
   box-sizing: border-box;
-  flex: 0 0 14.5rem;
-  width: 14.5rem;
-  min-height: 96px;
+  flex: 0 0 16.5rem;
+  width: 16.5rem;
+  min-width: 160px;
+  min-height: 132px;
   align-self: stretch;
-  padding: 0.45rem 0.55rem 0.5rem;
+  padding: 12px;
   text-align: left;
   cursor: grab;
   border: 1.5px solid var(--era-ink-soft);
@@ -566,7 +567,7 @@
   box-shadow: 2px 4px 0 #0006, 0 2px 6px #0004;
   display: flex;
   flex-direction: column;
-  gap: 0.18rem;
+  gap: 0.35rem;
   transition: transform 0.12s, box-shadow 0.12s, outline 0.12s;
   overflow: hidden;
 }
@@ -576,15 +577,15 @@
 }
 
 .debate-hand-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 2px 8px 0 #0005, 0 4px 10px #0004;
+  transform: translateY(-5px);
+  box-shadow: 2px 9px 0 #0005, 0 4px 10px #0004;
 }
 
 .debate-hand-card--picked {
   outline: 2px solid var(--era-zns);
   outline-offset: 1px;
-  transform: translateY(-5px);
-  box-shadow: 0 0 12px #7cb87a66, 2px 8px 0 #0005;
+  transform: translateY(-6px);
+  box-shadow: 0 0 12px #7cb87a66, 2px 9px 0 #0005;
 }
 
 .debate-hand-card--lab {
@@ -604,41 +605,23 @@
   font-weight: 700;
   line-height: 1.22;
   flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Always-visible 1–2 line gist */
+/* Always-visible gist — max 2 lines, ≥0.85rem; no citation row */
 .debate-hand-card__body {
-  font-size: 0.72rem;
-  line-height: 1.3;
-  opacity: 0.88;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  opacity: 0.9;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-height: 0;
-  max-height: 2.6em;
-}
-
-/* Citations hover / focus / picked only */
-.debate-hand-card__cite {
-  font-size: 0.58rem;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  color: var(--era-gaslight);
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  transition: opacity 0.12s, max-height 0.12s;
-}
-
-.debate-hand-card:hover .debate-hand-card__cite,
-.debate-hand-card--picked .debate-hand-card__cite,
-.debate-hand-card:focus-visible .debate-hand-card__cite {
-  opacity: 0.9;
-  max-height: 1.3em;
+  max-height: 2.7em;
 }
 
 .debate-hand--hidden {
