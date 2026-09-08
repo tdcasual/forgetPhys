@@ -66,11 +66,11 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "一九一一年我写成「集中的中心电荷」——原子中间一块很小的正电。大角主要靠这一下说得通。",
+          "text": "先当工作假说：集中的中心电荷——原子中间一块很小的正电。大角主要靠这一下说得通。",
           "claim": {
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
-            "notes": "cite fact-ruth1911-central-charge。对话用中心电荷，不用 nucleus 旗号。"
+            "notes": "cite fact-ruth1911-central-charge。1909 暗室当下口吻（工作假说）；不剧透「一九一一年论文已写定」。对话用中心电荷，不用 nucleus 旗号。"
           }
         },
         {
