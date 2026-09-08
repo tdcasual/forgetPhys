@@ -38,7 +38,7 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "stand",
-          "text": "一九〇九年，Coupland Street 暗室。盖革和马斯登对着硫化锌屏数闪光——绝大多数 α 几乎沿前进方向穿过。",
+          "text": "一九〇九年，曼彻斯特 Coupland Street 的物理实验室。暗室里，盖革和马斯登对着硫化锌屏一闪一闪地数。从放射源出来的 α 粒子，绝大多数几乎沿前进方向穿过薄箔——场面平静得过分，可别被它骗了。",
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
@@ -52,7 +52,7 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "sit-chair",
-          "text": "可是有少数偏得很厉害，有的简直折回来——正是他们报告的漫反射。闪光是他们数的；我这边给出说明。",
+          "text": "可是你会看见少数偏得很厉害，有的简直折回源一侧。他们把这类大角路径叫做漫反射。屏上的闪光是盖革和马斯登一颗一颗数出来的；我这边要根据这些观测给出说明。早期有人轻视 α，正因它穿不远——实验越做，越不能再当它无关紧要。",
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
@@ -66,7 +66,7 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "先当工作假说：集中的中心电荷——原子中间一块很小的正电。大角偏转主要由此而来。",
+          "text": "先把它当作工作假说：正电几乎集中在原子中间很小一块——我说「集中的中心电荷」。绝大多数几乎不偏，少数却偏得离谱，这更像撞上很强的局域场，而不像在弥散正电球里一点点叠出来。证据还在加长；在更干脆的证明到来以前，我不急着把话说死。",
           "claim": {
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
@@ -80,7 +80,7 @@
           "charId": "char-watson",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "后人爱讲「十五英寸炮弹打在薄纸上」——那是事后回忆，不是一九〇九年暗室里的原话。要不要去实验台试一次？",
+          "text": "后人爱讲那个比喻：十五英寸炮弹打在薄纸上，纸却把它弹回来。听着痛快，可那是事后回忆里的修辞，不是一九〇九年暗室本子上的原话。咱们别靠传说吃饭——要不要去实验台，自己对着箔和屏试一次？",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Late recollection (often 1930s); era-op-shell-metaphor-late",
@@ -93,7 +93,7 @@
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "教材把这叫做原子的核式结构：质量和正电荷几乎都挤在很小的中心，电子在外围。枣糕模型解释不了那些大角偏转。",
+          "text": "后来教材把这叫做原子的核式结构：几乎全部的质量和正电荷挤在很小的中心，电子在外围。当时实验室里更常说的是「中心电荷」。无论如何，把正电均匀涂满整个原子体积的枣糕图景，解释不了这些稀有却确凿的大角偏转。",
           "claim": {
             "source_tier": "textbook",
             "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）",
@@ -139,7 +139,7 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "sit-stool",
-          "text": "夜里复查白天记下的数：枣糕模型解释不了大角。中心电荷这张图，才能说明屏上那几道闪光。",
+          "text": "夜里把白天记下的闪光数再读一遍。绝大多数几乎直行，少数大角——枣糕模型里那团弥散正电，怎么也堆不出这么狠的偏转。倒是中心电荷那张图，能把屏上那几道刺眼的闪光说明白。白天嫌闷的数，晚上才开始咬人。",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — teaching synthesis; fact-ruth1911-plum-pudding-fails-large-angle",
@@ -154,7 +154,7 @@
           "charId": "char-rutherford",
           "emotion": "idle",
           "pose": "sit-chair",
-          "text": "大角很少，可绝不是零。若正电集中在中心，那些稀有的大角闪光才有来由。",
+          "text": "大角很少，这点谁都承认；可绝不是零。盖革和马斯登把那些稀有闪光记进本子里，不是为了听故事。若正电真的集中在中心，那些稀有大角路径才站得住；若仍死守弥散球加多次弱偏转，折回的路径就成了麻烦。我要的是能经住装置与箔厚的说明，不是一句漂亮口号。",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — aligned to fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge",
@@ -167,7 +167,7 @@
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "租屋里先把现象理清。明天回实验室，箔厚和角分布还要接着验。",
+          "text": "租屋里先把白天看见的现象和可能的图景分开摆好：观测归观测，假说归假说。明天回实验室，箔厚一变，角分布还变不变——用装置继续追问，比在灯下空争更有用。",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review bridge — replaces former char-geiger stub",
