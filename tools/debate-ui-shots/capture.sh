@@ -20,6 +20,10 @@ shot 03-persuaded.png "$BASE/?harness=debate-ui&state=persuaded"
 # P1b.1 hierarchy
 shot 11-hierarchy-empty.png "$BASE/?harness=debate-ui&state=empty"
 shot 12-hierarchy-filed2.png "$BASE/?harness=debate-ui&state=filed2"
+# P1b.2 polish
+shot 21-p1b2-empty.png "$BASE/?harness=debate-ui&state=empty"
+shot 22-p1b2-filed2.png "$BASE/?harness=debate-ui&state=filed2"
 cp -f "$OUT"/01-empty-dossier.png "$OUT"/02-filed-2-stamps.png "$OUT"/03-persuaded.png \
   "$OUT"/11-hierarchy-empty.png "$OUT"/12-hierarchy-filed2.png \
+  "$OUT"/21-p1b2-empty.png "$OUT"/22-p1b2-filed2.png \
   "$REF/"

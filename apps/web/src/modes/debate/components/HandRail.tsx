@@ -30,9 +30,21 @@ export function factShortTitle(fact: FactCard): string {
   return zh.length > 18 ? `${zh.slice(0, 18)}…` : zh;
 }
 
-function shortBody(fact: FactCard): string {
-  const zh = fact.content_zh || fact.content;
-  return zh.length > 36 ? `${zh.slice(0, 36)}…` : zh;
+/** Always-visible 1–2 line gist (~40–56 chars). Citations stay hover-only. */
+function shortGist(fact: FactCard): string {
+  let zh = (fact.content_zh || fact.content).replace(/\s+/g, " ").trim();
+  // Drop Latin bibliographic lead-ins (authors / journal) — keep Chinese gist.
+  const cn = zh.search(/[\u4e00-\u9fff]/);
+  if (cn > 0 && /^[A-Za-z]/.test(zh) && /[,&]/.test(zh.slice(0, cn))) {
+    const quote = zh.lastIndexOf("《", cn);
+    zh = zh.slice(quote >= 0 ? quote : cn);
+  }
+  zh = zh
+    .replace(/[》，,]\s*(Proc\.|Nature|Phil\.|p\.\s*\d).*$/i, "")
+    .replace(/^[《「]|[》」]$/g, "")
+    .trim();
+  if (zh.length <= 48) return zh;
+  return `${zh.slice(0, 48)}…`;
 }
 
 export function HandRail({
@@ -134,7 +146,8 @@ export function HandRail({
             >
               <span className="debate-hand-card__tag">事实卡</span>
               <span className="debate-hand-card__title">{factShortTitle(f)}</span>
-              <span className="debate-hand-card__body">{shortBody(f)}</span>
+              <span className="debate-hand-card__body">{shortGist(f)}</span>
+              <span className="debate-hand-card__cite">{f.citation}</span>
             </button>
           );
         })}
