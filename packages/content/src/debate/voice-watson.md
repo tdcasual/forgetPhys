@@ -11,7 +11,7 @@ charId: `char-watson` · persona: `persona-watson.json`
 
 ## favorite_moves
 - 先摆看见了什么（屏、箔、绝大多数 vs 少数）
-- 用问句收束：「要不要亲自扫一轮？」
+- 用问句收束：「要不要去实验台试一次？」
 - 轻轻拆事后传说 vs 现场记录
 - 点名盖革&马斯登的**工作**，自己不抢理论权威
 

@@ -38,7 +38,7 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "stand",
-          "text": "一九〇九年，Coupland Street 暗室。盖革和马斯登对着硫化锌屏数闪光——绝大多数 α 几乎贴着前进方向穿过去。",
+          "text": "一九〇九年，Coupland Street 暗室。盖革和马斯登对着硫化锌屏数闪光——绝大多数 α 几乎沿前进方向穿过。",
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
@@ -52,11 +52,11 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "sit-chair",
-          "text": "可是有少数偏得很厉害，有的简直折回来。他们管这叫漫反射。闪光是他们数的；我这边要把账说圆。",
+          "text": "可是有少数偏得很厉害，有的简直折回来——正是他们报告的漫反射。闪光是他们数的；我这边给出说明。",
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
-            "notes": "cite fact-gm1909-diffuse-reflection。VoiceCard: 归功助手 + 实验室主任腔。"
+            "notes": "cite fact-gm1909-diffuse-reflection。归功计数；禁会计/网文隐喻。"
           }
         },
         {
@@ -66,7 +66,7 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "先当工作假说：集中的中心电荷——原子中间一块很小的正电。大角主要靠这一下说得通。",
+          "text": "先当工作假说：集中的中心电荷——原子中间一块很小的正电。大角偏转主要由此而来。",
           "claim": {
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
@@ -80,7 +80,7 @@
           "charId": "char-watson",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "后人爱讲「十五英寸炮弹打在薄纸上」——那是事后回忆，不是一九〇九年暗室里的原话。要不要自己上实验台扫一轮？",
+          "text": "后人爱讲「十五英寸炮弹打在薄纸上」——那是事后回忆，不是一九〇九年暗室里的原话。要不要去实验台试一次？",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Late recollection (often 1930s); era-op-shell-metaphor-late",
@@ -139,7 +139,7 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "sit-stool",
-          "text": "夜里把白天的数摊开：枣糕模型对大角说不通。中心电荷那张图，才对得上屏上那几道闪光。",
+          "text": "夜里复查白天记下的数：枣糕模型解释不了大角。中心电荷这张图，才能说明屏上那几道闪光。",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — teaching synthesis; fact-ruth1911-plum-pudding-fails-large-angle",
@@ -154,7 +154,7 @@
           "charId": "char-rutherford",
           "emotion": "idle",
           "pose": "sit-chair",
-          "text": "大角很少，可绝不是零。把中心电荷摆进去，那几道闪光才有地方放。",
+          "text": "大角很少，可绝不是零。若正电集中在中心，那些稀有的大角闪光才有来由。",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — aligned to fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge",
@@ -167,11 +167,11 @@
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "租屋里先把账对清。明天回实验室，箔厚和角分布还要接着验。",
+          "text": "租屋里先把现象理清。明天回实验室，箔厚和角分布还要接着验。",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review bridge — replaces former char-geiger stub",
-            "notes": "盖革立绘已砍；本句改为旁白转场，实验史实仍可在他处提盖革&马斯登工作。"
+            "notes": "盖革立绘已砍；旁白转场。禁会计隐喻。"
           },
           "interpretation": true
         }
