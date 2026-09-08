@@ -79,3 +79,72 @@ Director rule: **shell constant, skin per chapter/venue**. Content SoT unchanged
 - Interaction: drag-into-slot default; click-pick → click-slot + ProposeFillSheet fallback
 - Player chrome: 入档 / 质疑 / 回合 (no `filledCount` / `criticPass` strings)
 - Screenshots: `shots/debate-ui/` (+ harness `/?harness=debate-ui&state=empty|filed2|persuaded`)
+
+## P1b.1 visual polish (2026-09-07 director)
+
+User: 字体偏小、主体不够突出。Harness shots confirm flat equal-weight panels.
+
+### Hierarchy (must)
+
+1. **Hero = 案卷** (~55–65% visual weight): thicker leather frame, deeper drop shadow, larger title (`h2` ≥1.4rem), slot labels ≥0.95–1.05rem, empty slots with stronger dashed ink (not hairline).
+2. **Secondary = 挑战卡**: narrower or shorter; kicker small; title ≤1rem; body max 3 lines + “展开”; seal OK but don’t compete with dossier.
+3. **Tertiary = 手牌**: card **title** ≥0.9rem; **hide citation/body by default** (show 1-line on hover/picked only). Hand rail darker so cream cards pop.
+4. **Top bar**: one line, ≤0.85rem; no competing “第二案卷”.
+
+### Anti-patterns to kill
+
+- Six panels same cream = no subject
+- Slot claim text wrapping 3+ lines at 0.78rem
+- Hand cards wall-of-text citations
+- Engineer progress strings dominating header
+
+### Acceptance
+
+New shots under `shots/debate-ui/`: `11-hierarchy-empty.png`, `12-hierarchy-filed2.png` — dossier clearly dominant; titles readable at 1280×800 without squint.
+
+
+## P1b.2 visual polish (2026-09-08 director)
+
+PR #4 held (不合). User still blocked on: **字太小** · **案卷不够主角** · **手牌太扁/信息不够**.
+
+### Must
+
+1. **Type scale up again (1280×800 readable without squint)**
+   - Dossier title ≥ **1.75rem**
+   - Slot claim labels ≥ **1.15rem** (line-clamp 2; prefer short_label if present)
+   - Hand card title ≥ **1.05rem**
+   - Hand card body: show **1–2 short lines** always (not hidden-only-on-hover); citations stay optional/hover
+   - Top bar / challenge kicker stay small (≤0.75rem) so hero type wins
+
+2. **Dossier = unmistakable hero**
+   - Occupy ~**70%** of overlay width (challenge ≤22% or collapse to chip until expand)
+   - Stronger leather frame (border ≥4px), deeper multi-layer shadow, slight scale/z above challenge
+   - Dim challenge + desk chrome (~0.75 opacity) when not hovered; dossier stays full opacity
+   - Optional: soft vignette outside dossier so eye locks center
+
+3. **Hand rail = thicker, more info**
+   - Card min-height ≥ **96px** (not flat stamps)
+   - Layout: tag + **title** + **1–2 line gist** (from content_zh truncated ~40–56 chars)
+   - Fewer cards visible OK (horizontal scroll) — prefer readable cards over cramming 6 tiny ones
+   - Rail height ~**120–140px**; cream cards on darker desk so they pop
+
+### Acceptance shots
+`shots/debate-ui/21-p1b2-empty.png`, `22-p1b2-filed2.png` at 1280×800.
+Push onto PR #4 branch (or new PR if cleaner); still no merge until director says.
+
+
+## P1b.3 hand rail only (2026-09-08 director)
+
+PR #4 still held. User sign-off focus narrowed to: **手牌仍扁或挤** (dossier type/hero OK enough for now).
+
+### Must (hand only)
+
+1. **Taller cards:** min-height **≥120px** (prefer 128–140px); rail height **≥160px**.
+2. **Less cramped:** card min-width **≥160px**; gap ≥12px; show **3–4 cards** in view at 1280, rest scroll — do not squeeze 5–6 full cards.
+3. **Less text density:** title 1 line; gist **max 2 lines** at ≥0.85rem; drop third citation line from default view entirely.
+4. **Breathing:** padding inside card ≥12px; avoid stacking tag+title+3 body lines flush.
+
+### Acceptance
+`shots/debate-ui/31-hand-empty.png`, `32-hand-filed2.png` — hand must look like a card fan / tray, not a thin button strip.
+Push on PR #4 branch; no merge until director says.
+

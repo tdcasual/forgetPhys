@@ -1,4 +1,5 @@
 import type { CriticChallengeTemplate } from "@physics-chronicle/content";
+import { useState } from "react";
 
 export function ChallengeCard({
   template,
@@ -7,6 +8,8 @@ export function ChallengeCard({
   template: CriticChallengeTemplate | null;
   visible: boolean;
 }) {
+  const [expanded, setExpanded] = useState(false);
+
   if (!visible) return null;
 
   const title = template
@@ -17,13 +20,31 @@ export function ChallengeCard({
 
   return (
     <aside
-      className={`debate-challenge${template ? "" : " debate-challenge--empty"}`}
+      className={[
+        "debate-challenge",
+        template ? "" : "debate-challenge--empty",
+        expanded ? "debate-challenge--expanded" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       aria-label="时代主流理解挑战"
     >
       <span className="debate-challenge__blot" aria-hidden />
       <p className="debate-challenge__kicker">质疑 · 时代意见</p>
       <h2 className="debate-challenge__title">{title}</h2>
-      <p className="debate-challenge__body">「{body}」</p>
+      <p
+        className={`debate-challenge__body${expanded ? " debate-challenge__body--expanded" : ""}`}
+      >
+        「{body}」
+      </p>
+      <button
+        type="button"
+        className="debate-challenge__expand"
+        aria-expanded={expanded}
+        onClick={() => setExpanded((v) => !v)}
+      >
+        {expanded ? "收起" : "展开"}
+      </button>
       <p className="debate-challenge__task">
         你的任务：拖入事实卡或实验读数入档，反驳成见，说服<strong>时代主流理解</strong>
         （非卢瑟福本人）。

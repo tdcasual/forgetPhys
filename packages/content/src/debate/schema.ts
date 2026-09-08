@@ -132,6 +132,8 @@ export type HardWin = z.infer<typeof hardWinSchema>;
 export const slotDefSchema = z.object({
   id: z.string().min(1),
   label_zh: z.string().min(1),
+  /** Optional short claim for slot UI (≤2 lines at ≥1.15rem). */
+  short_label: z.string().min(1).optional(),
   what_counts: z.string().min(1),
   linked_fact_ids: z.array(z.string()).min(1),
   accepts_lab_embed: z.boolean(),

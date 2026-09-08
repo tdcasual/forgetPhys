@@ -120,15 +120,15 @@ export function DossierBoard({
                   <span className="debate-dossier-slot__crosshair" aria-hidden />
                 ) : null}
                 <span className="debate-dossier-slot__index">{i + 1}</span>
-                <span className="debate-dossier-slot__label">{slot.label_zh}</span>
+                <span className="debate-dossier-slot__label">{slot.short_label ?? slot.label_zh}</span>
                 <span className="debate-dossier-slot__fill">
                   {isFilled
                     ? caption
                     : isGhost
                       ? "可能落入"
                       : ghostOnly
-                        ? "空（预览）"
-                        : "空槽 · 拖入或点选"}
+                        ? "空"
+                        : "空"}
                 </span>
                 {isFilled ? (
                   <span className="debate-dossier-slot__stamp" aria-label="入档">
