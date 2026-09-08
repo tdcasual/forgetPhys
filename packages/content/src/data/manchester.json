@@ -38,11 +38,11 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "stand",
-          "text": "1909 年，曼彻斯特 Coupland Street。盖革和马斯登在暗室里数硫化锌屏上的闪光。从放射源出来的 α 粒子，绝大多数几乎沿直线穿过金箔。",
+          "text": "一九〇九年，Coupland Street 暗室。盖革和马斯登对着硫化锌屏数闪光——绝大多数 α 几乎贴着前进方向穿过去。",
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
-            "notes": "大角“漫反射”的实验报告。盖革主导实验，马斯登以本科生参与。"
+            "notes": "cite fact-gm1909-paper / fact-gm1909-zns-method / fact-gm1909-forward-majority。提盖革&马斯登工作，不出场。"
           }
         },
         {
@@ -52,10 +52,11 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "sit-chair",
-          "text": "少数会偏过很大的角度，有的甚至折回来。他们把这叫做 α 粒子的“漫反射”。我提供理论框架——并不坐在屏前一闪一闪地数。",
+          "text": "可是有少数偏得很厉害，有的简直折回来。他们管这叫漫反射。闪光是他们数的；我这边要把账说圆。",
           "claim": {
             "source_tier": "primary",
-            "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500"
+            "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
+            "notes": "cite fact-gm1909-diffuse-reflection。VoiceCard: 归功助手 + 实验室主任腔。"
           }
         },
         {
@@ -65,11 +66,11 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "1911 年那篇论文，我用“集中的中心电荷”——原子中心一个微小的带正电体——来说明这件事。正文里没有用后来的词 nucleus。",
+          "text": "一九一一年我写成「集中的中心电荷」——原子中间一块很小的正电。大角主要靠这一下说得通。",
           "claim": {
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
-            "notes": "中心电荷模型。游戏结算可以用教材用语“核式结构”，时代对话保持“中心电荷 / 微小正电体”。"
+            "notes": "cite fact-ruth1911-central-charge。对话用中心电荷，不用 nucleus 旗号。"
           }
         },
         {
@@ -79,22 +80,24 @@
           "charId": "char-watson",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "后来的回忆里有个比喻：像十五英寸炮弹打在薄纸上，纸把它弹了回来。那是事后讲的故事，不是 1909 年暗室里的现场记录。去实验台亲自扫一扫？",
+          "text": "后人爱讲「十五英寸炮弹打在薄纸上」——那是事后回忆，不是一九〇九年暗室里的原话。要不要自己上实验台扫一轮？",
           "claim": {
             "source_tier": "interpretation",
-            "citation": "Late recollection (often 1930s); not a 1909 laboratory quotation",
-            "notes": "D 级戏剧许可。勿当 1909 现场台词史实。"
-          }
+            "citation": "Late recollection (often 1930s); era-op-shell-metaphor-late",
+            "notes": "D 级戏剧许可。勿当 1909 现场史实。"
+          },
+          "interpretation": true
         },
         {
           "id": "mcr-5",
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "教材把这叫做原子的核式结构：几乎全部的质量和正电荷集中在很小的中心，电子在外围。枣糕模型解释不了那些不可能的大角偏转。",
+          "text": "教材把这叫做原子的核式结构：质量和正电荷几乎都挤在很小的中心，电子在外围。枣糕模型解释不了那些大角偏转。",
           "claim": {
             "source_tier": "textbook",
-            "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）"
+            "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）",
+            "notes": "教材词仅旁白；与 era-op-nucleus-word-anachronism 对齐。"
           }
         }
       ],
@@ -136,12 +139,13 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "sit-stool",
-          "text": "夜里煤气灯下复盘：枣糕模型对大角偏转说不通。中心电荷的图景，才把暗室里的闪光对上账。",
+          "text": "夜里把白天的数摊开：枣糕模型对大角说不通。中心电荷那张图，才对得上屏上那几道闪光。",
           "claim": {
             "source_tier": "interpretation",
-            "citation": "Lodge night review stub — expand in later pass",
-            "notes": "占位。回城市页后可再进实验室。"
-          }
+            "citation": "Lodge night review — teaching synthesis; fact-ruth1911-plum-pudding-fails-large-angle",
+            "notes": "租屋复盘压缩史实；演绎。"
+          },
+          "interpretation": true
         },
         {
           "id": "lodge-2",
@@ -150,25 +154,26 @@
           "charId": "char-rutherford",
           "emotion": "idle",
           "pose": "sit-chair",
-          "text": "把暗室里的计数摊开看——大角很少，但绝不是零。中心电荷把那几道闪光对上账。（租屋复盘）",
+          "text": "大角很少，可绝不是零。把中心电荷摆进去，那几道闪光才有地方放。",
           "claim": {
             "source_tier": "interpretation",
-            "citation": "Lodge night review stub — Rutherford sit-chair",
-            "notes": "租屋复盘立绘接线；台词后扩。"
-          }
+            "citation": "Lodge night review — aligned to fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge",
+            "notes": "删盖革说话人后由卢瑟福收束实验印象。"
+          },
+          "interpretation": true
         },
         {
           "id": "lodge-3",
-          "speaker": "盖革",
-          "speakerRole": "scientist",
-          "charId": "char-geiger",
+          "speaker": "旁白",
+          "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "闪光就在那儿——大角很少，但绝不是零。把计数记进本子里就行。（盖革 · 租屋复盘）",
+          "text": "租屋里先把账对清。明天回实验室，箔厚和角分布还要接着验。",
           "claim": {
-            "source_tier": "secondary",
-            "citation": "Geiger portrait stub for lodge night review",
-            "notes": "租屋复盘立绘接线；idle 已按群照重绘。"
-          }
+            "source_tier": "interpretation",
+            "citation": "Lodge night review bridge — replaces former char-geiger stub",
+            "notes": "盖革立绘已砍；本句改为旁白转场，实验史实仍可在他处提盖革&马斯登工作。"
+          },
+          "interpretation": true
         }
       ],
       "companion": {
