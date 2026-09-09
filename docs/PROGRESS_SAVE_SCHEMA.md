@@ -18,6 +18,9 @@ Related: [`DEBATE_ARCHITECTURE.md`](./DEBATE_ARCHITECTURE.md) §14 · [`DEBATE_S
     "freeUnlocked": false,
     "hardUnlocked": false
   },
+  "settings": {
+    "locale": "en"
+  },
   "debateModeLast": "scripted",
   "debateSession": {
     "scratch": null,
@@ -50,6 +53,15 @@ Related: [`DEBATE_ARCHITECTURE.md`](./DEBATE_ARCHITECTURE.md) §14 · [`DEBATE_S
 Unlocks are **durable progress** (survive venue exit). Clearing them only on chapter reset (§5).
 
 ---
+
+---
+
+## 2b. Settings (locale)
+
+| Field | Values | Notes |
+|---|---|---|
+| `settings.locale` | `en` \| `zh-Hans` | Single switch for UI + dialogue (ADR-0006). **Default `en`.** Legacy bare dialogue `text` strings resolve as **en**. |
+
 
 ## 3. `debateSession`: scratch vs durable
 

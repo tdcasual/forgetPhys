@@ -40,9 +40,24 @@ export const dialoguePoseSchema = z.enum([
 
 export type DialoguePose = z.infer<typeof dialoguePoseSchema>;
 
+/** Bilingual map or legacy string (legacy string = en). */
+export const localizedTextSchema = z.union([
+  z.string().min(1),
+  z.object({
+    en: z.string().min(1),
+    "zh-Hans": z.string().min(1).optional(),
+  }),
+]);
+
+export type LocalizedTextSchema = z.infer<typeof localizedTextSchema>;
+
 export const dialogueLineSchema = z.object({
   id: z.string(),
-  speaker: z.string(),
+  /**
+   * Legacy display label (often Chinese in content). Prefer charId/role
+   * locale table at runtime; optional bilingual map supported as fallback.
+   */
+  speaker: localizedTextSchema,
   speakerRole: z.enum(["scientist", "companion", "narrator"]).optional(),
   /** Portrait folder under assets/chars/, e.g. char-rutherford / char-watson */
   charId: z.string().optional(),
@@ -50,7 +65,8 @@ export const dialogueLineSchema = z.object({
   emotion: dialogueEmotionSchema.optional(),
   /** Body pose; falls back to emotion-only / idle assets when missing */
   pose: dialoguePoseSchema.optional(),
-  text: z.string().min(1),
+  /** Plain string = en (Coupland EN SoT); or { en, zh-Hans? }. */
+  text: localizedTextSchema,
   /**
    * Explicit「演绎」badge (U4). Show InterpretationBadge only when true.
    * Textbook / primary claims stay unset or false.

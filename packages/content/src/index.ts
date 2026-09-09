@@ -10,6 +10,7 @@ export {
   dialogueEmotionSchema,
   dialoguePoseSchema,
   dialogueLineSchema,
+  localizedTextSchema,
   labEmbedSchema,
   propLayoutSchema,
   propSlotDefSchema,
@@ -77,6 +78,20 @@ export {
   loadCriticChallengeTemplatesAlpha1909,
   loadCouplandDebatePack,
 } from "./debate/load";
+
+
+export {
+  DEFAULT_LOCALE,
+  LOCALES,
+  DIALOGUE_UI,
+  isLocale,
+  lineText,
+  resolveLocalized,
+  speakerDisplayName,
+  type Locale,
+  type LocalizedText,
+  type SpeakerLookup,
+} from "./locale";
 
 export const manchester: CityChapter = cityChapterSchema.parse(manchesterRaw);
 
