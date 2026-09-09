@@ -1696,3 +1696,47 @@ body,
   display: flex;
   justify-content: flex-end;
 }
+
+
+/* --- i18n locale chip (v1 temporary) --- */
+.city-locale-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+.city-locale-chip__label {
+  font-size: 0.75rem;
+  opacity: 0.75;
+  margin-right: 0.25rem;
+}
+.city-locale-chip__btn {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.8rem;
+  min-width: 2.5rem;
+}
+.city-locale-chip__btn--on {
+  outline: 2px solid rgba(120, 80, 40, 0.55);
+  background: rgba(255, 240, 210, 0.9);
+}
+.venue2d-locale {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+.venue2d-locale__label {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  width: 100%;
+  margin-bottom: 0.15rem;
+}
+.venue2d-locale__btn {
+  flex: 1;
+  min-width: 2.5rem;
+}
+.venue2d-locale__btn--on {
+  font-weight: 700;
+  background: rgba(255, 240, 210, 0.85);
+}

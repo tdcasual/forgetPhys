@@ -1,8 +1,10 @@
 import type {
   DialogueLine,
+  Locale,
   PropLayout,
   VenueProp,
 } from "@physics-chronicle/content";
+import { DEFAULT_LOCALE, speakerDisplayName } from "@physics-chronicle/content";
 import { DialoguePanel } from "@physics-chronicle/ui";
 import {
   useCallback,
@@ -45,16 +47,6 @@ const CHAR = {
 
 /** Default Watson era when venue.companion.outfit / watsonOutfit omitted. */
 const DEFAULT_WATSON_OUTFIT = "edwardian-1909";
-
-const DISPLAY_NAME: Record<string, string> = {
-  [CHAR.rutherford]: "卢瑟福",
-  [CHAR.watson]: "华生",
-  [CHAR.weiguang]: "华生",
-  [CHAR.companion]: "华生",
-  [CHAR.geiger]: "盖革",
-  [CHAR.thomson]: "汤姆孙",
-  [CHAR.bohr]: "玻尔",
-};
 
 /**
  * Nameplates (G7 / UI_GATE U3): primary = Ren'Py dialogue namebox.
@@ -315,8 +307,16 @@ function defaultEmotion(
   return "idle";
 }
 
-function displayName(charId: string, speakerFallback?: string): string {
-  return DISPLAY_NAME[charId] ?? speakerFallback ?? charId;
+function displayName(
+  charId: string,
+  locale: Locale,
+  speakerFallback?: DialogueLine["speaker"],
+  speakerRole?: DialogueLine["speakerRole"],
+): string {
+  return speakerDisplayName(
+    { charId, speaker: speakerFallback, speakerRole },
+    locale,
+  );
 }
 
 function portraitRole(
@@ -336,6 +336,7 @@ function resolvePortrait(
     lit: LitSuffix;
     venueKind: string;
     outfit: string;
+    locale: Locale;
     framing?: Framing;
   },
 ): PortraitInfo | null {
@@ -360,8 +361,8 @@ function resolvePortrait(
     charId,
     src: candidates[0],
     candidates,
-    alt: displayName(charId, line.speaker),
-    name: displayName(charId, line.speaker),
+    alt: displayName(charId, opts.locale, line.speaker, line.speakerRole),
+    name: displayName(charId, opts.locale, line.speaker, line.speakerRole),
     role: portraitRole(charId, line.speakerRole),
     framing,
   };
@@ -377,6 +378,7 @@ function secondaryPortrait(
   venueKind: string,
   lit: LitSuffix,
   outfit: string,
+  locale: Locale = DEFAULT_LOCALE,
 ): PortraitInfo | null {
   if (!line) return null;
   const primaryId = line.charId ?? defaultCharForRole(line.speakerRole);
@@ -405,23 +407,25 @@ function secondaryPortrait(
     };
   };
 
+  const ruthName = displayName(CHAR.rutherford, locale);
+  const watsonName = displayName(CHAR.watson, locale);
   if (venueKind === "lodge") {
     if (isCompanionChar(primaryId)) {
-      return make(CHAR.rutherford, "卢瑟福", "scientist", "think");
+      return make(CHAR.rutherford, ruthName, "scientist", "think");
     }
     // CHAR.geiger kept for legacy ids only (cut from release dialogue).
     if (primaryId === CHAR.geiger || primaryId === CHAR.rutherford) {
-      return make(CHAR.watson, "华生", "companion", "idle");
+      return make(CHAR.watson, watsonName, "companion", "idle");
     }
   }
   if (line.speakerRole === "scientist" && !isCompanionChar(primaryId)) {
-    return make(CHAR.watson, "华生", "companion", "idle");
+    return make(CHAR.watson, watsonName, "companion", "idle");
   }
   if (line.speakerRole === "companion") {
-    return make(CHAR.rutherford, "卢瑟福", "scientist", "idle");
+    return make(CHAR.rutherford, ruthName, "scientist", "idle");
   }
   if (line.speakerRole === "narrator") {
-    return make(CHAR.rutherford, "卢瑟福", "scientist", "idle");
+    return make(CHAR.rutherford, ruthName, "scientist", "idle");
   }
   return null;
 }
@@ -889,7 +893,9 @@ export function Venue2D() {
     enterDebate,
     progress,
     debateSession,
+    setLocale,
   } = useGame();
+  const locale: Locale = progress.settings?.locale ?? DEFAULT_LOCALE;
   const [debateLockHint, setDebateLockHint] = useState<string | null>(null);
 
   const debugContact = useContactDebug();
@@ -948,25 +954,26 @@ export function Venue2D() {
         lit,
         venueKind: venue.kind,
         outfit: watsonOutfit,
+        locale,
       })
     : {
         charId: CHAR.rutherford,
         src: bustCandidates(CHAR.rutherford, "idle", lit, watsonOutfit)[0],
         candidates: bustCandidates(CHAR.rutherford, "idle", lit, watsonOutfit),
-        alt: "卢瑟福",
-        name: "卢瑟福",
+        alt: displayName(CHAR.rutherford, locale),
+        name: displayName(CHAR.rutherford, locale),
         role: "scientist" as const,
         framing: "bust" as const,
       };
 
   const secondary = dialogueOpen
-    ? secondaryPortrait(line, venue.kind, lit, watsonOutfit)
+    ? secondaryPortrait(line, venue.kind, lit, watsonOutfit, locale)
     : {
         charId: CHAR.watson,
         src: bustCandidates(CHAR.watson, "idle", lit, watsonOutfit)[0],
         candidates: bustCandidates(CHAR.watson, "idle", lit, watsonOutfit),
-        alt: "华生",
-        name: "华生",
+        alt: displayName(CHAR.watson, locale),
+        name: displayName(CHAR.watson, locale),
         role: "companion" as const,
         framing: "bust" as const,
       };
@@ -1105,6 +1112,30 @@ export function Venue2D() {
                 {debateLockHint}
               </p>
             ) : null}
+            <hr className="venue2d-nav-sep" />
+            <div className="venue2d-locale" role="group" aria-label="Locale">
+              <span className="venue2d-locale__label">
+                {locale === "zh-Hans" ? "语言" : "Locale"}
+              </span>
+              <button
+                type="button"
+                role="menuitem"
+                className={`venue2d-nav-item venue2d-locale__btn${locale === "en" ? " venue2d-locale__btn--on" : ""}`}
+                aria-pressed={locale === "en"}
+                onClick={() => setLocale("en")}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className={`venue2d-nav-item venue2d-locale__btn${locale === "zh-Hans" ? " venue2d-locale__btn--on" : ""}`}
+                aria-pressed={locale === "zh-Hans"}
+                onClick={() => setLocale("zh-Hans")}
+              >
+                中文
+              </button>
+            </div>
           </div>
         ) : null}
       </div>
@@ -1167,6 +1198,7 @@ export function Venue2D() {
           <p className="venue2d-place-caption">{placeCaption}</p>
           <DialoguePanel
             line={line}
+            locale={locale}
             onAdvance={
               debateSession === "active" ? () => undefined : advanceDialogue
             }

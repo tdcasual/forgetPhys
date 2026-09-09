@@ -1,8 +1,11 @@
 import type { DebateMode } from "@physics-chronicle/content";
 import { normalizeVenueId } from "@physics-chronicle/content";
 import type { LabEmbedReadout, SlotFill } from "@physics-chronicle/debate";
+import type { Locale } from "@physics-chronicle/content";
+import { DEFAULT_LOCALE, isLocale } from "@physics-chronicle/content";
 import {
   DEFAULT_CHAPTER_ID,
+  DEFAULT_PROGRESS_SETTINGS,
   type ChapterProgress,
   type VenueEvidenceBoardSave,
 } from "./types";
@@ -22,6 +25,7 @@ export function emptyProgress(chapterId: string = DEFAULT_CHAPTER_ID): ChapterPr
       freeUnlocked: false,
       hardUnlocked: false,
     },
+    settings: { ...DEFAULT_PROGRESS_SETTINGS },
     debateModeLast: "scripted",
     debateSession: {
       scratch: null,
@@ -111,6 +115,11 @@ export function parseProgress(raw: unknown, chapterId = DEFAULT_CHAPTER_ID): Cha
     };
   }
 
+  const settingsRaw = isObject(raw.settings) ? raw.settings : {};
+  const locale: Locale = isLocale(settingsRaw.locale)
+    ? settingsRaw.locale
+    : DEFAULT_LOCALE;
+
   return {
     v: 1,
     chapterId:
@@ -120,6 +129,7 @@ export function parseProgress(raw: unknown, chapterId = DEFAULT_CHAPTER_ID): Cha
       freeUnlocked: Boolean(unlock.freeUnlocked),
       hardUnlocked: Boolean(unlock.hardUnlocked),
     },
+    settings: { locale },
     debateModeLast,
     debateSession: {
       scratch: null,
@@ -199,6 +209,20 @@ export function saveVenueFills(
           updatedAt: now,
         },
       },
+    },
+  };
+}
+
+
+export function setLocale(
+  progress: ChapterProgress,
+  locale: Locale,
+): ChapterProgress {
+  return {
+    ...progress,
+    settings: {
+      ...progress.settings,
+      locale,
     },
   };
 }

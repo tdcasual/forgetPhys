@@ -1,9 +1,17 @@
 import { useState } from "react";
+import type { Locale } from "@physics-chronicle/content";
 import { useGame } from "../../app/GameState";
 
 export function CityPage() {
-  const { mode, chapter, enterVenue, returnToWorldMap, returnToPlate, progress } =
-    useGame();
+  const {
+    mode,
+    chapter,
+    enterVenue,
+    returnToWorldMap,
+    returnToPlate,
+    progress,
+    setLocale,
+  } = useGame();
   const [debatePick, setDebatePick] = useState<"scripted" | "free" | "hard">(
     "scripted",
   );
@@ -13,15 +21,24 @@ export function CityPage() {
 
   const freeOk = progress.unlock.freeUnlocked;
   const hardOk = progress.unlock.hardUnlocked;
+  const locale: Locale = progress.settings?.locale ?? "en";
 
   const enterLab = () => {
     setLockHint(null);
     if (debatePick === "free" && !freeOk) {
-      setLockHint("完成一次散射实验以解锁自由辩论");
+      setLockHint(
+        locale === "en"
+          ? "Finish one scattering run to unlock free debate"
+          : "完成一次散射实验以解锁自由辩论",
+      );
       return;
     }
     if (debatePick === "hard" && !hardOk) {
-      setLockHint("完成一次散射实验以解锁 Hard");
+      setLockHint(
+        locale === "en"
+          ? "Finish one scattering run to unlock Hard"
+          : "完成一次散射实验以解锁 Hard",
+      );
       return;
     }
     if (debatePick === "scripted") {
@@ -42,6 +59,28 @@ export function CityPage() {
         />
       </div>
       <div className="city-page-panel parchment-panel">
+        <div className="city-locale-chip" role="group" aria-label="Locale">
+          <span className="city-locale-chip__label">
+            {locale === "zh-Hans" ? "语言" : "Locale"}
+          </span>
+          <button
+            type="button"
+            className={`paper-btn city-locale-chip__btn${locale === "en" ? " city-locale-chip__btn--on" : ""}`}
+            aria-pressed={locale === "en"}
+            onClick={() => setLocale("en")}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            className={`paper-btn city-locale-chip__btn${locale === "zh-Hans" ? " city-locale-chip__btn--on" : ""}`}
+            aria-pressed={locale === "zh-Hans"}
+            onClick={() => setLocale("zh-Hans")}
+          >
+            中文
+          </button>
+        </div>
+
         <p className="city-kicker">城市页 · 80 Days 结构</p>
         <h1>{chapter.atlas.title}</h1>
         <p className="city-street">Coupland Street · {chapter.era}</p>

@@ -2,6 +2,7 @@ import {
   manchester,
   venueById,
   type DebateMode,
+  type Locale,
   type VenueContent,
 } from "@physics-chronicle/content";
 import type { LabEmbedReadout } from "@physics-chronicle/debate";
@@ -27,6 +28,7 @@ import {
   markLabEmbedVisit as markVisitOnProgress,
   saveProgress,
   setDebateModeLast,
+  setLocale as setLocaleOnProgress,
   type ChapterProgress,
 } from "../progress";
 
@@ -80,6 +82,8 @@ export type GameApi = {
     reason?: string,
   ) => void;
   setProgress: (p: ChapterProgress) => void;
+  /** Persist progress.settings.locale (en | zh-Hans). */
+  setLocale: (locale: Locale) => void;
   recordLabEmbedVisit: () => void;
   setPendingLabEmbed: (r: LabEmbedReadout | null) => void;
 };
@@ -111,6 +115,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const setProgress = useCallback((p: ChapterProgress) => {
     setProgressState(p);
+  }, []);
+
+  const setLocale = useCallback((locale: Locale) => {
+    setProgressState((prev) => {
+      const next = setLocaleOnProgress(prev, locale);
+      saveProgress(next);
+      return next;
+    });
   }, []);
 
   // QA / screenshot deep-link:
@@ -364,6 +376,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       enterDebate,
       exitDebate,
       setProgress,
+      setLocale,
       recordLabEmbedVisit,
       setPendingLabEmbed,
     }),
@@ -392,6 +405,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       enterDebate,
       exitDebate,
       setProgress,
+      setLocale,
       recordLabEmbedVisit,
     ],
   );
