@@ -173,3 +173,4 @@ DEBATE_SCHEME_V3 (CN SoT)
 ```
 
 - `DEBATE_UI_REDESIGN.md` — Hard 案卷拖牌 UI + era skins
+- `adr/0006-i18n-locale.md` — locale + dialogue language switch

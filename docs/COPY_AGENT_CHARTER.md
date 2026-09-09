@@ -98,3 +98,10 @@ Product: ForgetPhys / physics-chronicle
 - `docs/VOICE_STYLE_REFS.md`（待建：伽利略对话等技法条）
 - `docs/DEBATE_UX.md` · `GROUNDED_REPLY_PROMPTS.md` · `HARD_CRITIC_CLAIMS_ALPHA.md`
 - `docs/DOCS_INDEX.md`
+
+## Language policy (2026-09-09 lock)
+
+- **Dialogue SoT = English** for historical scenes (Coupland first); Chinese is a later locale, **rewritten** not calqued from EN.
+- Player can switch locale including dialogue (`en` / `zh-Hans`); see ADR-0006.
+- Until ZH ships, ship complete EN lines; do not block on ZH.
+- VoiceSource / VoiceCard for Rutherford stay English-primary; ZH VoiceCard only when ZH pass starts.
