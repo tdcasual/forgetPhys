@@ -38,11 +38,11 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "stand",
-          "text": "一九〇九年，曼彻斯特 Coupland Street 的物理实验室。暗室里，盖革和马斯登对着硫化锌屏一闪一闪地数。从放射源出来的 α 粒子，绝大多数几乎沿前进方向穿过薄箔——场面平静得过分，可别被它骗了。",
+          "text": "Manchester, Coupland Street, nineteen-nine. In the dark room Geiger and Marsden are counting flashes on a zinc-sulphide screen. Most of the α-particles from the source go nearly straight through the thin foil — the scene looks quieter than it is.",
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
-            "notes": "cite fact-gm1909-paper / fact-gm1909-zns-method / fact-gm1909-forward-majority。提盖革&马斯登工作，不出场。"
+            "notes": "cite fact-gm1909-paper / fact-gm1909-zns-method / fact-gm1909-forward-majority. Name Geiger & Marsden's labour; they do not speak."
           }
         },
         {
@@ -52,11 +52,11 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "sit-chair",
-          "text": "可是你会看见少数偏得很厉害，有的简直折回源一侧。他们把这类大角路径叫做漫反射。屏上的闪光是盖革和马斯登一颗一颗数出来的；我这边要根据这些观测给出说明。早期有人轻视 α，正因它穿不远——实验越做，越不能再当它无关紧要。",
+          "text": "But a few are turned through large angles — some even come back toward the source. They call that diffuse reflection. The scintillations on the screen are counted one by one by Geiger and Marsden; my part is to give an account of what those counts mean. Early on, people slighted the α-rays because they barely penetrate — the more we measure, the less we can treat them as a trifle.",
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
-            "notes": "cite fact-gm1909-diffuse-reflection。归功计数；禁会计/网文隐喻。"
+            "notes": "cite fact-gm1909-diffuse-reflection. Credit counting; no ledger slang."
           }
         },
         {
@@ -66,11 +66,11 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "先把它当作工作假说：正电几乎集中在原子中间很小一块——我说「集中的中心电荷」。绝大多数几乎不偏，少数却偏得离谱，这更像撞上很强的局域场，而不像在弥散正电球里一点点叠出来。证据还在加长；在更干脆的证明到来以前，我不急着把话说死。",
+          "text": "Take it as a working hypothesis for now: the positive electricity nearly gathered in a very small region at the centre of the atom — a concentrated central charge. Most paths barely deflect; a few deflect violently. That looks more like striking a strong local field than piling up weak turns inside a diffuse sphere of positive electricity. The evidence is still lengthening; until we have a more decisive proof, I will not speak as if the case were closed.",
           "claim": {
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
-            "notes": "cite fact-ruth1911-central-charge。1909 暗室当下口吻（工作假说）；不剧透「一九一一年论文已写定」。对话用中心电荷，不用 nucleus 旗号。"
+            "notes": "cite fact-ruth1911-central-charge. Period term central charge; no nucleus banner. Working-hypothesis register for 1909 scene."
           }
         },
         {
@@ -80,11 +80,11 @@
           "charId": "char-watson",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "后人爱讲那个比喻：十五英寸炮弹打在薄纸上，纸却把它弹回来。听着痛快，可那是事后回忆里的修辞，不是一九〇九年暗室本子上的原话。咱们别靠传说吃饭——要不要去实验台，自己对着箔和屏试一次？",
+          "text": "Later storytellers love the picture of a fifteen-inch shell striking tissue paper and bouncing back. It sounds fine — but that is late recollection, not a line from the nineteen-nine dark-room notebooks. We should not live on legends. Shall we try it ourselves at the apparatus?",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Late recollection (often 1930s); era-op-shell-metaphor-late",
-            "notes": "D 级戏剧许可。勿当 1909 现场史实。"
+            "notes": "D-tier drama; era-op-shell-metaphor-late. interpretation."
           },
           "interpretation": true
         },
@@ -93,11 +93,11 @@
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "后来教材把这叫做原子的核式结构：几乎全部的质量和正电荷挤在很小的中心，电子在外围。当时实验室里更常说的是「中心电荷」。无论如何，把正电均匀涂满整个原子体积的枣糕图景，解释不了这些稀有却确凿的大角偏转。",
+          "text": "Textbooks later call this the nuclear model of the atom: nearly all the mass and positive charge packed into a tiny centre, with electrons outside. In the laboratory of this period one more often said central charge. Either way, a plum-pudding picture with positive electricity smeared through the whole atomic volume cannot account for these rare but stubborn large-angle deflections.",
           "claim": {
             "source_tier": "textbook",
             "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）",
-            "notes": "教材词仅旁白；与 era-op-nucleus-word-anachronism 对齐。"
+            "notes": "Textbook register; nuclear model wording OK here only. Align era-op-nucleus-word-anachronism."
           }
         }
       ],
@@ -139,11 +139,11 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "sit-stool",
-          "text": "夜里把白天记下的闪光数再读一遍。绝大多数几乎直行，少数大角——枣糕模型里那团弥散正电，怎么也堆不出这么狠的偏转。倒是中心电荷那张图，能把屏上那几道刺眼的闪光说明白。白天嫌闷的数，晚上才开始咬人。",
+          "text": "At night I read the day's scintillation counts again. Most paths nearly forward, a few at large angles — the diffuse positive sphere of the plum-pudding picture never seems to pile up so violent a deflection. The central-charge sketch, though, can make sense of those sharp flashes on the screen. The dull numbers from daylight start to bite after dark.",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — teaching synthesis; fact-ruth1911-plum-pudding-fails-large-angle",
-            "notes": "租屋复盘压缩史实；演绎。"
+            "notes": "Lodge compression; interpretation. fact-ruth1911-plum-pudding-fails-large-angle."
           },
           "interpretation": true
         },
@@ -154,11 +154,11 @@
           "charId": "char-rutherford",
           "emotion": "idle",
           "pose": "sit-chair",
-          "text": "大角很少，这点谁都承认；可绝不是零。盖革和马斯登把那些稀有闪光记进本子里，不是为了听故事。若正电真的集中在中心，那些稀有大角路径才站得住；若仍死守弥散球加多次弱偏转，折回的路径就成了麻烦。我要的是能经住装置与箔厚的说明，不是一句漂亮口号。",
+          "text": "Large angles are scarce — everyone grants that — yet they are not zero. Geiger and Marsden put those rare flashes into the notebook; they are not there for ornament. If the positive charge is truly concentrated at the centre, those rare large-angle paths can stand; if we cling to a diffuse sphere plus compound scattering alone, the returning paths become a nuisance. I want an account that will bear the apparatus and the foil thickness — not a neat slogan.",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — aligned to fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge",
-            "notes": "删盖革说话人后由卢瑟福收束实验印象。"
+            "notes": "interpretation; fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge."
           },
           "interpretation": true
         },
@@ -167,11 +167,11 @@
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "租屋里先把白天看见的现象和可能的图景分开摆好：观测归观测，假说归假说。明天回实验室，箔厚一变，角分布还变不变——用装置继续追问，比在灯下空争更有用。",
+          "text": "In the lodge we first keep what was seen apart from what is guessed: observation here, hypothesis there. Tomorrow, back in the laboratory — change the foil thickness, watch whether the angular pattern shifts. Asking the apparatus again beats arguing under the lamp.",
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review bridge — replaces former char-geiger stub",
-            "notes": "盖革立绘已砍；旁白转场。禁会计隐喻。"
+            "notes": "Narrator bridge; replaces former Geiger stub. interpretation."
           },
           "interpretation": true
         }

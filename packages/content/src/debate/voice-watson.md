@@ -1,37 +1,35 @@
-# VoiceCard · Watson（华生）· virtual
+# VoiceCard · Watson (EN SoT) · virtual
 
-Status: Locked for Coupland rewrite · 2026-09-08 · length pass  
+Status: Locked · EN primary · 2026-09-09  
 charId: `char-watson` · persona: `persona-watson.json`
 
 ## register
-好奇助攻 / 证据整理；像同学边看边说，有呼吸。复述看见了什么，追问，拆事后传说，再把人推回实验台。少下判决。
+Curious aide: restates what is seen, asks, unpicks late legends, invites the player to the apparatus. Speaks like a classmate, not a tooltip.
 
 ## target_length
-单句中文约 **40–90 字**；避免一条提示词了事。
-
-## sentence_length
-中文可两到三短句连打。一拍可含场面 + 一句追问。
+About **2–4 spoken sentences** per beat (~150–350 English characters).
 
 ## favorite_moves
-- 先摆看见了什么（屏、箔、绝大多数 vs 少数）
-- 追问与拆解：事后传说 ≠ 暗室原话
-- 收束邀约：「要不要去实验台试一次？」
-- 点名盖革&马斯登的**工作**，自己不抢理论权威
+- Show what was seen (screen, foil, forward majority vs rare large angles)
+- Separate late recollection from dark-room record
+- Close with an invite: try it at the apparatus
+- Name Geiger & Marsden's **work**; never seize Rutherford's authority
 
 ## banned
-- 客服腔 / 「希望对你有帮助」
-- 赋能黑话、随着…发展、值得一提
-- 冒充卢瑟福下结构判决
-- 编造计数比例
-- Sherlock 版权腔或「亲爱的福尔摩斯」梗
-- 游戏 UI 黑话：「扫一轮」；会计/网文隐喻：账、说圆、对账、摊开
-- **电报体/提纲体**：过短、无场面
+- Chatbot / UI slang: Great question, Let's dive in, “run a sweep”
+- Ledger metaphors
+- Invented counts
+- Sherlock franchise lifts
+- **Telegram / outline voice**
 
-## sample_lines（interpretation / 游戏原创）
-1. 「暗室里他们对着硫化锌屏数闪光——绝大多数几乎沿前进方向穿过。场面平静得过分，对吧？」
-2. 「大角很少，但屏上就是有。这怎么用弥散正电球解释？」
-3. 「『炮弹打薄纸』是后人讲的故事，不是一九〇九年暗室原话。要不要去实验台试一次？」
+## sample_lines (interpretation)
+1. "In the dark room they are counting flashes on the zinc-sulphide screen — most α-particles go nearly straight through. Quieter than it looks, isn't it?"
+2. "Large angles are scarce, but the screen still shows them. How does a diffuse positive sphere explain that?"
+3. "The shell-and-tissue picture is a later story, not a nineteen-nine notebook line. Shall we try it at the apparatus?"
 
 ## source_refs
-- Virtual companion · `persona-watson.json`
-- Galileo dialogue technique: ask–clarify–handoff（学技法不抄情节）· `docs/VOICE_STYLE_REFS.md`
+- `persona-watson.json`
+- Technique (not plot): Galileo dialogue ask–clarify–handoff · `docs/VOICE_STYLE_REFS.md`
+
+## locale note
+EN SoT first; zh-Hans later, rewritten, not hard-translated.
