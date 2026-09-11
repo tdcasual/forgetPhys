@@ -54,6 +54,11 @@ export type LocalizedTextSchema = z.infer<typeof localizedTextSchema>;
 export const dialogueLineSchema = z.object({
   id: z.string(),
   /**
+   * When true, play after labEmbed readout (VN-lab-03), not in cold open.
+   * Copy may set this; architecture wires the gate.
+   */
+  afterLab: z.boolean().optional(),
+  /**
    * Legacy display label (often Chinese in content). Prefer charId/role
    * locale table at runtime; optional bilingual map supported as fallback.
    */
@@ -93,6 +98,16 @@ export const labEmbedSchema = z.object({
   url: z.string().url(),
   title: z.string().min(1),
   fallbackUrl: z.string().url().optional(),
+  /**
+   * Optional exact dialogue line id to jump to on labEmbed close (VN-lab-03).
+   * Takes precedence over returnLineIdPrefix when found.
+   */
+  returnLineId: z.string().min(1).optional(),
+  /**
+   * Optional id prefix for lab-return beats (default runtime: "mcr-ret-").
+   * Convention: Coupland return lines use ids like mcr-ret-1.
+   */
+  returnLineIdPrefix: z.string().min(1).optional(),
 });
 
 export type LabEmbed = z.infer<typeof labEmbedSchema>;
@@ -170,6 +185,8 @@ export const venueSchema = z.object({
   /** Independent prop layers (not baked into bg). */
   props: z.array(venuePropSchema).optional(),
   dialogue: z.array(dialogueLineSchema).min(1),
+  /** Post–labEmbed dump (VN-lab-03). Optional until architecture gates it. */
+  dialogueAfterLab: z.array(dialogueLineSchema).optional(),
 });
 
 export type VenueContent = z.infer<typeof venueSchema>;
