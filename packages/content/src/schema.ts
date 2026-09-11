@@ -54,6 +54,11 @@ export type LocalizedTextSchema = z.infer<typeof localizedTextSchema>;
 export const dialogueLineSchema = z.object({
   id: z.string(),
   /**
+   * When true, play after labEmbed readout (VN-lab-03), not in cold open.
+   * Copy may set this; architecture wires the gate.
+   */
+  afterLab: z.boolean().optional(),
+  /**
    * Legacy display label (often Chinese in content). Prefer charId/role
    * locale table at runtime; optional bilingual map supported as fallback.
    */
@@ -170,6 +175,8 @@ export const venueSchema = z.object({
   /** Independent prop layers (not baked into bg). */
   props: z.array(venuePropSchema).optional(),
   dialogue: z.array(dialogueLineSchema).min(1),
+  /** Post–labEmbed dump (VN-lab-03). Optional until architecture gates it. */
+  dialogueAfterLab: z.array(dialogueLineSchema).optional(),
 });
 
 export type VenueContent = z.infer<typeof venueSchema>;
