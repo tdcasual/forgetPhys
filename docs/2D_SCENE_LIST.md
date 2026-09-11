@@ -82,3 +82,7 @@
 1. WM-01 → PL-01 → CY-01 → VN-lab-01 → LAB-01（Infinitas）→ 关闭回对话  
 2. 立绘至少 Rutherford + Companion（可用占位漫画风，后替换精修）  
 3. 不再依赖 Three.js 命运地图作为主路径（可保留旧码但默认进 2D）
+
+## Dialogue beat targets (2026-09-11)
+
+Coupland scripted beats: see `MANCHESTER_DIALOGUE_TARGETS.md` (lab 6–8 + return 3–4 + lodge 4–6).

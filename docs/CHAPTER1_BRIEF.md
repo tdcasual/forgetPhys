@@ -59,3 +59,7 @@
 - 不以习题册为结构。
 - 核裂变留第二章。
 - 不把 D 级演绎写成旁白史实。
+
+## Manchester dialogue targets (2026-09-11)
+
+See `MANCHESTER_DIALOGUE_TARGETS.md`: lab open 6–8 · lab return 3–4 · lodge 4–6 (EN SoT).
