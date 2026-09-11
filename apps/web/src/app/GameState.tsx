@@ -31,6 +31,10 @@ import {
   setLocale as setLocaleOnProgress,
   type ChapterProgress,
 } from "../progress";
+import {
+  findLabReturnDialogueIndex,
+  isNumericDialogueLineParam,
+} from "./labReturnDialogue";
 
 export type DebateSessionFlag = "off" | "active";
 
@@ -109,6 +113,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
   );
   const [pendingLabEmbed, setPendingLabEmbed] =
     useState<LabEmbedReadout | null>(null);
+  /**
+   * When "afterLab", venue.dialogue is swapped to dialogueAfterLab (VN-lab-03).
+   * Reset on leave/re-enter venue; set by closeLab / ?line= id deep-link.
+   */
+  const [dialogueLane, setDialogueLane] = useState<"main" | "afterLab">(
+    "main",
+  );
   const busy = useRef(false);
   /** Frozen while debateSession active — resume keeps this index. */
   const frozenBeatRef = useRef<number | null>(null);
@@ -127,6 +138,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   // QA / screenshot deep-link:
   // ?mode=worldMap|chroniclePlate|cityPage|venue|labEmbed&venue=coupland-lab&line=0
+  // &line= accepts numeric index OR dialogue line id (e.g. mcr-ret-1)
   // &debate=free|hard
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -134,10 +146,32 @@ export function GameProvider({ children }: { children: ReactNode }) {
     const v = q.get("venue") || "coupland-lab";
     const lineRaw = q.get("line");
     const debateQ = q.get("debate");
-    const lineIdx =
-      lineRaw != null && lineRaw !== "" && !Number.isNaN(Number(lineRaw))
-        ? Math.max(0, Math.floor(Number(lineRaw)))
-        : null;
+
+    const applyLineParam = (venueKey: string) => {
+      if (lineRaw == null || lineRaw === "") return;
+      if (isNumericDialogueLineParam(lineRaw)) {
+        setDialogueLane("main");
+        setDialogueIndex(Math.max(0, Math.floor(Number(lineRaw))));
+        return;
+      }
+      const content = venueById(manchester, venueKey);
+      if (!content) return;
+      const mainIdx = content.dialogue.findIndex((l) => l.id === lineRaw);
+      if (mainIdx >= 0) {
+        setDialogueLane("main");
+        setDialogueIndex(mainIdx);
+        return;
+      }
+      const after = content.dialogueAfterLab;
+      if (after?.length) {
+        const afterIdx = after.findIndex((l) => l.id === lineRaw);
+        if (afterIdx >= 0) {
+          setDialogueLane("afterLab");
+          setDialogueIndex(afterIdx);
+        }
+      }
+    };
+
     if (m === "chroniclePlate") {
       setMode("chroniclePlate");
       setPendingVenueId(v);
@@ -152,7 +186,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setVenueId(v);
       setCityId("manchester");
       setDialogueOpen(true);
-      if (lineIdx != null) setDialogueIndex(lineIdx);
+      applyLineParam(v);
       if (debateQ === "free" || debateQ === "hard") {
         // QA deep-link: unlock debate gates so screenshots/acceptance work
         setProgressState((prev) => {
@@ -168,7 +202,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setVenueId(v);
       setCityId("manchester");
       setDialogueOpen(true);
-      if (lineIdx != null) setDialogueIndex(lineIdx);
+      applyLineParam(v);
     } else if (m === "worldMap") {
       setMode("worldMap");
     }
@@ -208,6 +242,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setVenueId(null);
         setDialogueOpen(false);
         setDialogueIndex(0);
+        setDialogueLane("main");
       });
     },
     [cutTo, clearDebate],
@@ -219,6 +254,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setVenueId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
+      setDialogueLane("main");
     });
   }, [cutTo, clearDebate]);
 
@@ -230,6 +266,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setVenueId(id);
         setPendingVenueId(id);
         setDialogueIndex(0);
+        setDialogueLane("main");
         setDialogueOpen(true);
         setDebateMode("scripted");
         setDebateSession("off");
@@ -248,8 +285,28 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const closeLab = useCallback(() => {
     cutTo("venue", () => {
       setDialogueOpen(true);
+      // Jump to lab-return beats when copy has landed (prefix / exact id).
+      // Prefer venues[].dialogue; else dialogueAfterLab shelf (VN-lab-03).
+      // If neither has a match, keep current index (do not block missing copy).
+      const content = venueId ? venueById(manchester, venueId) : undefined;
+      if (!content) return;
+      const embed = content.labEmbed;
+      const mainIdx = findLabReturnDialogueIndex(content.dialogue, embed);
+      if (mainIdx != null) {
+        setDialogueLane("main");
+        setDialogueIndex(mainIdx);
+        return;
+      }
+      const after = content.dialogueAfterLab;
+      if (after?.length) {
+        const afterIdx = findLabReturnDialogueIndex(after, embed);
+        if (afterIdx != null) {
+          setDialogueLane("afterLab");
+          setDialogueIndex(afterIdx);
+        }
+      }
     });
-  }, [cutTo]);
+  }, [cutTo, venueId]);
 
   const returnToCity = useCallback(() => {
     clearDebate();
@@ -257,6 +314,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setVenueId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
+      setDialogueLane("main");
     });
   }, [cutTo, clearDebate]);
 
@@ -266,6 +324,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setVenueId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
+      setDialogueLane("main");
     });
   }, [cutTo, clearDebate]);
 
@@ -277,10 +336,22 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setCityId(null);
       setDialogueOpen(false);
       setDialogueIndex(0);
+      setDialogueLane("main");
     });
   }, [cutTo, clearDebate]);
 
-  const venue = venueId ? (venueById(manchester, venueId) ?? null) : null;
+  const venueBase = venueId ? (venueById(manchester, venueId) ?? null) : null;
+  const venue = useMemo(() => {
+    if (!venueBase) return null;
+    if (
+      dialogueLane === "afterLab" &&
+      venueBase.dialogueAfterLab &&
+      venueBase.dialogueAfterLab.length > 0
+    ) {
+      return { ...venueBase, dialogue: venueBase.dialogueAfterLab };
+    }
+    return venueBase;
+  }, [venueBase, dialogueLane]);
 
   const enterDebate = useCallback(
     (dm: "free" | "hard") => {

@@ -23,6 +23,8 @@ worldMap2d  --(select Manchester)-->  chroniclePlate  --(Continue)-->  cityPage
 4. Enter **venue2d** — Coupland lab or lodge; scripted dialogue + optional DebateSession overlay.
 5. From lab venue, open **labEmbed** (Infinitas α-scattering) via postMessage contract; return to venue2d.
 
+**Lab return (VN-lab-03):** On `closeLab`, scripted dialogue jumps to the first line whose `id` equals `labEmbed.returnLineId` or starts with `labEmbed.returnLineIdPrefix` (default `mcr-ret-`) in `venues[].dialogue`, else in optional `dialogueAfterLab`. If neither has landed yet, the current index is kept. QA deep-link `?line=` accepts a numeric index or a line id (e.g. `mcr-ret-1`).
+
 Leave venue → prefer **cityPage** / **chroniclePlate**, then back to **worldMap2d**.
 
 ## Naming

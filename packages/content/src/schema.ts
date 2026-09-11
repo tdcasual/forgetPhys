@@ -98,6 +98,16 @@ export const labEmbedSchema = z.object({
   url: z.string().url(),
   title: z.string().min(1),
   fallbackUrl: z.string().url().optional(),
+  /**
+   * Optional exact dialogue line id to jump to on labEmbed close (VN-lab-03).
+   * Takes precedence over returnLineIdPrefix when found.
+   */
+  returnLineId: z.string().min(1).optional(),
+  /**
+   * Optional id prefix for lab-return beats (default runtime: "mcr-ret-").
+   * Convention: Coupland return lines use ids like mcr-ret-1.
+   */
+  returnLineIdPrefix: z.string().min(1).optional(),
 });
 
 export type LabEmbed = z.infer<typeof labEmbedSchema>;
