@@ -60,6 +60,20 @@
           }
         },
         {
+          "id": "mcr-6",
+          "speaker": "华生",
+          "speakerRole": "companion",
+          "charId": "char-watson",
+          "emotion": "think",
+          "pose": "point-screen",
+          "text": "The arrangement is spare: a thin metal foil, a zinc-sulphide screen, a microscope. Geiger and Marsden sit in the dark and count flashes one by one — dull work, not a lecture. Most of the α-particles go nearly forward. How is a diffuse sphere of positive electricity supposed to throw a few of them so far aside?",
+          "claim": {
+            "source_tier": "primary",
+            "citation": "Geiger & Marsden 1909, pp. 496–497 (ZnS method, thin foil); era-op-thomson-uniform-sphere",
+            "notes": "cite fact-gm1909-zns-method / fact-gm1909-geometry / era-op-thomson-uniform-sphere. No invented fractions. Geiger & Marsden named, do not speak."
+          }
+        },
+        {
           "id": "mcr-3",
           "speaker": "卢瑟福",
           "speakerRole": "scientist",
@@ -71,6 +85,18 @@
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
             "notes": "cite fact-ruth1911-central-charge. Period term central charge; no nucleus banner. Working-hypothesis register for 1909 scene."
+          }
+        },
+        {
+          "id": "mcr-5",
+          "speaker": "旁白",
+          "speakerRole": "narrator",
+          "emotion": "idle",
+          "text": "Textbooks later call this the nuclear model of the atom: nearly all the mass and positive charge packed into a tiny centre, with electrons outside. In the laboratory of this period one more often said central charge. Either way, a plum-pudding picture with positive electricity smeared through the whole atomic volume cannot account for these rare but stubborn large-angle deflections.",
+          "claim": {
+            "source_tier": "textbook",
+            "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）",
+            "notes": "Textbook register; nuclear model wording OK here only. Align era-op-nucleus-word-anachronism."
           }
         },
         {
@@ -89,16 +115,19 @@
           "interpretation": true
         },
         {
-          "id": "mcr-5",
-          "speaker": "旁白",
-          "speakerRole": "narrator",
-          "emotion": "idle",
-          "text": "Textbooks later call this the nuclear model of the atom: nearly all the mass and positive charge packed into a tiny centre, with electrons outside. In the laboratory of this period one more often said central charge. Either way, a plum-pudding picture with positive electricity smeared through the whole atomic volume cannot account for these rare but stubborn large-angle deflections.",
+          "id": "mcr-7",
+          "speaker": "卢瑟福",
+          "speakerRole": "scientist",
+          "charId": "char-rutherford",
+          "emotion": "speak",
+          "pose": "lean-bench",
+          "text": "The bench is there. Change the foil if you like; watch whether the large-angle flashes stay scarce and stubborn. I will not close the case from a speech. Try the apparatus, then we can talk of a central charge again.",
           "claim": {
-            "source_tier": "textbook",
-            "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）",
-            "notes": "Textbook register; nuclear model wording OK here only. Align era-op-nucleus-word-anachronism."
-          }
+            "source_tier": "interpretation",
+            "citation": "Invite to labEmbed; aligned to fact-gm1909-diffuse-reflection + era-op-caution-before-central-charge",
+            "notes": "Cold-open close: send player to apparatus. interpretation."
+          },
+          "interpretation": true
         }
       ],
       "companion": {
@@ -121,6 +150,66 @@
             0.42,
             0.6
           ]
+        }
+      ],
+      "dialogueAfterLab": [
+        {
+          "id": "mcr-ret-1",
+          "speaker": "华生",
+          "speakerRole": "companion",
+          "charId": "char-watson",
+          "emotion": "think",
+          "pose": "stand",
+          "afterLab": true,
+          "text": "So those are the counts from the bench. Most paths still run nearly forward; a few large-angle flashes still turn up. Same contrast the dark-room notebooks keep repeating — quiet majority, stubborn minority. Does that match what you just saw?",
+          "claim": {
+            "source_tier": "primary",
+            "citation": "Geiger & Marsden 1909; fact-gm1909-forward-majority + fact-gm1909-diffuse-reflection",
+            "notes": "VN-lab-03 return. afterLab. No invented fractions."
+          }
+        },
+        {
+          "id": "mcr-ret-2",
+          "speaker": "卢瑟福",
+          "speakerRole": "scientist",
+          "charId": "char-rutherford",
+          "emotion": "speak",
+          "pose": "sit-chair",
+          "afterLab": true,
+          "text": "Scarce is not none. Geiger and Marsden counted this class of event on the screen; the notebook is not ornament. If your run showed even a handful of large deflections through a thin foil, you are looking at the same trouble a diffuse positive sphere does not like to admit.",
+          "claim": {
+            "source_tier": "primary",
+            "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
+            "notes": "cite fact-gm1909-diffuse-reflection. Credit counting; Geiger does not speak."
+          }
+        },
+        {
+          "id": "mcr-ret-3",
+          "speaker": "卢瑟福",
+          "speakerRole": "scientist",
+          "charId": "char-rutherford",
+          "emotion": "speak",
+          "pose": "point-screen",
+          "afterLab": true,
+          "text": "I still take a concentrated central charge as the working hypothesis — positive electricity gathered in a very small region — not a slogan and not a closed case. What we press next is how the pattern changes with foil thickness, and whether large angles stay too common for compound scattering alone. Until a more decisive proof, keep what was seen apart from what is guessed.",
+          "claim": {
+            "source_tier": "primary",
+            "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
+            "notes": "cite fact-ruth1911-central-charge + era-op-compound-scattering-default + era-op-caution-before-central-charge. Period term central charge."
+          }
+        },
+        {
+          "id": "mcr-ret-4",
+          "speaker": "旁白",
+          "speakerRole": "narrator",
+          "emotion": "idle",
+          "afterLab": true,
+          "text": "The laboratory has given you a readout, not a verdict. Forward majority and rare large angles are what was seen; central charge is still a working account. Textbooks later say nuclear model; that word is not the banner of this room. The lodge is for sorting those two piles before you come back to the foil.",
+          "claim": {
+            "source_tier": "textbook",
+            "citation": "人教版选必三 第四§3–§4；era-op-nucleus-word-anachronism",
+            "notes": "Narrator may use nuclear model. afterLab close."
+          }
         }
       ]
     },
@@ -148,6 +237,21 @@
           "interpretation": true
         },
         {
+          "id": "lodge-4",
+          "speaker": "华生",
+          "speakerRole": "companion",
+          "charId": "char-watson",
+          "emotion": "speak",
+          "pose": "sit-stool",
+          "text": "If we keep the plum-pudding picture — positive electricity smeared through the whole volume, large angles only as the tail of many weak turns — what would the apparatus have to hide? The rare returning paths are still in the notebook. I can restate the counts. I cannot make the diffuse sphere produce them.",
+          "claim": {
+            "source_tier": "interpretation",
+            "citation": "Lodge night review; era-op-thomson-uniform-sphere + era-op-compound-scattering-default",
+            "notes": "Watson aide: press the era foil without inventing numbers."
+          },
+          "interpretation": true
+        },
+        {
           "id": "lodge-2",
           "speaker": "卢瑟福",
           "speakerRole": "scientist",
@@ -159,6 +263,21 @@
             "source_tier": "interpretation",
             "citation": "Lodge night review — aligned to fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge",
             "notes": "interpretation; fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge."
+          },
+          "interpretation": true
+        },
+        {
+          "id": "lodge-5",
+          "speaker": "卢瑟福",
+          "speakerRole": "scientist",
+          "charId": "char-rutherford",
+          "emotion": "speak",
+          "pose": "sit-chair",
+          "text": "Tomorrow we go back to foil thickness and the angular pattern. Central charge remains a working hypothesis; I will not treat it as dogma until the apparatus has had another say. Sleep on the distinction: what Geiger and Marsden counted, and what I am still only proposing.",
+          "claim": {
+            "source_tier": "interpretation",
+            "citation": "Lodge night review; era-op-caution-before-central-charge",
+            "notes": "Caution before dogma. Geiger named, does not speak."
           },
           "interpretation": true
         },
