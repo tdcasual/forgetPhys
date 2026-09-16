@@ -246,7 +246,7 @@ class DebateSessionImpl implements DebateSession {
       this.deps.eras,
     );
 
-    // P1a: stub transport — no live GroundedReply LLM / BFF / SSE
+    // Transport injected by apps/web (BFF SSE → DeepSeek / LiteLLM); cite-or-retry in StubGroundedReply
     const reply = await this.grounded.generate(
       {
         persona: this.persona,

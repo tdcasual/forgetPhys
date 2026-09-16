@@ -22,6 +22,12 @@
 
 See [`litellm_config.yaml`](./litellm_config.yaml) for placeholder `model_list` aliases. Swap OpenAI ↔ DeepSeek ↔ Ollama by editing that file only; the app keeps calling `forgetphys-debate`.
 
+## P2 DeepSeek (live)
+
+- Default alias `forgetphys-debate` → `deepseek/deepseek-chat` with `api_key: os.environ/DEEPSEEK_API_KEY`.
+- BFF may call DeepSeek official API directly (`LITELLM_BASE_URL=https://api.deepseek.com`) **or** this gateway.
+- Ollama remains a commented offline placeholder — not the live alias.
+
 ## P1 scope
 
 - Stub GroundedReply client + this example config.

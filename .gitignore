@@ -8,6 +8,7 @@ dist
 .pnpm-store
 grok-scaffold.log
 .env
+.env.local
 
 # Art bulk / local-only
 assets/_archive/

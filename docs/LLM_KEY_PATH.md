@@ -30,3 +30,14 @@ See architecture §12 security subsection for env table and deployment shapes.
 ## Prompts
 
 Never put API keys, gateway tokens, or `VITE_*` secrets into GroundedReply prompt assemblies — see `docs/GROUNDED_REPLY_PROMPTS.md`.
+
+## P2 live provider — DeepSeek (server env only)
+
+| Variable | Where | Notes |
+|---|---|---|
+| `DEEPSEEK_API_KEY` | gitignored `.env` / deploy secrets | Required for live BFF → DeepSeek |
+| `LITELLM_BASE_URL` | server | Default `https://api.deepseek.com`; or local LiteLLM gateway |
+| `LITELLM_MODEL` | server | Default `deepseek/deepseek-chat` (alias `forgetphys-debate` in LiteLLM config) |
+| `LITELLM_API_KEY` | server | Optional fallback when using a LiteLLM gateway |
+
+**Never** paste real keys into git, PR bodies, docs, comments, or `VITE_*`. Browser talks only to `POST /api/debate/complete` (SSE).

@@ -2,12 +2,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { debateBffPlugin } from "./server/vite-plugin";
 
 const appDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(appDir, "../..");
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), debateBffPlugin()],
+  envDir: repoRoot,
   resolve: {
     alias: {
       "@physics-chronicle/lab-core": path.join(

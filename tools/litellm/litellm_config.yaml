@@ -1,6 +1,6 @@
 # Example LiteLLM config for ForgetPhys debate (NO real keys).
 # Docs: https://docs.litellm.ai/docs/proxy/configs
-# App calls alias `forgetphys-debate` via Vercel AI SDK → LITELLM_BASE_URL.
+# App calls alias `forgetphys-debate` via BFF → LITELLM_BASE_URL (or DeepSeek direct).
 
 model_list:
   # --- OpenAI example (commented; enable + set OPENAI_API_KEY in env) ---
@@ -9,17 +9,17 @@ model_list:
   #     model: openai/gpt-4o-mini
   #     api_key: os.environ/OPENAI_API_KEY
 
-  # --- Ollama local example (default placeholder for offline/dev) ---
+  # --- DeepSeek (P2 live default) ---
   - model_name: forgetphys-debate
     litellm_params:
-      model: ollama/llama3.2
-      api_base: http://localhost:11434
+      model: deepseek/deepseek-chat
+      api_key: os.environ/DEEPSEEK_API_KEY
 
-  # --- DeepSeek example (commented) ---
+  # --- Ollama local example (offline/dev placeholder; disabled as live alias) ---
   # - model_name: forgetphys-debate
   #   litellm_params:
-  #     model: deepseek/deepseek-chat
-  #     api_key: os.environ/DEEPSEEK_API_KEY
+  #     model: ollama/llama3.2
+  #     api_base: http://localhost:11434
 
 # litellm_settings:
 #   drop_params: true
