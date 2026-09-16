@@ -68,6 +68,10 @@ export {
 export {
   StubGroundedReply,
   noopGroundedReplyTransport,
+  assembleGroundedReplyMessages,
+  uncertaintyDraft,
+  UNCERTAINTY_EN,
+  UNCERTAINTY_ZH,
   type GroundedReply,
 } from "./grounded-reply";
 

@@ -2,14 +2,16 @@
   "name": "forgetphys",
   "private": true,
   "version": "0.0.1",
-  "description": "ForgetPhys — forget physicists (so you remember them). High-school physics chronicle game.",
+  "description": "ForgetPhys \u2014 forget physicists (so you remember them). High-school physics chronicle game.",
   "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "pnpm --filter @physics-chronicle/web dev",
     "build": "pnpm --filter @physics-chronicle/web build",
     "preview": "pnpm --filter @physics-chronicle/web preview",
     "typecheck": "pnpm -r --if-present typecheck",
-    "validate:art": "node scripts/validate-art-assets.mjs"
+    "validate:art": "node scripts/validate-art-assets.mjs",
+    "test:debate": "pnpm --filter @physics-chronicle/debate test",
+    "test:web": "pnpm --filter @physics-chronicle/web test"
   },
   "engines": {
     "node": ">=20"

@@ -40,6 +40,8 @@ Client path (locked elsewhere): Vercel AI SDK → **this BFF only** → LiteLLM 
 - Prompt assembly / cite schema: [`../GROUNDED_REPLY_PROMPTS.md`](../GROUNDED_REPLY_PROMPTS.md). Progress keys: [`../PROGRESS_SAVE_SCHEMA.md`](../PROGRESS_SAVE_SCHEMA.md).
 - **Accepted** — design docs may proceed; **no runtime BFF code in this docs batch** (implement in a later runtime PR).
 
+- **P2 live provider (2026-09-16):** DeepSeek Chat via server env `DEEPSEEK_API_KEY` (optional LiteLLM gateway). See [`../LLM_KEY_PATH.md`](../LLM_KEY_PATH.md) + [`../DEBATE_BFF_SSE.md`](../DEBATE_BFF_SSE.md). **Never paste real keys** into docs, PRs, or client env.
+
 ## Status
 
 **Accepted** — 2026-09-07 by 游戏架构 + 游戏设计. Placement = `apps/web` internal proxy; `debate-proxy` deferred.

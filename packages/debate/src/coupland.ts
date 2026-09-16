@@ -10,9 +10,18 @@ import { InMemoryEvidenceBoard } from "./evidence-board";
 import { RulesJudge } from "./judge";
 import { createDebateSession, type DebateSession } from "./session";
 import type { DebateSessionDeps } from "./session";
+import type { GroundedReply, GroundedReplyTransport } from "./grounded-reply";
+
+export type CouplandRuntimeOptions = {
+  transport?: GroundedReplyTransport;
+  groundedReply?: GroundedReply;
+  debateSessionId?: string;
+};
 
 /** Wire Coupland α cards into a ready DebateSession (state off until enter). */
-export function createCouplandDebateRuntime(): {
+export function createCouplandDebateRuntime(
+  opts: CouplandRuntimeOptions = {},
+): {
   session: DebateSession;
   deps: DebateSessionDeps;
   venueId: string;
@@ -42,6 +51,9 @@ export function createCouplandDebateRuntime(): {
     board,
     judge,
     hardSlots: pack.hardSlots,
+    transport: opts.transport,
+    groundedReply: opts.groundedReply,
+    debateSessionId: opts.debateSessionId,
   };
 
   const session = createDebateSession(deps);
