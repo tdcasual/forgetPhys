@@ -1,6 +1,6 @@
 # Manchester next phase plan (Coupland only)
 
-Status: **Director draft · 2026-09-17**  
+Status: **In progress · M3.1 started 2026-09-17**  
 Scope: **当前曼城** — do not start Bohr (1-4) until M3 exit criteria below.  
 SoT pointer: product still `ch1-manchester` / Coupland lab + lodge.
 
@@ -105,3 +105,8 @@ M3.1 harden Free/Hard  →  M3.2 coupling  →  M3.5 pedagogy close
 1. 架构: M3.1 smoke checklist + quota lock PR  
 2. 设计+架构: M3.2 readout→slot ADR/thin spec  
 3. 文案: start M3.3 ZH VoiceCards + first venue (lab open)
+
+## Active track
+
+- **Now:** M3.1 Playtest & harden Free/Hard (派 游戏架构)
+- Next: M3.2 coupling → M3.5 pedagogy; M3.3/M3.4 parallel after 3.1 lands
