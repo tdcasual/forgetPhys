@@ -35,6 +35,8 @@ Add optional choice beats in `coupland-lab` (or afterLab) — soft consequences 
 
 Copy: 文案写 EN options + consequences lines; schema needs `choices[]` or reuse existing branch fields if any.
 
+**Copy SoT (EN):** `packages/content/src/data/manchester-choices.json` — ids `choice-model-push`, `choice-shell-metaphor`, `choice-return-bench`. Soft consequences only; runtime gate owned by architecture.
+
 ## C. Critic requires bench once
 
 Coupland Hard: add / enable one Critic template that fires when board lacks labEmbed fill on large-angle **and** forward-majority while player claims concentration — must be answerable by running labEmbed or citing Fact cards that already encode the observation.

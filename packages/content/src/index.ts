@@ -1,6 +1,7 @@
 import manchesterRaw from "./data/manchester.json";
-import { cityChapterSchema } from "./schema";
-import type { CityChapter, VenueContent } from "./schema";
+import manchesterChoicesRaw from "./data/manchester-choices.json";
+import { cityChapterSchema, scriptedChoicesFileSchema } from "./schema";
+import type { CityChapter, VenueContent, ScriptedChoicesFile } from "./schema";
 
 export {
   atlasNodeSchema,
@@ -17,6 +18,9 @@ export {
   sourceTierSchema,
   venuePropSchema,
   venueSchema,
+  scriptedChoiceOptionSchema,
+  scriptedChoiceSchema,
+  scriptedChoicesFileSchema,
   SOURCE_TIER_LABEL,
   type AtlasNode,
   type CityChapter,
@@ -31,6 +35,9 @@ export {
   type SourceTier,
   type VenueContent,
   type VenueProp,
+  type ScriptedChoiceOption,
+  type ScriptedChoice,
+  type ScriptedChoicesFile,
 } from "./schema";
 
 export {
@@ -94,6 +101,9 @@ export {
 } from "./locale";
 
 export const manchester: CityChapter = cityChapterSchema.parse(manchesterRaw);
+
+export const manchesterChoices: ScriptedChoicesFile =
+  scriptedChoicesFileSchema.parse(manchesterChoicesRaw);
 
 export function venueById(
   chapter: CityChapter,
