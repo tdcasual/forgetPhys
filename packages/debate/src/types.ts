@@ -61,6 +61,8 @@ export interface GroundedReplyDraft {
   text: string;
   cite: CardId[];
   challenge_ids?: CardId[];
+  /** Echoed from BFF meta/final when present (M3.1). */
+  quotaRemaining?: number;
 }
 
 export interface SlotFill {
@@ -107,6 +109,11 @@ export interface GroundedReplyRequest {
   hits: RetrieveHit[];
   debateSessionId: string;
   path?: "short" | "essay";
+  /**
+   * Stable id for one player turn. Critic retries reuse this so BFF quota
+   * does not double-count (M3.1).
+   */
+  playerTurnId?: string;
 }
 
 export interface GroundedReplyTransport {

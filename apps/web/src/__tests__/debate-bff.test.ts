@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   handleDebateComplete,
   parseGroundedReply,
@@ -11,6 +11,10 @@ import {
   readDebateUpstreamEnv,
   resolveUpstreamModel,
 } from "../../server/env";
+import {
+  __resetQuotaForTests,
+  QUOTA_CAPS,
+} from "../../server/quota";
 
 function mockReq(
   body: DebateCompleteBody,
@@ -78,6 +82,14 @@ function mockRes(): ServerResponse & {
     return ee;
   };
   return ee;
+}
+
+
+function cookieFromRes(res: { headers: Record<string, string | string[]> }): string {
+  const raw = res.headers["Set-Cookie"] || res.headers["set-cookie"];
+  const first = Array.isArray(raw) ? raw[0] : raw;
+  if (!first || typeof first !== "string") return "";
+  return first.split(";")[0];
 }
 
 function parseEvents(body: string): { event: string; data: unknown }[] {
@@ -236,5 +248,109 @@ describe("handleDebateComplete", () => {
       text: string;
     };
     expect(final?.text).toBe("ok");
+  });
+});
+
+describe("BFF quota (M3.1)", () => {
+  beforeEach(() => {
+    __resetQuotaForTests();
+  });
+
+  it("allows critic retries with same playerTurnId without burning a second turn", async () => {
+    const env = {
+      baseUrl: "https://api.deepseek.com",
+      apiKey: null as string | null,
+      model: "deepseek-chat",
+      modelAlias: "forgetphys-debate",
+      mock: true,
+    };
+
+    const firstReq = mockReq({
+      messages: [{ role: "user", content: "hi" }],
+      mode: "free",
+      debateSessionId: "sess-quota-1",
+      playerTurnId: "turn-A",
+      requestId: "req-turn-A-1",
+      allowedCiteIds: ["fact-1"],
+    });
+    const firstRes = mockRes();
+    await handleDebateComplete(firstReq, firstRes, { env });
+    const cookie = cookieFromRes(firstRes);
+    expect(cookie).toBeTruthy();
+    const meta1 = parseEvents(firstRes.body).find((e) => e.event === "meta")
+      ?.data as { quotaRemaining: number };
+    expect(meta1.quotaRemaining).toBe(QUOTA_CAPS.free - 1);
+
+    const retryReq = mockReq(
+      {
+        messages: [{ role: "user", content: "hi" }],
+        mode: "free",
+        debateSessionId: "sess-quota-1",
+        playerTurnId: "turn-A",
+        requestId: "req-turn-A-2",
+        allowedCiteIds: ["fact-1"],
+      },
+      { headers: { host: "localhost:5173", cookie } },
+    );
+    const retryRes = mockRes();
+    await handleDebateComplete(retryReq, retryRes, { env });
+    expect(parseEvents(retryRes.body).some((e) => e.event === "final")).toBe(
+      true,
+    );
+    const meta2 = parseEvents(retryRes.body).find((e) => e.event === "meta")
+      ?.data as { quotaRemaining: number };
+    expect(meta2.quotaRemaining).toBe(QUOTA_CAPS.free - 1);
+  });
+
+  it("emits budget_exhausted when free cap is exceeded", async () => {
+    const env = {
+      baseUrl: "https://api.deepseek.com",
+      apiKey: null as string | null,
+      model: "deepseek-chat",
+      modelAlias: "forgetphys-debate",
+      mock: true,
+    };
+
+    let cookie = "";
+    for (let i = 0; i < QUOTA_CAPS.free; i++) {
+      const req = mockReq(
+        {
+          messages: [{ role: "user", content: "hi" }],
+          mode: "free",
+          debateSessionId: "sess-quota-2",
+          playerTurnId: `turn-${i}`,
+          requestId: `req-fill-${i}`,
+        },
+        cookie
+          ? { headers: { host: "localhost:5173", cookie } }
+          : undefined,
+      );
+      const res = mockRes();
+      await handleDebateComplete(req, res, { env });
+      if (!cookie) cookie = cookieFromRes(res);
+      expect(parseEvents(res.body).some((e) => e.event === "final")).toBe(true);
+    }
+
+    const overReq = mockReq(
+      {
+        messages: [{ role: "user", content: "hi" }],
+        mode: "free",
+        debateSessionId: "sess-quota-2",
+        playerTurnId: "turn-over",
+        requestId: "req-over",
+      },
+      { headers: { host: "localhost:5173", cookie } },
+    );
+    const overRes = mockRes();
+    await handleDebateComplete(overReq, overRes, { env });
+    const events = parseEvents(overRes.body);
+    const err = events.find((e) => e.event === "error")?.data as
+      | { code: string; message: string; quotaRemaining: number }
+      | undefined;
+    expect(err).toBeTruthy();
+    expect(err!.code).toBe("budget_exhausted");
+    expect(err!.quotaRemaining).toBe(0);
+    expect(err!.message.toLowerCase()).toMatch(/budget|exhaust|turn/);
+    expect(events.some((e) => e.event === "final")).toBe(false);
   });
 });

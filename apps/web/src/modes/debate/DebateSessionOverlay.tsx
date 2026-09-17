@@ -9,6 +9,12 @@ import type {
   SlotId,
 } from "@physics-chronicle/debate";
 import {
+  DEFAULT_TURN_BUDGET_FREE,
+  DEFAULT_TURN_BUDGET_HARD,
+} from "@physics-chronicle/debate";
+import { BffTransportError } from "./bffTransport";
+
+import {
   useCallback,
   useEffect,
   useMemo,
@@ -76,6 +82,8 @@ export function DebateSessionOverlay() {
   const [rejectSlotId, setRejectSlotId] = useState<string | null>(null);
   const [returningId, setReturningId] = useState<string | null>(null);
   const [turnsUsed, setTurnsUsed] = useState(0);
+  const [errorBanner, setErrorBanner] = useState<string | null>(null);
+  const [quotaRemaining, setQuotaRemaining] = useState<number | null>(null);
   const rejectTimer = useRef<number | null>(null);
 
   const debateLive =
@@ -90,7 +98,9 @@ export function DebateSessionOverlay() {
   const facts = runtime.pack.facts.cards;
   const hardSlots = runtime.pack.hardSlots;
   const turnBudget =
-    hardSlots.win.suggested_turn_budget ?? 12;
+    debateMode === "free"
+      ? DEFAULT_TURN_BUDGET_FREE
+      : (hardSlots.win.suggested_turn_budget ?? DEFAULT_TURN_BUDGET_HARD);
 
   const refresh = useCallback(() => {
     setSnap(runtime.session.boardSnapshot());
@@ -164,6 +174,8 @@ export function DebateSessionOverlay() {
     setEssay("");
     setPicked(null);
     setTurnsUsed(0);
+    setErrorBanner(null);
+    setQuotaRemaining(null);
     refresh();
 
     // Opening hard: challenge card + demoted toast (P1a)
@@ -394,12 +406,24 @@ export function DebateSessionOverlay() {
   const onSubmitEssay = useCallback(async () => {
     if (!essay.trim() || busy) return;
     setBusy(true);
+    setErrorBanner(null);
     try {
       const result = await runtime.session.submitUserTurn(essay.trim(), {
-        essay: true,
+        essay: debateMode === "hard",
       });
       setTurnsUsed((n) => n + 1);
-      setLastReply(result.reply.text || "（P1a stub · 无 live LLM）");
+      if (typeof result.quotaRemaining === "number") {
+        setQuotaRemaining(result.quotaRemaining);
+      }
+      const replyText = result.reply.text?.trim() ?? "";
+      if (!replyText) {
+        setErrorBanner(
+          "Empty live reply. Check the server API key in gitignored .env, or enable BFF mock mode for offline.",
+        );
+        setLastReply(null);
+      } else {
+        setLastReply(replyText);
+      }
       if (result.reply.cite.length && debateMode === "free") {
         setGhostSlots(runtime.session.ghostPreview(result.reply.cite));
       }
@@ -411,12 +435,27 @@ export function DebateSessionOverlay() {
         }
       }
       if (debateMode === "hard") {
-        const t = pickCriticTemplate(templates);
-        if (t) {
-          setChallenge(t);
-          setCriticToast({ template: t, shownAt: Date.now() });
+        const tmpl = pickCriticTemplate(templates);
+        if (tmpl) {
+          setChallenge(tmpl);
+          setCriticToast({ template: tmpl, shownAt: Date.now() });
         }
       }
+    } catch (err) {
+      const msg =
+        err instanceof BffTransportError
+          ? err.message
+          : err instanceof Error
+            ? err.message
+            : "Debate request failed.";
+      setErrorBanner(msg);
+      if (
+        err instanceof BffTransportError &&
+        typeof err.quotaRemaining === "number"
+      ) {
+        setQuotaRemaining(err.quotaRemaining);
+      }
+      setLastReply(null);
     } finally {
       setBusy(false);
     }
@@ -557,13 +596,29 @@ export function DebateSessionOverlay() {
                 </div>
               ) : null}
 
-              {debateMode === "hard" && !terminal ? (
+              {errorBanner ? (
+                <p className="debate-propose__error" role="alert">
+                  {errorBanner}
+                </p>
+              ) : null}
+
+              {quotaRemaining != null ? (
+                <p className="debate-topbar__meta" aria-live="polite">
+                  LLM quota remaining: {quotaRemaining}
+                </p>
+              ) : null}
+
+              {(debateMode === "hard" || debateMode === "free") && !terminal ? (
                 <div className="debate-essay debate-essay--compact">
                   <textarea
                     className="debate-essay__input"
                     rows={3}
                     value={essay}
-                    placeholder="以实验读数与事实卡反驳时代主流理解…"
+                    placeholder={
+                      debateMode === "free"
+                        ? "Ask Rutherford a grounded question (cites a Fact)…"
+                        : "以实验读数与事实卡反驳时代主流理解…"
+                    }
                     onChange={(e) => setEssay(e.target.value)}
                   />
                   <div className="debate-essay__actions">
@@ -573,7 +628,7 @@ export function DebateSessionOverlay() {
                       disabled={busy || !essay.trim()}
                       onClick={() => void onSubmitEssay()}
                     >
-                      提交长文
+                      {debateMode === "free" ? "Submit turn" : "提交长文"}
                     </button>
                   </div>
                 </div>

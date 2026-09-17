@@ -133,9 +133,14 @@ export class StubGroundedReply implements GroundedReply {
   ): Promise<GroundedReplyDraft> {
     const maxRetries = opts?.maxRetries ?? 2;
     let last: GroundedReplyDraft = { text: "", cite: [] };
+    // One player-turn id for this generate() — Critic retries must not burn quota.
+    const playerTurnId =
+      req.playerTurnId ??
+      `turn-${req.debateSessionId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const reqWithTurn: GroundedReplyRequest = { ...req, playerTurnId };
 
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
-      const result = await transport.complete(req);
+      const result = await transport.complete(reqWithTurn);
       if (isAsyncIterable(result)) {
         let text = "";
         for await (const chunk of result) text += chunk;

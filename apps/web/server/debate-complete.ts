@@ -7,6 +7,7 @@ import {
   type DebateUpstreamEnv,
 } from "./env";
 import { endSse, initSse, writeSse } from "./sse";
+import { checkAndConsumeQuota, peekQuotaRemaining } from "./quota";
 
 export type DebateCompleteBody = {
   messages?: { role: string; content: string }[];
@@ -17,6 +18,11 @@ export type DebateCompleteBody = {
   requestId?: string;
   /** Allowed cite ids for post-parse hygiene (optional). */
   allowedCiteIds?: string[];
+  /**
+   * Stable id for one player turn. Critic retries (K<=2) must reuse the same
+   * id so they do not consume extra quota.
+   */
+  playerTurnId?: string;
 };
 
 export type DebateCompleteDeps = {
@@ -74,6 +80,14 @@ export async function handleDebateComplete(
     return;
   }
 
+  const quotaArgs = {
+    anonId,
+    debateSessionId: body.debateSessionId,
+    mode: body.mode,
+    playerTurnId: body.playerTurnId,
+  };
+  const quota = checkAndConsumeQuota(quotaArgs);
+
   initSse(res);
   writeSse(res, "meta", {
     requestId,
@@ -81,11 +95,23 @@ export async function handleDebateComplete(
     debateSessionId: body.debateSessionId ?? null,
     mode: body.mode ?? null,
     anonId,
+    quotaRemaining: quota.ok ? quota.quotaRemaining : 0,
   });
 
   try {
+    if (!quota.ok) {
+      writeSse(res, "error", {
+        code: quota.code,
+        message: quota.message,
+        requestId,
+        quotaRemaining: 0,
+      });
+      endSse(res);
+      return;
+    }
+
     if (env.mock) {
-      await streamMock(res, body, requestId);
+      await streamMock(res, body, requestId, quota.quotaRemaining);
       endSse(res);
       return;
     }
@@ -94,27 +120,56 @@ export async function handleDebateComplete(
       writeSse(res, "error", {
         code: "missing_api_key",
         message:
-          "Server missing DEEPSEEK_API_KEY (or LITELLM_API_KEY). Set it in gitignored .env.",
+          "Server missing DEEPSEEK_API_KEY (or LITELLM_API_KEY). Set it in gitignored .env — then retry. Offline: DEBATE_BFF_MOCK=1.",
         requestId,
+        quotaRemaining: quota.quotaRemaining,
       });
       endSse(res);
       return;
     }
 
-    const upstream = await callUpstream({
-      env,
-      messages,
-      modelAlias: body.modelAlias,
-      fetchImpl,
-      signal: abortFromReq(req),
-    });
+    let upstream: Awaited<ReturnType<typeof callUpstream>>;
+    try {
+      upstream = await callUpstream({
+        env,
+        messages,
+        fetchImpl,
+        signal: abortFromReq(req, 60_000),
+      });
+    } catch (err) {
+      const aborted =
+        (err instanceof Error && err.name === "AbortError") ||
+        (typeof err === "object" &&
+          err !== null &&
+          "name" in err &&
+          (err as { name: string }).name === "TimeoutError");
+      writeSse(res, "error", {
+        code: aborted ? "upstream_timeout" : "bff_error",
+        message: aborted
+          ? "Upstream model timed out. Check network / DEBATE_BFF_MOCK=1 for offline."
+          : sanitizeErrorMessage(
+              err instanceof Error ? err.message : "unknown_error",
+            ),
+        requestId,
+        quotaRemaining: peekQuotaRemaining(quotaArgs),
+      });
+      endSse(res);
+      return;
+    }
 
     if (!upstream.ok) {
+      const status = upstream.status;
+      const message =
+        status === 401 || status === 403
+          ? "Upstream rejected the API key (401/403). Check DEEPSEEK_API_KEY in gitignored .env."
+          : upstream.message;
       writeSse(res, "error", {
-        code: "upstream_error",
-        message: upstream.message,
+        code:
+          status === 401 || status === 403 ? "upstream_auth" : "upstream_error",
+        message,
         requestId,
-        status: upstream.status,
+        status,
+        quotaRemaining: peekQuotaRemaining(quotaArgs),
       });
       endSse(res);
       return;
@@ -127,12 +182,21 @@ export async function handleDebateComplete(
     }
 
     const draft = parseGroundedReply(assembled, body.allowedCiteIds);
-    writeSse(res, "final", { ...draft, requestId });
+    writeSse(res, "final", {
+      ...draft,
+      requestId,
+      quotaRemaining: quota.quotaRemaining,
+    });
     endSse(res);
   } catch (err) {
     const message =
       err instanceof Error ? sanitizeErrorMessage(err.message) : "unknown_error";
-    writeSse(res, "error", { code: "bff_error", message, requestId });
+    writeSse(res, "error", {
+      code: "bff_error",
+      message,
+      requestId,
+      quotaRemaining: peekQuotaRemaining(quotaArgs),
+    });
     endSse(res);
   }
 }
@@ -141,6 +205,7 @@ async function streamMock(
   res: ServerResponse,
   body: DebateCompleteBody,
   requestId: string,
+  quotaRemaining = 19,
 ): Promise<void> {
   const cite =
     body.allowedCiteIds?.slice(0, 2) ??
@@ -155,13 +220,13 @@ async function streamMock(
   writeSse(res, "final", {
     ...parseGroundedReply(text, body.allowedCiteIds),
     requestId,
+    quotaRemaining,
   });
 }
 
 async function callUpstream(args: {
   env: DebateUpstreamEnv;
   messages: { role: string; content: string }[];
-  modelAlias?: string;
   fetchImpl: typeof fetch;
   signal?: AbortSignal;
 }): Promise<
@@ -169,7 +234,6 @@ async function callUpstream(args: {
   | { ok: false; status: number; message: string }
 > {
   const url = chatCompletionsUrl(args.env.baseUrl);
-  const model = args.env.model;
   const res = await args.fetchImpl(url, {
     method: "POST",
     headers: {
@@ -177,7 +241,7 @@ async function callUpstream(args: {
       Authorization: `Bearer ${args.env.apiKey}`,
     },
     body: JSON.stringify({
-      model,
+      model: args.env.model,
       messages: args.messages,
       stream: true,
       temperature: 0.3,
@@ -300,11 +364,20 @@ function readBody(req: IncomingMessage): Promise<string> {
   });
 }
 
-function abortFromReq(req: IncomingMessage): AbortSignal | undefined {
+function abortFromReq(
+  req: IncomingMessage,
+  timeoutMs?: number,
+): AbortSignal {
   const ac = new AbortController();
   req.on("close", () => {
     if (!req.complete) ac.abort();
   });
+  if (timeoutMs && timeoutMs > 0) {
+    const t = setTimeout(() => ac.abort(), timeoutMs);
+    if (typeof t === "object" && t && "unref" in t) {
+      (t as NodeJS.Timeout).unref();
+    }
+  }
   return ac.signal;
 }
 

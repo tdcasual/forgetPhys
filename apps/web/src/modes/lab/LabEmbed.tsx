@@ -35,6 +35,12 @@ export function LabEmbed() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const allowlistRef = useRef(defaultLabEmbedOriginAllowlist());
 
+  // M3.1: one labEmbed visit unlocks Free/Hard (no console / postMessage required).
+  useEffect(() => {
+    if (mode !== "labEmbed") return;
+    recordLabEmbedVisit();
+  }, [mode, recordLabEmbedVisit]);
+
   useEffect(() => {
     if (mode !== "labEmbed") return;
 

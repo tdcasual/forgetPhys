@@ -67,7 +67,11 @@ const CHAR_DISPLAY: Record<string, Record<Locale, string>> = {
   "char-bohr": { en: "Bohr", "zh-Hans": "玻尔" },
 };
 
-/** Role fallback when charId missing (narrator / companion / scientist). */
+/**
+ * Role fallback when charId is missing.
+ * scientist → Rutherford ONLY as a last resort; prefer charId (Geiger, Marsden, …)
+ * so multi-scientist lines are not mislabeled.
+ */
 const ROLE_DISPLAY: Record<string, Record<Locale, string>> = {
   narrator: { en: "Narrator", "zh-Hans": "旁白" },
   companion: { en: "Watson", "zh-Hans": "华生" },
