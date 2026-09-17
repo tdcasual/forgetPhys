@@ -191,6 +191,43 @@ export const venueSchema = z.object({
 
 export type VenueContent = z.infer<typeof venueSchema>;
 
+
+/** Soft-consequence player choice (M3.2 Coupland). EN SoT; runtime wiring separate. */
+export const scriptedChoiceOptionSchema = z.object({
+  id: z.string().min(1),
+  /** Button / list label (EN string or localized map). */
+  label: localizedTextSchema,
+  /** One-line soft effect for design / telemetry (not shown raw). */
+  softEffect: z.string().min(1),
+  /** Optional UI tags (e.g. interpretation-warning, deep-link-lab). */
+  tags: z.array(z.string().min(1)).optional(),
+  /** Consequence dialogue after pick; speakers must obey VoiceCards / hard locks. */
+  consequenceLines: z.array(dialogueLineSchema).min(1),
+});
+
+export type ScriptedChoiceOption = z.infer<typeof scriptedChoiceOptionSchema>;
+
+export const scriptedChoiceSchema = z.object({
+  id: z.string().min(1),
+  /** Where copy intends the beat (architecture gates). */
+  placement: z.enum(["lab", "afterLab", "lodge"]),
+  prompt: localizedTextSchema,
+  options: z.array(scriptedChoiceOptionSchema).min(2).max(4),
+  notes: z.string().optional(),
+});
+
+export type ScriptedChoice = z.infer<typeof scriptedChoiceSchema>;
+
+export const scriptedChoicesFileSchema = z.object({
+  id: z.string().min(1),
+  chapterId: z.string().min(1),
+  venueId: z.string().min(1),
+  localeSot: z.literal("en"),
+  choices: z.array(scriptedChoiceSchema).min(2),
+});
+
+export type ScriptedChoicesFile = z.infer<typeof scriptedChoicesFileSchema>;
+
 export const cityChapterSchema = z.object({
   id: z.string(),
   city: z.string(),

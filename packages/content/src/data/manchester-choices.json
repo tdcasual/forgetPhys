@@ -1,0 +1,239 @@
+{
+  "id": "manchester-coupland-choices",
+  "chapterId": "ch1-manchester",
+  "venueId": "coupland-lab",
+  "localeSot": "en",
+  "choices": [
+    {
+      "id": "choice-model-push",
+      "placement": "afterLab",
+      "prompt": "After those counts — which picture do you lean on for now?",
+      "notes": "M3.2 §B choice-model-push. Wrong push → one-line pushback; does not soft-lock Hard.",
+      "options": [
+        {
+          "id": "opt-keep-plum-pudding",
+          "label": "Keep the plum-pudding picture — positive electricity spread through the atom.",
+          "softEffect": "Watson/Rutherford one-line pushback on large-angle rarity; Hard still open.",
+          "tags": [
+            "model-pushback"
+          ],
+          "consequenceLines": [
+            {
+              "id": "choice-model-push-pp-1",
+              "speaker": "华生",
+              "speakerRole": "companion",
+              "charId": "char-watson",
+              "emotion": "think",
+              "pose": "stand",
+              "text": "If the positive electricity is smeared through the whole volume, those rare large-angle flashes are awkward — scarce, yes, but still on the screen. Can the diffuse sphere really throw a few paths that far?",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "Aligned to fact-gm1909-diffuse-reflection / fact-ruth1911-central-charge framing",
+                "notes": "Pushback / caution; no invented fractions."
+              }
+            },
+            {
+              "id": "choice-model-push-pp-2",
+              "speaker": "卢瑟福",
+              "speakerRole": "scientist",
+              "charId": "char-rutherford",
+              "emotion": "speak",
+              "pose": "sit-chair",
+              "text": "Scarce is not none. Geiger and Marsden counted that class of event; I will not let a neat plum-pudding slogan brush them aside. We may still speak carefully — but not as if the large angles were a trifle.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "Aligned to fact-gm1909-diffuse-reflection / fact-ruth1911-central-charge framing",
+                "notes": "Pushback / caution; no invented fractions."
+              }
+            }
+          ]
+        },
+        {
+          "id": "opt-try-central-charge",
+          "label": "Try the working hypothesis — a concentrated central charge.",
+          "softEffect": "Cautious affirm; still not a closed case; lexicon prefers central charge.",
+          "tags": [
+            "model-central-charge"
+          ],
+          "consequenceLines": [
+            {
+              "id": "choice-model-push-cc-1",
+              "speaker": "卢瑟福",
+              "speakerRole": "scientist",
+              "charId": "char-rutherford",
+              "emotion": "speak",
+              "pose": "point-screen",
+              "text": "Then take it as a working hypothesis: positive electricity gathered in a very small region at the centre. Most paths barely turn; a few turn hard. That is an account to press against the foil — not a verdict spoken as if the case were closed.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "Aligned to fact-gm1909-diffuse-reflection / fact-ruth1911-central-charge framing",
+                "notes": "Pushback / caution; no invented fractions."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "choice-shell-metaphor",
+      "placement": "lab",
+      "prompt": "That fifteen-inch shell striking tissue paper — how shall we treat it?",
+      "notes": "M3.2 §B choice-shell-metaphor. Accept-as-fact → interpretation warning; reject → cleaner lexicon.",
+      "options": [
+        {
+          "id": "opt-shell-as-lab-fact",
+          "label": "Treat it as what happened in the dark room.",
+          "softEffect": "InterpretationBadge / lodge tag warning; Watson corrects late recollection.",
+          "tags": [
+            "interpretation-warning",
+            "shell-late"
+          ],
+          "consequenceLines": [
+            {
+              "id": "choice-shell-as-fact-1",
+              "speaker": "华生",
+              "speakerRole": "companion",
+              "charId": "char-watson",
+              "emotion": "speak",
+              "pose": "point-screen",
+              "text": "Careful — that shell-and-tissue picture is a later story. It is not a line from the nineteen-nine dark-room notebooks. Fine as a vivid later telling; dangerous if we file it as a lab fact.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "Late recollection (often 1930s); era-op-shell-metaphor-late",
+                "notes": "Accept-as-fact path triggers interpretation warning."
+              }
+            },
+            {
+              "id": "choice-shell-as-fact-2",
+              "speaker": "旁白",
+              "speakerRole": "narrator",
+              "emotion": "idle",
+              "text": "Marked as late recollection, not a Coupland dark-room quotation. Keep the shell metaphor off the evidence board as a primary cite.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "era-op-shell-metaphor-late",
+                "notes": "UI may show InterpretationBadge."
+              }
+            }
+          ]
+        },
+        {
+          "id": "opt-shell-as-late-story",
+          "label": "Treat it as a later story — not a 1909 notebook line.",
+          "softEffect": "Cleaner lexicon; no interpretation warning.",
+          "tags": [
+            "lexicon-clean"
+          ],
+          "consequenceLines": [
+            {
+              "id": "choice-shell-late-1",
+              "speaker": "卢瑟福",
+              "speakerRole": "scientist",
+              "charId": "char-rutherford",
+              "emotion": "speak",
+              "pose": "sit-chair",
+              "text": "Keep to the screen and the notebook: diffuse reflection, foil, counts. Leave the shell picture for later storytellers.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "M3.2 soft choice consequence — Coupland; not a Fact fill",
+                "notes": "Soft consequence only; does not soft-lock Hard."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "choice-return-bench",
+      "placement": "lodge",
+      "prompt": "After this lodge review — back to the foil thickness on the bench?",
+      "notes": "M3.2 §B choice-return-bench. Yes → deep-link lab; No → stay city/lodge.",
+      "options": [
+        {
+          "id": "opt-return-lab",
+          "label": "Yes — return to the apparatus and change the foil.",
+          "softEffect": "Deep-link coupland-lab / labEmbed; resume foil-thickness check.",
+          "tags": [
+            "deep-link-lab"
+          ],
+          "consequenceLines": [
+            {
+              "id": "choice-return-yes-1",
+              "speaker": "卢瑟福",
+              "speakerRole": "scientist",
+              "charId": "char-rutherford",
+              "emotion": "speak",
+              "pose": "lean-bench",
+              "text": "Then back to the bench. Change the foil thickness; watch whether the angular pattern shifts. Central charge stays a working hypothesis until the apparatus has another say.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "M3.2 soft choice consequence — Coupland; not a Fact fill",
+                "notes": "Soft consequence only; does not soft-lock Hard."
+              }
+            },
+            {
+              "id": "choice-return-yes-2",
+              "speaker": "华生",
+              "speakerRole": "companion",
+              "charId": "char-watson",
+              "emotion": "speak",
+              "pose": "stand",
+              "text": "Right — counts first, slogans later. Shall we try the foil again?",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "M3.2 soft choice consequence — Coupland; not a Fact fill",
+                "notes": "Soft consequence only; does not soft-lock Hard."
+              }
+            }
+          ]
+        },
+        {
+          "id": "opt-stay-city",
+          "label": "Not yet — stay with the city for now.",
+          "softEffect": "Remain on city/lodge map; lab deep-link deferred.",
+          "tags": [
+            "stay-city"
+          ],
+          "consequenceLines": [
+            {
+              "id": "choice-return-no-1",
+              "speaker": "华生",
+              "speakerRole": "companion",
+              "charId": "char-watson",
+              "emotion": "think",
+              "pose": "sit-stool",
+              "text": "Fair. We can keep observation and guess in separate piles a little longer — and come back to the foil when you are ready.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "M3.2 soft choice consequence — Coupland; not a Fact fill",
+                "notes": "Soft consequence only; does not soft-lock Hard."
+              }
+            },
+            {
+              "id": "choice-return-no-2",
+              "speaker": "旁白",
+              "speakerRole": "narrator",
+              "emotion": "idle",
+              "text": "The bench will wait. Coupland Street remains open; the foil check can resume from the laboratory node.",
+              "interpretation": true,
+              "claim": {
+                "source_tier": "interpretation",
+                "citation": "M3.2 soft choice consequence — Coupland; not a Fact fill",
+                "notes": "Soft consequence only; does not soft-lock Hard."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
