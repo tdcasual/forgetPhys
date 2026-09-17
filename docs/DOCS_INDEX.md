@@ -177,3 +177,4 @@ DEBATE_SCHEME_V3 (CN SoT)
 - `MANCHESTER_DIALOGUE_TARGETS.md` — Coupland scripted beat counts
 
 | `DEBATE_BFF_SSE.md` / ADR-0005 | P2 BFF SSE + anon-local auth (DeepSeek server env) |
+- `MANCHESTER_NEXT_PHASE.md` — Coupland next-phase plan (M3)
