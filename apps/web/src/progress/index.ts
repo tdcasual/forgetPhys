@@ -5,6 +5,7 @@ export {
   type ProgressUnlock,
   type ProgressSettings,
   type VenueEvidenceBoardSave,
+  type VenueLastLabReadout,
   type DebateSessionDurable,
 } from "./types";
 export {
@@ -19,4 +20,8 @@ export {
   saveVenueFills,
   clearChapterProgress,
   getVenueBoard,
+  saveLastLabReadout,
+  getLastLabReadout,
+  restorePendingLabEmbed,
+  appendSoftChoiceTags,
 } from "./storage";

@@ -1,4 +1,9 @@
 import { normalizeVenueId } from "@physics-chronicle/content";
+import {
+  classifyLabReadout,
+  type LabEmbedReadout,
+  type LabReadoutSource,
+} from "@physics-chronicle/debate";
 import { useEffect, useRef } from "react";
 import { useGame } from "../../app/GameState";
 import {
@@ -6,22 +11,40 @@ import {
   DEFAULT_LAB_EMBED_CONFIG,
   defaultLabEmbedOriginAllowlist,
   isAllowedLabEmbedOrigin,
-  mapLabEmbedToCandidateSlots,
   parseAlphaScatterSummary,
   type LabEmbedConfig,
 } from "./labEmbedMessages";
-import type { LabEmbedReadout } from "@physics-chronicle/debate";
 
 const DEFAULT_URL = "https://x.infinitas.fun/";
 const DEFAULT_TITLE = "α 粒子散射 · 实验台";
 
-function emitLabFill(readout: LabEmbedReadout, config: LabEmbedConfig = DEFAULT_LAB_EMBED_CONFIG) {
-  const slots = mapLabEmbedToCandidateSlots(readout, config);
+function emitLabFill(
+  readout: LabEmbedReadout,
+  source: LabReadoutSource,
+  config: LabEmbedConfig = DEFAULT_LAB_EMBED_CONFIG,
+) {
+  const classified = classifyLabReadout(readout, {
+    largeAngleDegThreshold: config.largeAngleDegThreshold,
+    forwardMajorityMin: config.forwardMajorityMin,
+    source,
+  });
   window.dispatchEvent(
     new CustomEvent("forgetphys:labEmbed-fill", {
-      detail: { readout, slots },
+      detail: {
+        readout,
+        slots: classified.fillSlots,
+        classified,
+      },
     }),
   );
+  if (classified.weak) {
+    window.dispatchEvent(
+      new CustomEvent("forgetphys:labEmbed-weak", {
+        detail: { readout, classified },
+      }),
+    );
+  }
+  return classified;
 }
 
 export function LabEmbed() {
@@ -30,7 +53,7 @@ export function LabEmbed() {
     venue,
     closeLab,
     recordLabEmbedVisit,
-    setPendingLabEmbed,
+    recordLabReadout,
   } = useGame();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const allowlistRef = useRef(defaultLabEmbedOriginAllowlist());
@@ -40,6 +63,14 @@ export function LabEmbed() {
     if (mode !== "labEmbed") return;
     recordLabEmbedVisit();
   }, [mode, recordLabEmbedVisit]);
+
+  const applyReadout = (
+    readout: LabEmbedReadout,
+    source: LabReadoutSource,
+  ) => {
+    const classified = emitLabFill(readout, source);
+    recordLabReadout(classified);
+  };
 
   useEffect(() => {
     if (mode !== "labEmbed") return;
@@ -58,13 +89,13 @@ export function LabEmbed() {
       }
 
       recordLabEmbedVisit();
-      setPendingLabEmbed(readout);
-      emitLabFill(readout);
+      applyReadout(readout, "lab_embed");
     };
 
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, [mode, recordLabEmbedVisit, setPendingLabEmbed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, recordLabEmbedVisit, recordLabReadout]);
 
   const onIframeLoad = () => {
     const win = iframeRef.current?.contentWindow;
@@ -78,16 +109,23 @@ export function LabEmbed() {
     }
   };
 
-  const simulateReadout = () => {
-    const readout: LabEmbedReadout = {
-      kind: "alpha_scatter_summary",
-      angle_deg: 150,
-      fraction_forward: 0.999,
-      large_angle_count: 3,
-    };
+  const simulateReadout = (kind: "strong" | "weak" = "strong") => {
+    const readout: LabEmbedReadout =
+      kind === "strong"
+        ? {
+            kind: "alpha_scatter_summary",
+            angle_deg: 150,
+            fraction_forward: 0.999,
+            large_angle_count: 3,
+          }
+        : {
+            kind: "alpha_scatter_summary",
+            angle_deg: 30,
+            fraction_forward: 0.2,
+            large_angle_count: 0,
+          };
     recordLabEmbedVisit();
-    setPendingLabEmbed(readout);
-    emitLabFill(readout);
+    applyReadout(readout, "simulated");
   };
 
   if (mode !== "labEmbed") return null;
@@ -124,15 +162,22 @@ export function LabEmbed() {
           <br />
           postMessage 仅接受白名单 origin · kind=
           <code>alpha_scatter_summary</code> · largeAngle≥
-          {DEFAULT_LAB_EMBED_CONFIG.largeAngleDegThreshold}°
+          {DEFAULT_LAB_EMBED_CONFIG.largeAngleDegThreshold}° · M3.2 contracts
         </p>
-        <div className="lab-embed-dev">
+        <div className="lab-embed-dev" style={{ display: "flex", gap: "0.5rem" }}>
           <button
             type="button"
             className="paper-btn ghost"
-            onClick={simulateReadout}
+            onClick={() => simulateReadout("strong")}
           >
             模拟读数（QA）
+          </button>
+          <button
+            type="button"
+            className="paper-btn ghost"
+            onClick={() => simulateReadout("weak")}
+          >
+            模拟弱读数（chip）
           </button>
         </div>
       </div>
