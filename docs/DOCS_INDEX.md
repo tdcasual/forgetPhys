@@ -181,3 +181,4 @@ DEBATE_SCHEME_V3 (CN SoT)
 
 | `DEBATE_BFF_SSE.md` / ADR-0005 | P2 BFF SSE + anon-local auth (DeepSeek server env) |
 - `MANCHESTER_NEXT_PHASE.md` — Coupland next-phase plan (M3)
+- `M3_2_COUPLING.md` — M3.2 lab↔Hard↔choice coupling
