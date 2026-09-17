@@ -29,7 +29,7 @@ SoT pointer: product still `ch1-manchester` / Coupland lab + lodge.
 
 **Owner:** 游戏架构 (+ 游戏设计验收)  
 **Do:**
-- Local smoke: unlock Free/Hard after first labEmbed; one Free turn + one Hard fill path with live DeepSeek.
+- Local smoke ([`M3_1_SMOKE.md`](./M3_1_SMOKE.md)): unlock Free/Hard after first labEmbed; one Free turn + one Hard fill path with live DeepSeek.
 - Surface errors in-UI (no silent stub); respect `DEBATE_BFF_MOCK` for offline.
 - Lock student quota numbers (draft in `STUDENT_LLM_QUOTA.md` → Accepted caps).
 - Fix known small debts: `scientist` role → Rutherford-only fallback; ensure GroundedReply never invents numbers.

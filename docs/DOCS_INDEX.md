@@ -32,7 +32,8 @@ Legend: **SoT** = current source of truth · **archive** = superseded / historic
 | [`adr/0002-product-modes.md`](./adr/0002-product-modes.md) | **SoT** — early `worldMap` \| `chroniclePlate` \| `venue` (Accepted; default shell = 2D — see PRODUCT_FLOW) |
 | [`adr/0003-debate-bff.md`](./adr/0003-debate-bff.md) | **SoT** — Debate BFF = `apps/web` internal proxy (**Accepted** 2026-09-07) |
 | [`LLM_KEY_PATH.md`](./LLM_KEY_PATH.md) | **SoT** — B1 key path (SPA → BFF → LiteLLM) |
-| [`STUDENT_LLM_QUOTA.md`](./STUDENT_LLM_QUOTA.md) | **draft** — turn/token caps; class key vs BYOK; offline fallback |
+| [`STUDENT_LLM_QUOTA.md`](./STUDENT_LLM_QUOTA.md) | **Accepted** — turn caps free 20 / hard 12 / scripted 0; BFF-enforced (M3.1) |
+| [`M3_1_SMOKE.md`](./M3_1_SMOKE.md) | **M3.1** — Free/Hard director smoke checklist |
 | [`GROUNDED_REPLY_PROMPTS.md`](./GROUNDED_REPLY_PROMPTS.md) | **SoT** — P2 GroundedReply prompt assembly + JSON cite schema |
 | [`LABEMBED_POSTMESSAGE.md`](./LABEMBED_POSTMESSAGE.md) | **SoT** — Infinitas postMessage contract (from Architecture §16) |
 | [`PROGRESS_SAVE_SCHEMA.md`](./PROGRESS_SAVE_SCHEMA.md) | **draft** — unlock / debateSession / EvidenceBoard save sketch |
@@ -54,7 +55,8 @@ Legend: **SoT** = current source of truth · **archive** = superseded / historic
 | [`VOICE_STYLE_REFS.md`](./VOICE_STYLE_REFS.md) | 对话写法范本（伽利略对话等技法） |
 | [`COPY_DEAI_SOURCES.md`](./COPY_DEAI_SOURCES.md) | 去 AI 味 GitHub 来源 + 本地 skill |
 | [`SCRIPTED_DIALOGUE_AUTHORING.md`](./SCRIPTED_DIALOGUE_AUTHORING.md) | Thin guide — `manchester.json` claims / badges / interpretation |
-| [`STUDENT_LLM_QUOTA.md`](./STUDENT_LLM_QUOTA.md) | **draft** — student cost / quota (also under Architecture) |
+| [`STUDENT_LLM_QUOTA.md`](./STUDENT_LLM_QUOTA.md) | **Accepted** — student cost / quota (also under Architecture) |
+| [`M3_1_SMOKE.md`](./M3_1_SMOKE.md) | **M3.1** — Free/Hard smoke (also under Product) |
 | [`GROUNDED_REPLY_PROMPTS.md`](./GROUNDED_REPLY_PROMPTS.md) | **SoT** — GroundedReply prompts (also under Architecture) |
 | [`LABEMBED_POSTMESSAGE.md`](./LABEMBED_POSTMESSAGE.md) | **SoT** — labEmbed postMessage (also under Architecture) |
 | [`PROGRESS_SAVE_SCHEMA.md`](./PROGRESS_SAVE_SCHEMA.md) | Progress / EvidenceBoard save sketch |
@@ -160,7 +162,8 @@ DEBATE_SCHEME_V3 (CN SoT)
     ├── DEBATE_CONTENT_SCHEMA (card JSON shapes)
     ├── DEBATE_PACKAGE_API (packages/debate types)
     ├── SCRIPTED_DIALOGUE_AUTHORING (manchester.json)
-    ├── STUDENT_LLM_QUOTA (draft caps)
+    ├── STUDENT_LLM_QUOTA (Accepted caps · M3.1)
+    ├── M3_1_SMOKE
     ├── DESIGN_GAPS (filled vs open)
     ├── adr/0003-debate-bff (Accepted · apps/web proxy)
     ├── LLM_KEY_PATH (B1)

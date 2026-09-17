@@ -239,7 +239,21 @@ class DebateSessionImpl implements DebateSession {
       };
     }
 
+    if (this.turnsUsed >= this.turnBudget) {
+      this._phase = "budget_exhausted";
+      return {
+        reply: {
+          text: "Turn budget exhausted for this debate session. Resume scripted beats — cites will not be invented.",
+          cite: [],
+        },
+        board: this.deps.board.snapshot(),
+        outcome: "budget_exhausted",
+        quotaRemaining: 0,
+      };
+    }
+
     this.turnsUsed += 1;
+    const playerTurnId = `${this.debateSessionId}-t${this.turnsUsed}`;
     const hits = this.deps.retriever.retrieve(
       { text, mode: this._mode, topK: 8 },
       this.deps.facts,
@@ -255,6 +269,7 @@ class DebateSessionImpl implements DebateSession {
         hits,
         debateSessionId: this.debateSessionId,
         path: opts?.essay ? "essay" : "short",
+        playerTurnId,
       },
       this.deps.policy,
       this.transport,
@@ -277,7 +292,11 @@ class DebateSessionImpl implements DebateSession {
     else if (outcome === "budget_exhausted") this._phase = "budget_exhausted";
     else if (outcome === "aborted") this._phase = "aborted";
 
-    return { reply, board, outcome };
+    const quotaRemaining =
+      typeof reply.quotaRemaining === "number"
+        ? reply.quotaRemaining
+        : Math.max(0, this.turnBudget - this.turnsUsed);
+    return { reply, board, outcome, quotaRemaining };
   }
 }
 

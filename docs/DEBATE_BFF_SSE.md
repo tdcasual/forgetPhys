@@ -23,15 +23,16 @@ Credentials: same-origin (anon-local HttpOnly cookie)
 | `debateSession` | no | `off` \| `active` overlay flag — do not overload `mode` |
 | `requestId` | no | Client-generated; echoed in SSE `meta` / errors |
 | `allowedCiteIds` | no | Hit ids for server-side cite hygiene |
+| `playerTurnId` | no | Stable player-turn id; Critic retries reuse it (no extra quota) |
 
 ### Response — SSE events
 
 | Event | Data | When |
 |---|---|---|
-| `meta` | `{ requestId, modelAlias, debateSessionId, mode, anonId }` | First |
+| `meta` | `{ requestId, modelAlias, debateSessionId, mode, anonId, quotaRemaining }` | First |
 | `delta` | `{ text, requestId }` | Token / chunk deltas |
-| `final` | `{ text, cite, challenge_ids?, requestId }` | Parsed `GroundedReply` |
-| `error` | `{ code, message, requestId, status? }` | Failures (**never** echoes API keys) |
+| `final` | `{ text, cite, challenge_ids?, requestId, quotaRemaining }` | Parsed `GroundedReply` |
+| `error` | `{ code, message, requestId, status?, quotaRemaining? }` | Failures (**never** echoes API keys). `budget_exhausted` / `missing_api_key` / `upstream_auth` / `upstream_timeout` are player-readable. |
 | `done` | `{}` | Stream end |
 
 Abort: client `AbortController` aborts the fetch; BFF aborts upstream when the request socket closes.
@@ -47,3 +48,14 @@ BFF prefers:
 Local LiteLLM gateway still OK: point `LITELLM_BASE_URL` at the gateway and keep alias mapping in `tools/litellm/litellm_config.yaml`.
 
 `DEBATE_BFF_MOCK=1` → canned SSE without upstream (tests / offline).
+
+
+## Quota (M3.1 Accepted)
+
+| Mode | Cap (LLM turns / DebateSession) |
+|------|----------------------------------|
+| free | 20 |
+| hard | 12 |
+| scripted | 0 |
+
+Enforced in `apps/web/server/quota.ts`. Critic retries (K≤2) sharing `playerTurnId` do not consume an extra turn.

@@ -1,9 +1,9 @@
 # Student LLM quota / cost strategy
 
-Status: **Draft · not locked** · 2026-09-07  
+Status: **Accepted** · 2026-09-17 (M3.1 defaults locked; director may rubber-stamp)
 Related: [`LLM_KEY_PATH.md`](./LLM_KEY_PATH.md) · [`adr/0003-debate-bff.md`](./adr/0003-debate-bff.md) · [`DEBATE_SCHEME_V3.md`](./DEBATE_SCHEME_V3.md) §4 · [`HARD_EVIDENCE_SLOTS_ALPHA.md`](./HARD_EVIDENCE_SLOTS_ALPHA.md) (`suggested_turn_budget`) · [`DESIGN_GAPS.md`](./DESIGN_GAPS.md)
 
-> Open product decision — document suggestions so P1b/P2 can implement hooks. **Do not treat numbers below as locked SoT.**
+> **Accepted defaults (M3.1).** Caps below are product SoT for class deploys; BFF enforces server-side. Director may rubber-stamp without changing numbers.
 
 ---
 
@@ -16,16 +16,16 @@ Related: [`LLM_KEY_PATH.md`](./LLM_KEY_PATH.md) · [`adr/0003-debate-bff.md`](./
 
 ---
 
-## 2. Suggested turn caps (draft)
+## 2. Turn caps (Accepted)
 
-| Mode | Soft / product default | Hard stop (draft) | Notes |
+| Mode | Soft / product default | Hard stop (Accepted) | Notes |
 |---|---|---|---|
 | **free** | **20** LLM turns / DebateSession | Same or slightly above soft | Ghost board only; still cite-or-retry when live |
 | **hard** | Align to EvidenceBoard budget | **12** turns / session | Matches `suggested_turn_budget` on Coupland α; 1 Watson essay submit = **1 turn** (recommend) |
 | **scripted** | 0 LLM | — | Authored `manchester.json` only |
 
 - Turn = one successful (or uncertainty-template) GroundedReply cycle, **or** one essay submit.
-- CriticPolicy retries inside a turn (K ≤ 2) **do not** each count as a new player turn (draft).
+- CriticPolicy retries inside a turn (K ≤ 2) **do not** each count as a new player turn (Accepted — same `playerTurnId`).
 - Session reset / chapter reset clears counters (same L3 venue-fill policy family as progress save).
 
 ---
@@ -101,9 +101,9 @@ forgetphys_quota:
 
 | Item | State |
 |---|---|
-| Documented draft caps | **This doc** |
-| Director lock on numbers | **Open** |
-| BFF counter implementation | P1b+ |
+| Documented Accepted caps | **This doc** |
+| Director lock on numbers | **Accepted defaults (rubber-stamp OK)** |
+| BFF counter implementation | **M3.1** (`apps/web/server/quota.ts`) |
 | LiteLLM virtual-key budgets | Optional ops |
 
 See [`DESIGN_GAPS.md`](./DESIGN_GAPS.md) for remaining open product items.
