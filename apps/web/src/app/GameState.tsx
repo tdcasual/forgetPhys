@@ -1,11 +1,17 @@
 import {
   manchester,
   venueById,
+  normalizeVenueId,
   type DebateMode,
+  type DialogueLine,
   type Locale,
+  type ScriptedChoice,
   type VenueContent,
 } from "@physics-chronicle/content";
-import type { LabEmbedReadout } from "@physics-chronicle/debate";
+import type {
+  ClassifiedLabReadout,
+  LabEmbedReadout,
+} from "@physics-chronicle/debate";
 import {
   createContext,
   useCallback,
@@ -24,13 +30,21 @@ import {
   type GameMode,
 } from "../camera/CameraDirector";
 import {
+  appendSoftChoiceTags,
   loadProgress,
   markLabEmbedVisit as markVisitOnProgress,
+  restorePendingLabEmbed,
+  saveLastLabReadout,
   saveProgress,
   setDebateModeLast,
   setLocale as setLocaleOnProgress,
   type ChapterProgress,
 } from "../progress";
+import {
+  getScriptedChoice,
+  resolveScriptedChoice,
+  tagsFromResolution,
+} from "../choices";
 import {
   findLabReturnDialogueIndex,
   isNumericDialogueLineParam,
@@ -90,6 +104,21 @@ export type GameApi = {
   setLocale: (locale: Locale) => void;
   recordLabEmbedVisit: () => void;
   setPendingLabEmbed: (r: LabEmbedReadout | null) => void;
+  /** M3.2: weak readout chip (no auto-fill). */
+  weakLabReadout: boolean;
+  setWeakLabReadout: (v: boolean) => void;
+  /** Classify + persist last lab readout for venue; restore pending. */
+  recordLabReadout: (classified: ClassifiedLabReadout) => void;
+  /** Soft choice beat currently presented (null = none). */
+  activeChoice: ScriptedChoice | null;
+  /** Consequence lines queued after a soft choice pick. */
+  choiceConsequenceLines: DialogueLine[];
+  choiceConsequenceIndex: number;
+  presentScriptedChoice: (choiceId: string) => void;
+  pickScriptedChoiceOption: (optionId: string) => void;
+  clearChoiceConsequence: () => void;
+  /** Soft tags include interpretation-warning when set. */
+  hasInterpretationWarning: boolean;
 };
 
 const GameContext = createContext<GameApi | null>(null);
@@ -113,6 +142,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
   );
   const [pendingLabEmbed, setPendingLabEmbed] =
     useState<LabEmbedReadout | null>(null);
+  const [weakLabReadout, setWeakLabReadout] = useState(false);
+  const [activeChoice, setActiveChoice] = useState<ScriptedChoice | null>(null);
+  const [choiceConsequenceLines, setChoiceConsequenceLines] = useState<
+    DialogueLine[]
+  >([]);
+  const [choiceConsequenceIndex, setChoiceConsequenceIndex] = useState(0);
   /**
    * When "afterLab", venue.dialogue is swapped to dialogueAfterLab (VN-lab-03).
    * Reset on leave/re-enter venue; set by closeLab / ?line= id deep-link.
@@ -121,6 +156,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     "main",
   );
   const busy = useRef(false);
+  const pendingDeepLinkLab = useRef(false);
   /** Frozen while debateSession active — resume keeps this index. */
   const frozenBeatRef = useRef<number | null>(null);
 
@@ -271,9 +307,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
         setDebateMode("scripted");
         setDebateSession("off");
         setPendingDebate(opts?.debate ?? null);
+        setActiveChoice(null);
+        setChoiceConsequenceLines([]);
+        setChoiceConsequenceIndex(0);
+        // M3.2: restore last lab readout for this venue into pending
+        const restored = restorePendingLabEmbed(progress, id);
+        if (restored) {
+          setPendingLabEmbed(restored.readout);
+          setWeakLabReadout(restored.weak);
+        }
       });
     },
-    [cutTo],
+    [cutTo, progress],
   );
 
   const openLab = useCallback(() => {
@@ -399,16 +444,120 @@ export function GameProvider({ children }: { children: ReactNode }) {
     enterDebate(dm);
   }, [mode, pendingDebate, venue, enterDebate]);
 
+  const presentScriptedChoice = useCallback((choiceId: string) => {
+    const c = getScriptedChoice(choiceId);
+    if (!c) return;
+    setActiveChoice(c);
+    setChoiceConsequenceLines([]);
+    setChoiceConsequenceIndex(0);
+  }, []);
+
+  const clearChoiceConsequence = useCallback(() => {
+    setChoiceConsequenceLines([]);
+    setChoiceConsequenceIndex(0);
+  }, []);
+
+  const pickScriptedChoiceOption = useCallback(
+    (optionId: string) => {
+      if (!activeChoice || !venueId) return;
+      const res = resolveScriptedChoice(activeChoice.id, optionId);
+      if (!res) return;
+      const tags = tagsFromResolution(res);
+      setProgressState((prev) => {
+        const next = appendSoftChoiceTags(prev, venueId, tags);
+        saveProgress(next);
+        return next;
+      });
+      setActiveChoice(null);
+      pendingDeepLinkLab.current = res.deepLinkLab;
+      if (res.consequenceLines.length) {
+        setChoiceConsequenceLines(res.consequenceLines);
+        setChoiceConsequenceIndex(0);
+        setDialogueOpen(true);
+      } else if (res.deepLinkLab) {
+        pendingDeepLinkLab.current = false;
+        cutTo("labEmbed", () => {
+          /* keep venue */
+        });
+      }
+    },
+    [activeChoice, venueId, cutTo],
+  );
+
+  const recordLabReadout = useCallback(
+    (classified: ClassifiedLabReadout) => {
+      setPendingLabEmbed(classified.readout);
+      setWeakLabReadout(classified.weak);
+      const vid = venueId ?? "lab-coupland";
+      setProgressState((prev) => {
+        const next = saveLastLabReadout(prev, vid, classified);
+        saveProgress(next);
+        return next;
+      });
+    },
+    [venueId],
+  );
+
   const advanceDialogue = useCallback(() => {
     if (!venue) return;
     // Pause scripted beats while DebateSession overlay is active
     if (debateSession === "active") return;
+
+    // Soft-choice consequence playback
+    if (choiceConsequenceLines.length > 0) {
+      if (choiceConsequenceIndex >= choiceConsequenceLines.length - 1) {
+        setChoiceConsequenceLines([]);
+        setChoiceConsequenceIndex(0);
+        setDialogueOpen(false);
+        if (pendingDeepLinkLab.current) {
+          pendingDeepLinkLab.current = false;
+          cutTo("labEmbed", () => {
+            /* keep venue */
+          });
+        }
+        return;
+      }
+      setChoiceConsequenceIndex((i) => i + 1);
+      return;
+    }
+
+    if (activeChoice) return; // wait for pick
+
     if (dialogueIndex >= venue.dialogue.length - 1) {
+      // End of lane: present soft choice when copy exists for placement
+      if (dialogueLane === "afterLab") {
+        const c = getScriptedChoice("choice-model-push");
+        if (c) {
+          setActiveChoice(c);
+          return;
+        }
+      } else if (venue.kind === "lodge") {
+        const c = getScriptedChoice("choice-return-bench");
+        if (c) {
+          setActiveChoice(c);
+          return;
+        }
+      } else if (venue.kind === "lab" && dialogueLane === "main") {
+        const c = getScriptedChoice("choice-shell-metaphor");
+        if (c && !activeChoice) {
+          setActiveChoice(c);
+          return;
+        }
+      }
       setDialogueOpen(false);
       return;
     }
     setDialogueIndex((i) => i + 1);
-  }, [dialogueIndex, venue, debateSession]);
+  }, [
+    dialogueIndex,
+    venue,
+    debateSession,
+    choiceConsequenceLines,
+    choiceConsequenceIndex,
+    activeChoice,
+    dialogueLane,
+    cutTo,
+  ]);
 
   const recordLabEmbedVisit = useCallback(() => {
     setProgressState((prev) => {
@@ -417,6 +566,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
       return next;
     });
   }, []);
+
+  const hasInterpretationWarning = Boolean(
+    (venueId &&
+      progress.debateSession.durable.byVenue[normalizeVenueId(venueId)]
+        ?.softChoiceTags?.includes("interpretation-warning")) ||
+      (venueId &&
+        progress.debateSession.durable.byVenue[normalizeVenueId(venueId)]
+          ?.softChoiceTags?.includes("shell-late")),
+  );
 
   const value = useMemo<GameApi>(
     () => ({
@@ -432,6 +590,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
       debateSession,
       progress,
       pendingLabEmbed,
+      weakLabReadout,
+      setWeakLabReadout,
+      recordLabReadout,
+      activeChoice,
+      choiceConsequenceLines,
+      choiceConsequenceIndex,
+      presentScriptedChoice,
+      pickScriptedChoiceOption,
+      clearChoiceConsequence,
+      hasInterpretationWarning,
       selectDestiny,
       continueToCity,
       continueToVenue,
@@ -463,6 +631,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
       debateSession,
       progress,
       pendingLabEmbed,
+      weakLabReadout,
+      recordLabReadout,
+      activeChoice,
+      choiceConsequenceLines,
+      choiceConsequenceIndex,
+      presentScriptedChoice,
+      pickScriptedChoiceOption,
+      clearChoiceConsequence,
+      hasInterpretationWarning,
       selectDestiny,
       continueToCity,
       continueToVenue,

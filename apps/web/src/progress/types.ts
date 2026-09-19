@@ -1,6 +1,11 @@
 import type { DebateMode, Locale } from "@physics-chronicle/content";
 import { DEFAULT_LOCALE } from "@physics-chronicle/content";
-import type { LabEmbedReadout, SlotFill } from "@physics-chronicle/debate";
+import type {
+  LabEmbedReadout,
+  LabReadoutContractId,
+  LabReadoutSource,
+  SlotFill,
+} from "@physics-chronicle/debate";
 
 export type ProgressUnlock = {
   labEmbedVisit: boolean;
@@ -28,9 +33,22 @@ export type VenueEvidenceBoardSave = {
   updatedAt: string;
 };
 
+/** M3.2 — last classified lab readout for venue (session restore). */
+export type VenueLastLabReadout = {
+  readout: LabEmbedReadout;
+  contracts: LabReadoutContractId[];
+  weak: boolean;
+  source: LabReadoutSource;
+  receivedAt: string;
+};
+
 export type DebateSessionDurable = {
   lastExitReason?: "resume" | "jump" | "persuaded" | "budget_exhausted" | "aborted";
   resumeBeatHint?: string | null;
+  /** M3.2 thin extend — persist last valid (or weak) readout for restore. */
+  lastLabReadout?: VenueLastLabReadout | null;
+  /** Soft choice tags accumulated this chapter (pushback / interpretation / …). */
+  softChoiceTags?: string[];
 };
 
 export type ChapterProgress = {

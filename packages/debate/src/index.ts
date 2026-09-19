@@ -86,3 +86,26 @@ export { createCouplandDebateRuntime } from "./coupland";
 
 // Re-export venue normalize from content for convenience
 export { normalizeVenueId } from "@physics-chronicle/content";
+
+export {
+  classifyLabReadout,
+  labEmbedFillSlotsFromContracts,
+  READOUT_CONTRACT_LARGE_ANGLE,
+  READOUT_CONTRACT_FORWARD_MAJORITY,
+  READOUT_CONTRACT_WEAK,
+  type LabReadoutContractId,
+  type LabReadoutSource,
+  type ClassifiedLabReadout,
+} from "./lab-readout-contracts";
+
+export {
+  checkCouplandBenchObservationGate,
+  boardHasBenchOrFactObservation,
+  boardClaimsConcentration,
+  shouldFireBenchObservationChallenge,
+  BENCH_OBSERVATION_CLAIM_ID,
+  BENCH_OBSERVATION_SLOTS,
+  SLOT_LARGE_ANGLE_EXISTS,
+  SLOT_FORWARD_MAJORITY,
+  SLOT_CHARGE_MASS_CONCENTRATED,
+} from "./bench-observation-gate";

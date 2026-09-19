@@ -2,15 +2,14 @@ import {
   type CriticChallengeTemplate,
   type SlotDef,
 } from "@physics-chronicle/content";
-import type {
-  EvidenceBoardSnapshot,
-  JudgeOutcome,
-  LabEmbedReadout,
-  SlotId,
-} from "@physics-chronicle/debate";
 import {
+  shouldFireBenchObservationChallenge,
   DEFAULT_TURN_BUDGET_FREE,
   DEFAULT_TURN_BUDGET_HARD,
+  type EvidenceBoardSnapshot,
+  type JudgeOutcome,
+  type LabEmbedReadout,
+  type SlotId,
 } from "@physics-chronicle/debate";
 import { BffTransportError } from "./bffTransport";
 
@@ -60,6 +59,7 @@ export function DebateSessionOverlay() {
     setProgress,
     pendingLabEmbed,
     setPendingLabEmbed,
+    weakLabReadout,
     openLab,
   } = useGame();
 
@@ -246,13 +246,17 @@ export function DebateSessionOverlay() {
 
   const showCriticForSlot = useCallback(
     (slotId: string) => {
-      const t = pickCriticTemplate(templates, slotId);
+      const board = runtime.session.boardSnapshot();
+      const preferBench = shouldFireBenchObservationChallenge(board, slotId);
+      const t = pickCriticTemplate(templates, slotId, {
+        preferBenchGate: preferBench,
+      });
       if (t) {
         setChallenge(t);
         setCriticToast({ template: t, shownAt: Date.now() });
       }
     },
-    [templates],
+    [templates, runtime.session],
   );
 
   const applyCiteToSlot = useCallback(
@@ -266,6 +270,11 @@ export function DebateSessionOverlay() {
       if (cite.kind === "lab") {
         if (!pendingLabEmbed) {
           setProposeError("尚无实验读数 — 先去实验台。");
+          flashReject(slot.id, citeKey);
+          return false;
+        }
+        if (weakLabReadout) {
+          setProposeError("弱读数未达阈值 — 仅显示芯片，不能自动填槽。");
           flashReject(slot.id, citeKey);
           return false;
         }
@@ -298,6 +307,7 @@ export function DebateSessionOverlay() {
       debateMode,
       snap,
       pendingLabEmbed,
+      weakLabReadout,
       runtime.session,
       flashReject,
       refresh,
@@ -388,7 +398,11 @@ export function DebateSessionOverlay() {
   useEffect(() => {
     const handler = (ev: Event) => {
       const detail = (
-        ev as CustomEvent<{ readout: LabEmbedReadout; slots: SlotId[] }>
+        ev as CustomEvent<{
+          readout: LabEmbedReadout;
+          slots: SlotId[];
+          classified?: { weak?: boolean };
+        }>
       ).detail;
       if (!detail?.readout || !detail.slots) return;
       setPendingLabEmbed(detail.readout);
@@ -397,6 +411,8 @@ export function DebateSessionOverlay() {
         setGhostSlots(detail.slots);
         return;
       }
+      // Weak contract: slots [] — chip only, no auto-fill
+      if (detail.slots.length === 0 || detail.classified?.weak) return;
       tryFillFromLabEmbed(detail.readout, detail.slots);
     };
     window.addEventListener("forgetphys:labEmbed-fill", handler);
@@ -678,6 +694,7 @@ export function DebateSessionOverlay() {
         <HandRail
           facts={facts}
           pendingLab={pendingLabEmbed}
+          weakLabReadout={weakLabReadout}
           picked={picked}
           onPick={(c) => {
             setPicked(c);

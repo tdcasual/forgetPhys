@@ -142,6 +142,27 @@
       "text_en": "Opening with \"nucleus / planetary atom\" is anachronism — prefer central charge first.",
       "voice": "draft-interim",
       "notes": "P1a priority. Speech color only; fills use central-charge Facts."
+    },
+    {
+      "claimId": "C11",
+      "eraOpinionIds": [
+        "era-op-caution-before-central-charge"
+      ],
+      "aimSlots": [
+        "slot-charge-mass-concentrated",
+        "slot-large-angle-exists",
+        "slot-forward-majority"
+      ],
+      "text_zh": "你主张电荷集中，但板上仍缺大角或前向多数的实验台读数 / 观察事实——先引用 Geiger–Marsden 观察卡，或跑一遍 α 实验台。",
+      "text_en": "You claim concentration — but the board still lacks a bench or Fact observation for large-angle deflection or forward majority. Cite Geiger–Marsden observation cards or run the α bench first.",
+      "voice": "draft-interim",
+      "blocks_pass": true,
+      "requires_observation_slots": [
+        "slot-large-angle-exists",
+        "slot-forward-majority"
+      ],
+      "fires_when_slot_filled": "slot-charge-mass-concentrated",
+      "notes": "M3.2 §C. Blocks Hard pass until large-angle OR forward-majority filled via labEmbed or Fact (fact-gm1909-diffuse-reflection / fact-gm1909-forward-majority / etc.). Do not invent Fact ids."
     }
   ]
 }

@@ -88,6 +88,39 @@ Scratch example:
 
 ---
 
+
+
+---
+
+## 3b. M3.2 thin extend — last lab readout + soft choice tags
+
+Per-venue durable (under `debateSession.durable.byVenue[venueId]`):
+
+```json
+{
+  "lastExitReason": "resume",
+  "lastLabReadout": {
+    "readout": {
+      "kind": "alpha_scatter_summary",
+      "angle_deg": 150,
+      "fraction_forward": 0.999,
+      "large_angle_count": 3
+    },
+    "contracts": ["readout-large-angle", "readout-forward-majority"],
+    "weak": false,
+    "source": "lab_embed",
+    "receivedAt": "2026-09-17T00:00:00.000Z"
+  },
+  "softChoiceTags": ["model-pushback", "interpretation-warning"]
+}
+```
+
+| Field | Notes |
+|---|---|
+| `lastLabReadout` | Last classified whitelist readout for session restore; `source` is `lab_embed` \| `simulated` (QA 模拟读数) |
+| `weak: true` | `readout-weak` — chip only, no auto-fill |
+| `softChoiceTags` | Soft consequence tags from scripted choices; never soft-lock Hard |
+
 ## 4. EvidenceBoard fills per `venueId`
 
 ```json

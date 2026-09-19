@@ -160,6 +160,15 @@ export const criticChallengeTemplateSchema = z.object({
   text_en: z.string().optional(),
   voice: z.string().optional(),
   notes: z.string().optional(),
+  /** M3.2: when true, Hard persuaded is blocked until observation gate clears. */
+  blocks_pass: z.boolean().optional(),
+  /**
+   * M3.2: at least one of these observation slots must be filled
+   * (labEmbed or Fact) before pass while claiming concentration.
+   */
+  requires_observation_slots: z.array(z.string()).optional(),
+  /** Slot whose fill may surface this blocking challenge (e.g. concentration). */
+  fires_when_slot_filled: z.string().optional(),
 });
 
 export type CriticChallengeTemplate = z.infer<

@@ -95,7 +95,7 @@ M3.1 harden Free/Hard  →  M3.2 coupling  →  M3.5 pedagogy close
 
 - [ ] Scripted + lab + lodge loop completable in EN without debug URL
 - [ ] Free and Hard each completable once with live DeepSeek
-- [ ] Lab readout affects Hard (or Critic) at least once
+- [x] Lab readout affects Hard (or Critic) at least once (M3.2 contracts + C11 — see `M3_2_SMOKE.md`)
 - [ ] zh-Hans Coupland dialogue shipped
 - [ ] Art QA Conditional+ for lab & lodge
 - [ ] Clear teaser / lock to Bohr — then open Chapter 1-4 design
@@ -109,5 +109,5 @@ M3.1 harden Free/Hard  →  M3.2 coupling  →  M3.5 pedagogy close
 ## Active track
 
 - **Done:** M3.1 (`4ce80bf`)
-- **Now:** M3.2 coupling (派 游戏架构 + 文案)
-- Next: M3.2 coupling → M3.5 pedagogy; M3.3/M3.4 parallel after 3.1 lands
+- **Now:** M3.2 coupling — architecture (contracts / persist / C11 gate / choice runtime); smoke [`M3_2_SMOKE.md`](./M3_2_SMOKE.md)
+- Next: M3.2 copy polish if needed → M3.5 pedagogy; M3.3/M3.4 parallel

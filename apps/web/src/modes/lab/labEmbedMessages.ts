@@ -5,7 +5,7 @@
 import {
   DEFAULT_FORWARD_MAJORITY_MIN,
   DEFAULT_LARGE_ANGLE_DEG_THRESHOLD,
-  labEmbedCandidateSlots,
+  classifyLabReadout,
   type LabEmbedReadout,
   type SlotId,
 } from "@physics-chronicle/debate";
@@ -106,15 +106,15 @@ export const DEFAULT_LAB_EMBED_CONFIG: LabEmbedConfig = {
   forwardMajorityMin: DEFAULT_FORWARD_MAJORITY_MIN,
 };
 
-/** Map validated readout → Coupland candidate slot ids (Critic still required before fill). */
+/** Map validated readout → Coupland fill slot ids (empty when weak; Critic still required). */
 export function mapLabEmbedToCandidateSlots(
   readout: LabEmbedReadout,
   config: LabEmbedConfig = DEFAULT_LAB_EMBED_CONFIG,
 ): SlotId[] {
-  return labEmbedCandidateSlots(readout, {
+  return classifyLabReadout(readout, {
     largeAngleDegThreshold: config.largeAngleDegThreshold,
     forwardMajorityMin: config.forwardMajorityMin,
-  });
+  }).fillSlots;
 }
 
 export type HostHelloPayload = {

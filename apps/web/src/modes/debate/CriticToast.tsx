@@ -51,19 +51,35 @@ export function CriticToast({
   );
 }
 
-/** Prefer templates aiming at the filled slot; else first P1a priority set. */
+/**
+ * Prefer templates aiming at the filled slot.
+ * M3.2: when filling concentration (or opts.preferBenchGate), prefer C11 blocks_pass.
+ * Else first P1a priority set.
+ */
 export function pickCriticTemplate(
   templates: CriticChallengeTemplate[],
   slotId?: string,
+  opts?: { preferBenchGate?: boolean },
 ): CriticChallengeTemplate | null {
   if (!templates.length) return null;
+
+  if (
+    opts?.preferBenchGate ||
+    slotId === "slot-charge-mass-concentrated"
+  ) {
+    const c11 = templates.find(
+      (t) => t.claimId === "C11" || t.blocks_pass === true,
+    );
+    if (c11) return c11;
+  }
+
   if (slotId) {
     const aimed = templates.filter((t) => t.aimSlots.includes(slotId));
     if (aimed.length) {
       return aimed[Math.floor(Math.random() * aimed.length)]!;
     }
   }
-  const priority = ["C1", "C2", "C3", "C7", "C9", "C10"];
+  const priority = ["C1", "C2", "C3", "C7", "C9", "C10", "C11"];
   for (const id of priority) {
     const hit = templates.find((t) => t.claimId === id);
     if (hit) return hit;

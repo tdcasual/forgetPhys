@@ -1,13 +1,20 @@
 import type { DebateMode } from "@physics-chronicle/content";
 import { normalizeVenueId } from "@physics-chronicle/content";
-import type { LabEmbedReadout, SlotFill } from "@physics-chronicle/debate";
 import type { Locale } from "@physics-chronicle/content";
 import { DEFAULT_LOCALE, isLocale } from "@physics-chronicle/content";
+import {
+  classifyLabReadout,
+  type ClassifiedLabReadout,
+  type LabEmbedReadout,
+  type SlotFill,
+} from "@physics-chronicle/debate";
 import {
   DEFAULT_CHAPTER_ID,
   DEFAULT_PROGRESS_SETTINGS,
   type ChapterProgress,
+  type DebateSessionDurable,
   type VenueEvidenceBoardSave,
+  type VenueLastLabReadout,
 } from "./types";
 
 const KEY_PREFIX = "forgetphys:progress:v1:";
@@ -103,6 +110,32 @@ export function parseProgress(raw: unknown, chapterId = DEFAULT_CHAPTER_ID): Cha
   const dBy = isObject(durable.byVenue) ? durable.byVenue : {};
   for (const [vid, blob] of Object.entries(dBy)) {
     if (!isObject(blob)) continue;
+    const lastRaw = isObject(blob.lastLabReadout) ? blob.lastLabReadout : null;
+    let lastLabReadout: VenueLastLabReadout | null | undefined;
+    if (lastRaw) {
+      const readoutObj = isObject(lastRaw.readout) ? lastRaw.readout : null;
+      if (readoutObj && typeof readoutObj.kind === "string") {
+        const contracts = Array.isArray(lastRaw.contracts)
+          ? lastRaw.contracts.filter((c): c is string => typeof c === "string")
+          : [];
+        lastLabReadout = {
+          readout: readoutObj as unknown as LabEmbedReadout,
+          contracts: contracts as VenueLastLabReadout["contracts"],
+          weak: Boolean(lastRaw.weak),
+          source:
+            lastRaw.source === "simulated" ? "simulated" : "lab_embed",
+          receivedAt:
+            typeof lastRaw.receivedAt === "string"
+              ? lastRaw.receivedAt
+              : new Date().toISOString(),
+        };
+      }
+    } else if (blob.lastLabReadout === null) {
+      lastLabReadout = null;
+    }
+    const softChoiceTags = Array.isArray(blob.softChoiceTags)
+      ? blob.softChoiceTags.filter((t): t is string => typeof t === "string")
+      : undefined;
     durableByVenue[normalizeVenueId(vid)] = {
       lastExitReason:
         typeof blob.lastExitReason === "string"
@@ -112,6 +145,8 @@ export function parseProgress(raw: unknown, chapterId = DEFAULT_CHAPTER_ID): Cha
         typeof blob.resumeBeatHint === "string" || blob.resumeBeatHint === null
           ? (blob.resumeBeatHint as string | null)
           : undefined,
+      lastLabReadout,
+      softChoiceTags,
     };
   }
 
@@ -238,4 +273,83 @@ export function getVenueBoard(
   venueId: string,
 ): VenueEvidenceBoardSave | null {
   return progress.evidenceBoard.byVenue[normalizeVenueId(venueId)] ?? null;
+}
+
+
+export function saveLastLabReadout(
+  progress: ChapterProgress,
+  venueId: string,
+  classified: ClassifiedLabReadout,
+): ChapterProgress {
+  const canon = normalizeVenueId(venueId);
+  const prev = progress.debateSession.durable.byVenue[canon] ?? {};
+  const lastLabReadout: VenueLastLabReadout = {
+    readout: classified.readout,
+    contracts: classified.contracts,
+    weak: classified.weak,
+    source: classified.source,
+    receivedAt: new Date().toISOString(),
+  };
+  return {
+    ...progress,
+    debateSession: {
+      ...progress.debateSession,
+      durable: {
+        byVenue: {
+          ...progress.debateSession.durable.byVenue,
+          [canon]: {
+            ...prev,
+            lastLabReadout,
+          },
+        },
+      },
+    },
+  };
+}
+
+export function getLastLabReadout(
+  progress: ChapterProgress,
+  venueId: string,
+): VenueLastLabReadout | null {
+  return (
+    progress.debateSession.durable.byVenue[normalizeVenueId(venueId)]
+      ?.lastLabReadout ?? null
+  );
+}
+
+/** Restore pending readout for session; re-classify with current thresholds. */
+export function restorePendingLabEmbed(
+  progress: ChapterProgress,
+  venueId: string,
+): ClassifiedLabReadout | null {
+  const last = getLastLabReadout(progress, venueId);
+  if (!last?.readout) return null;
+  return classifyLabReadout(last.readout, { source: last.source });
+}
+
+export function appendSoftChoiceTags(
+  progress: ChapterProgress,
+  venueId: string,
+  tags: string[],
+): ChapterProgress {
+  if (!tags.length) return progress;
+  const canon = normalizeVenueId(venueId);
+  const prev: DebateSessionDurable =
+    progress.debateSession.durable.byVenue[canon] ?? {};
+  const merged = [...new Set([...(prev.softChoiceTags ?? []), ...tags])];
+  return {
+    ...progress,
+    debateSession: {
+      ...progress.debateSession,
+      durable: {
+        byVenue: {
+          ...progress.debateSession.durable.byVenue,
+          [canon]: {
+            ...prev,
+            softChoiceTags: merged,
+          },
+        },
+      },
+    },
+  };
 }

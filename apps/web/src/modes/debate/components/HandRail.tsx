@@ -54,6 +54,7 @@ export function HandRail({
   onPick,
   visible,
   returningId,
+  weakLabReadout = false,
 }: {
   facts: FactCard[];
   pendingLab: LabEmbedReadout | null;
@@ -61,6 +62,8 @@ export function HandRail({
   onPick: (cite: HandCite | null) => void;
   visible: boolean;
   returningId: string | null;
+  /** M3.2 readout-weak: chip only, not a fillable hand card. */
+  weakLabReadout?: boolean;
 }) {
   const cards = useMemo(() => {
     // Prefer cards that appear in the Coupland pack; keep stable order from JSON.
@@ -84,18 +87,35 @@ export function HandRail({
         或点选→点槽
       </div>
       <div className="debate-hand__cards">
-        {pendingLab ? (
+        {pendingLab && weakLabReadout ? (
+          <div
+            className="debate-hand-card debate-hand-card--weak"
+            role="status"
+            title="Unverified / weak readout — no auto-fill"
+            style={{ opacity: 0.75, cursor: "default" }}
+          >
+            <span className="debate-hand-card__tag">弱读数</span>
+            <span className="debate-hand-card__title">未达阈值 · 不自动填槽</span>
+            <span className="debate-hand-card__body">
+              角={pendingLab.angle_deg ?? "—"} · 前向=
+              {pendingLab.fraction_forward ?? "—"} · 大角=
+              {pendingLab.large_angle_count ?? "—"}
+            </span>
+          </div>
+        ) : null}
+
+        {pendingLab && !weakLabReadout ? (
           <button
             type="button"
             className={[
               "debate-hand-card",
-              "debate-hand-card--lab",
               pickedKey === "lab" ? "debate-hand-card--picked" : "",
               returningId === "lab" ? "era-returning" : "",
             ]
               .filter(Boolean)
               .join(" ")}
             draggable
+            title="labEmbed readout"
             onDragStart={(e) => {
               const payload = encodeHandCite({ kind: "lab" });
               e.dataTransfer.setData("application/x-forgetphys-cite", payload);
