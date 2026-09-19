@@ -248,3 +248,49 @@ export const SOURCE_TIER_LABEL: Record<SourceTier, string> = {
   secondary: "二手",
   interpretation: "演绎",
 };
+
+/** Required bilingual map for pedagogy / quiz (EN SoT + zh-Hans shipped). */
+export const bilingualTextSchema = z.object({
+  en: z.string().min(1),
+  "zh-Hans": z.string().min(1),
+});
+
+export type BilingualText = z.infer<typeof bilingualTextSchema>;
+
+export const exitQuizChoiceSchema = z.object({
+  id: z.string().min(1),
+  label: bilingualTextSchema,
+  correct: z.boolean(),
+});
+
+export type ExitQuizChoice = z.infer<typeof exitQuizChoiceSchema>;
+
+export const exitQuizQuestionSchema = z.object({
+  id: z.string().min(1),
+  prompt: bilingualTextSchema,
+  choices: z.array(exitQuizChoiceSchema).min(2).max(4),
+});
+
+export type ExitQuizQuestion = z.infer<typeof exitQuizQuestionSchema>;
+
+export const exitQuizTeaserSchema = z.object({
+  id: z.string().min(1),
+  locked: z.literal(true),
+  title: bilingualTextSchema,
+  blurb: bilingualTextSchema,
+});
+
+export type ExitQuizTeaser = z.infer<typeof exitQuizTeaserSchema>;
+
+/** Coupland M3.5 exit quiz + locked Bohr teaser (no venue implementation). */
+export const manchesterExitQuizSchema = z.object({
+  id: z.string().min(1),
+  chapterId: z.string().min(1),
+  localeSot: z.literal("en"),
+  title: bilingualTextSchema,
+  passNeed: z.number().int().positive(),
+  questions: z.array(exitQuizQuestionSchema).length(3),
+  teaser: exitQuizTeaserSchema,
+});
+
+export type ManchesterExitQuiz = z.infer<typeof manchesterExitQuizSchema>;

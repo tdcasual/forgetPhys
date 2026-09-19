@@ -1740,3 +1740,127 @@ body,
   font-weight: 700;
   background: rgba(255, 240, 210, 0.85);
 }
+
+/* --- M3.5 city Bohr teaser + exit quiz --- */
+.city-teaser {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px dashed rgba(90, 60, 30, 0.45);
+  background: rgba(255, 248, 230, 0.72);
+}
+.city-teaser--locked {
+  opacity: 0.95;
+}
+.city-teaser__lock {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+.city-teaser__title {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+}
+.city-teaser__blurb {
+  margin: 0;
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+.city-teaser__note {
+  margin: 0.55rem 0 0;
+  font-size: 0.78rem;
+  opacity: 0.7;
+}
+
+.exit-quiz-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.exit-quiz-overlay__dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 14, 10, 0.55);
+}
+.exit-quiz-overlay__panel {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 94vw);
+  max-height: min(88vh, 720px);
+  overflow: auto;
+  padding: 1.1rem 1.2rem 1rem;
+}
+.exit-quiz__head {
+  margin-bottom: 0.75rem;
+}
+.exit-quiz__title {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+}
+.exit-quiz__need {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+.exit-quiz__list {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.exit-quiz__prompt {
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+}
+.exit-quiz__num {
+  opacity: 0.7;
+  margin-right: 0.2rem;
+}
+.exit-quiz__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.exit-quiz__choice {
+  display: flex;
+  gap: 0.45rem;
+  align-items: flex-start;
+  padding: 0.35rem 0.45rem;
+  border-radius: 4px;
+  cursor: pointer;
+  background: rgba(255, 252, 245, 0.55);
+}
+.exit-quiz__choice--on {
+  outline: 1px solid rgba(120, 80, 40, 0.45);
+  background: rgba(255, 240, 210, 0.85);
+}
+.exit-quiz__choice--correct {
+  outline-color: rgba(40, 120, 60, 0.65);
+}
+.exit-quiz__choice--wrong {
+  outline-color: rgba(140, 50, 40, 0.55);
+}
+.exit-quiz__choice input {
+  margin-top: 0.2rem;
+}
+.exit-quiz__result {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+.exit-quiz__result--pass {
+  color: #2a6b3a;
+  font-weight: 600;
+}
+.exit-quiz__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  justify-content: flex-end;
+}

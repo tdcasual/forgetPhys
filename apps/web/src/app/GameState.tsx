@@ -33,6 +33,9 @@ import {
   appendSoftChoiceTags,
   loadProgress,
   markLabEmbedVisit as markVisitOnProgress,
+  markLodgeComplete as markLodgeOnProgress,
+  markQuizPassed as markQuizOnProgress,
+  markTeaserSeen as markTeaserOnProgress,
   restorePendingLabEmbed,
   saveLastLabReadout,
   saveProgress,
@@ -119,6 +122,12 @@ export type GameApi = {
   clearChoiceConsequence: () => void;
   /** Soft tags include interpretation-warning when set. */
   hasInterpretationWarning: boolean;
+  /** M3.5 — Coupland lodge finished (soft teaser gate). */
+  markLodgeComplete: () => void;
+  /** M3.5 — exit quiz passed (≥ passNeed). */
+  markQuizPassed: () => void;
+  /** M3.5 — Bohr locked teaser card shown. */
+  markTeaserSeen: () => void;
 };
 
 const GameContext = createContext<GameApi | null>(null);
@@ -354,6 +363,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, [cutTo, venueId]);
 
   const returnToCity = useCallback(() => {
+    // Soft pedagogy: leaving lodge after any visit counts as lodgeComplete
+    // once player has reached end-of-lane (handled in advanceDialogue). Early
+    // exit does not auto-complete; end-of-dialogue path is authoritative.
     clearDebate();
     cutTo("cityPage", () => {
       setVenueId(null);
@@ -532,6 +544,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
           return;
         }
       } else if (venue.kind === "lodge") {
+        setProgressState((prev) => {
+          const next = markLodgeOnProgress(prev);
+          saveProgress(next);
+          return next;
+        });
         const c = getScriptedChoice("choice-return-bench");
         if (c) {
           setActiveChoice(c);
@@ -562,6 +579,30 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const recordLabEmbedVisit = useCallback(() => {
     setProgressState((prev) => {
       const next = markVisitOnProgress(prev);
+      saveProgress(next);
+      return next;
+    });
+  }, []);
+
+  const markLodgeComplete = useCallback(() => {
+    setProgressState((prev) => {
+      const next = markLodgeOnProgress(prev);
+      saveProgress(next);
+      return next;
+    });
+  }, []);
+
+  const markQuizPassed = useCallback(() => {
+    setProgressState((prev) => {
+      const next = markQuizOnProgress(prev);
+      saveProgress(next);
+      return next;
+    });
+  }, []);
+
+  const markTeaserSeen = useCallback(() => {
+    setProgressState((prev) => {
+      const next = markTeaserOnProgress(prev);
       saveProgress(next);
       return next;
     });
@@ -618,6 +659,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setLocale,
       recordLabEmbedVisit,
       setPendingLabEmbed,
+      markLodgeComplete,
+      markQuizPassed,
+      markTeaserSeen,
     }),
     [
       mode,
@@ -655,6 +699,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setProgress,
       setLocale,
       recordLabEmbedVisit,
+      markLodgeComplete,
+      markQuizPassed,
+      markTeaserSeen,
     ],
   );
 

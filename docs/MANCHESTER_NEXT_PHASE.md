@@ -108,6 +108,5 @@ M3.1 harden Free/Hard  →  M3.2 coupling  →  M3.5 pedagogy close
 
 ## Active track
 
-- **Done:** M3.1 (`4ce80bf`)
-- **Now:** M3.2 coupling — architecture (contracts / persist / C11 gate / choice runtime); smoke [`M3_2_SMOKE.md`](./M3_2_SMOKE.md)
-- Next: M3.2 copy polish if needed → M3.5 pedagogy; M3.3/M3.4 parallel
+- **Done:** M3.1–M3.4 (`1b197ed` art QA)
+- **Now:** M3.5 pedagogy + Bohr teaser lock

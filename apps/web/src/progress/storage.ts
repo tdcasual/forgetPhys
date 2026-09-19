@@ -31,6 +31,9 @@ export function emptyProgress(chapterId: string = DEFAULT_CHAPTER_ID): ChapterPr
       labEmbedVisit: false,
       freeUnlocked: false,
       hardUnlocked: false,
+      lodgeComplete: false,
+      quizPassed: false,
+      teaserSeen: false,
     },
     settings: { ...DEFAULT_PROGRESS_SETTINGS },
     debateModeLast: "scripted",
@@ -163,6 +166,9 @@ export function parseProgress(raw: unknown, chapterId = DEFAULT_CHAPTER_ID): Cha
       labEmbedVisit: Boolean(unlock.labEmbedVisit),
       freeUnlocked: Boolean(unlock.freeUnlocked),
       hardUnlocked: Boolean(unlock.hardUnlocked),
+      lodgeComplete: Boolean(unlock.lodgeComplete),
+      quizPassed: Boolean(unlock.quizPassed),
+      teaserSeen: Boolean(unlock.teaserSeen),
     },
     settings: { locale },
     debateModeLast,
@@ -350,6 +356,42 @@ export function appendSoftChoiceTags(
           },
         },
       },
+    },
+  };
+}
+
+/** M3.5 — mark Coupland lodge pedagogy complete (soft gate for teaser). */
+export function markLodgeComplete(progress: ChapterProgress): ChapterProgress {
+  if (progress.unlock.lodgeComplete) return progress;
+  return {
+    ...progress,
+    unlock: {
+      ...progress.unlock,
+      lodgeComplete: true,
+    },
+  };
+}
+
+/** M3.5 — exit quiz passed (≥ passNeed correct). */
+export function markQuizPassed(progress: ChapterProgress): ChapterProgress {
+  if (progress.unlock.quizPassed) return progress;
+  return {
+    ...progress,
+    unlock: {
+      ...progress.unlock,
+      quizPassed: true,
+    },
+  };
+}
+
+/** M3.5 — Bohr locked teaser was displayed on city page. */
+export function markTeaserSeen(progress: ChapterProgress): ChapterProgress {
+  if (progress.unlock.teaserSeen) return progress;
+  return {
+    ...progress,
+    unlock: {
+      ...progress.unlock,
+      teaserSeen: true,
     },
   };
 }

@@ -1,6 +1,11 @@
-import { useState } from "react";
-import type { Locale } from "@physics-chronicle/content";
+import { useEffect, useState } from "react";
+import {
+  manchesterExitQuiz,
+  resolveLocalized,
+  type Locale,
+} from "@physics-chronicle/content";
 import { useGame } from "../../app/GameState";
+import { ExitQuizOverlay } from "../../quiz";
 
 export function CityPage() {
   const {
@@ -11,17 +16,32 @@ export function CityPage() {
     returnToPlate,
     progress,
     setLocale,
+    markQuizPassed,
+    markTeaserSeen,
   } = useGame();
   const [debatePick, setDebatePick] = useState<"scripted" | "free" | "hard">(
     "scripted",
   );
   const [lockHint, setLockHint] = useState<string | null>(null);
-
-  if (mode !== "cityPage") return null;
+  const [quizOpen, setQuizOpen] = useState(false);
 
   const freeOk = progress.unlock.freeUnlocked;
   const hardOk = progress.unlock.hardUnlocked;
+  const lodgeComplete = Boolean(progress.unlock.lodgeComplete);
+  const quizPassed = Boolean(progress.unlock.quizPassed);
   const locale: Locale = progress.settings?.locale ?? "en";
+
+  // Soft: lodge alone can show teaser; quiz pass also unlocks preview.
+  const showTeaser = lodgeComplete || quizPassed;
+  const teaser = manchesterExitQuiz.teaser;
+
+  useEffect(() => {
+    if (mode !== "cityPage" || !showTeaser) return;
+    if (progress.unlock.teaserSeen) return;
+    markTeaserSeen();
+  }, [mode, showTeaser, progress.unlock.teaserSeen, markTeaserSeen]);
+
+  if (mode !== "cityPage") return null;
 
   const enterLab = () => {
     setLockHint(null);
@@ -47,6 +67,15 @@ export function CityPage() {
       enterVenue("coupland-lab", { debate: debatePick });
     }
   };
+
+  const quizCta =
+    locale === "zh-Hans"
+      ? quizPassed
+        ? "出口测验已通过"
+        : "Coupland 出口测验"
+      : quizPassed
+        ? "Exit quiz passed"
+        : "Coupland exit quiz";
 
   return (
     <div className="city-page" role="main" aria-label="曼彻斯特 Coupland">
@@ -141,7 +170,44 @@ export function CityPage() {
           <button type="button" className="paper-btn city-btn" disabled title="后做">
             街巷
           </button>
+          <button
+            type="button"
+            className="paper-btn city-btn"
+            onClick={() => setQuizOpen(true)}
+            disabled={quizPassed}
+            title={
+              locale === "zh-Hans"
+                ? "可选出口测验；可软跳过"
+                : "Optional exit quiz; soft skip allowed"
+            }
+          >
+            {quizCta}
+          </button>
         </div>
+
+        {showTeaser ? (
+          <aside
+            className="city-teaser city-teaser--locked parchment-panel"
+            aria-label={resolveLocalized(teaser.title, locale)}
+            data-teaser-id={teaser.id}
+            data-locked={teaser.locked ? "true" : "false"}
+          >
+            <p className="city-teaser__lock">
+              {locale === "zh-Hans" ? "🔒 锁定预告" : "🔒 Locked teaser"}
+            </p>
+            <h2 className="city-teaser__title">
+              {resolveLocalized(teaser.title, locale)}
+            </h2>
+            <p className="city-teaser__blurb">
+              {resolveLocalized(teaser.blurb, locale)}
+            </p>
+            <p className="city-teaser__note">
+              {locale === "zh-Hans"
+                ? "玻尔场所尚未实现 — 仅预告卡。"
+                : "Bohr venues are not implemented — teaser card only."}
+            </p>
+          </aside>
+        ) : null}
 
         <div className="city-nav">
           <button type="button" className="paper-btn ghost" onClick={returnToPlate}>
@@ -152,6 +218,17 @@ export function CityPage() {
           </button>
         </div>
       </div>
+
+      <ExitQuizOverlay
+        locale={locale}
+        open={quizOpen}
+        onPass={() => {
+          markQuizPassed();
+          setQuizOpen(false);
+        }}
+        onSkip={() => setQuizOpen(false)}
+        onClose={() => setQuizOpen(false)}
+      />
     </div>
   );
 }
