@@ -38,7 +38,10 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "stand",
-          "text": "Manchester, Coupland Street, nineteen-nine. In the dark room Geiger and Marsden are counting flashes on a zinc-sulphide screen. Most of the α-particles from the source go nearly straight through the thin foil — the scene looks quieter than it is.",
+          "text": {
+            "en": "Manchester, Coupland Street, nineteen-nine. In the dark room Geiger and Marsden are counting flashes on a zinc-sulphide screen. Most of the α-particles from the source go nearly straight through the thin foil — the scene looks quieter than it is.",
+            "zh-Hans": "一九〇九年，曼彻斯特 Coupland Street。暗室里，盖革和马斯登对着硫化锌屏一闪一闪地数。从放射源出来的 α 粒子，绝大多数几乎笔直穿过薄箔——场面安静得过分。"
+          },
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
@@ -52,7 +55,10 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "sit-chair",
-          "text": "But a few are turned through large angles — some even come back toward the source. They call that diffuse reflection. The scintillations on the screen are counted one by one by Geiger and Marsden; my part is to give an account of what those counts mean. Early on, people slighted the α-rays because they barely penetrate — the more we measure, the less we can treat them as a trifle.",
+          "text": {
+            "en": "But a few are turned through large angles — some even come back toward the source. They call that diffuse reflection. The scintillations on the screen are counted one by one by Geiger and Marsden; my part is to give an account of what those counts mean. Early on, people slighted the α-rays because they barely penetrate — the more we measure, the less we can treat them as a trifle.",
+            "zh-Hans": "可是有少数偏转很大——有的甚至折回源一侧。他们称之为漫反射。屏上的闪光由盖革和马斯登一颗一颗来数；我负责说明这些计数意味着什么。早年有人轻视 α 射线，就因为它几乎穿不透——量得越多，就越不能把它当小事。"
+          },
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
@@ -66,7 +72,10 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "point-screen",
-          "text": "The arrangement is spare: a thin metal foil, a zinc-sulphide screen, a microscope. Geiger and Marsden sit in the dark and count flashes one by one — dull work, not a lecture. Most of the α-particles go nearly forward. How is a diffuse sphere of positive electricity supposed to throw a few of them so far aside?",
+          "text": {
+            "en": "The arrangement is spare: a thin metal foil, a zinc-sulphide screen, a microscope. Geiger and Marsden sit in the dark and count flashes one by one — dull work, not a lecture. Most of the α-particles go nearly forward. How is a diffuse sphere of positive electricity supposed to throw a few of them so far aside?",
+            "zh-Hans": "装置很简单：一张薄金属箔，一块硫化锌屏，一台显微镜。盖革和马斯登坐在暗处一颗一颗数闪光——枯燥，不是讲课。绝大多数 α 几乎朝前飞。弥散的正电球，怎么能把少数几条路径甩得那么远？"
+          },
           "claim": {
             "source_tier": "primary",
             "citation": "Geiger & Marsden 1909, pp. 496–497 (ZnS method, thin foil); era-op-thomson-uniform-sphere",
@@ -80,7 +89,10 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "Take it as a working hypothesis for now: the positive electricity nearly gathered in a very small region at the centre of the atom — a concentrated central charge. Most paths barely deflect; a few deflect violently. That looks more like striking a strong local field than piling up weak turns inside a diffuse sphere of positive electricity. The evidence is still lengthening; until we have a more decisive proof, I will not speak as if the case were closed.",
+          "text": {
+            "en": "Take it as a working hypothesis for now: the positive electricity nearly gathered in a very small region at the centre of the atom — a concentrated central charge. Most paths barely deflect; a few deflect violently. That looks more like striking a strong local field than piling up weak turns inside a diffuse sphere of positive electricity. The evidence is still lengthening; until we have a more decisive proof, I will not speak as if the case were closed.",
+            "zh-Hans": "先当作工作假说：正电几乎聚在原子中心很小一块——集中的中心电荷。绝大多数路径几乎不偏，少数却偏得很狠。这更像撞上很强的局域场，而不像在弥散正电球里一点点叠出来。证据还在加长；在更干脆的证明到来以前，我不会说得好像案子已经结了。"
+          },
           "claim": {
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
@@ -92,7 +104,10 @@
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "Textbooks later call this the nuclear model of the atom: nearly all the mass and positive charge packed into a tiny centre, with electrons outside. In the laboratory of this period one more often said central charge. Either way, a plum-pudding picture with positive electricity smeared through the whole atomic volume cannot account for these rare but stubborn large-angle deflections.",
+          "text": {
+            "en": "Textbooks later call this the nuclear model of the atom: nearly all the mass and positive charge packed into a tiny centre, with electrons outside. In the laboratory of this period one more often said central charge. Either way, a plum-pudding picture with positive electricity smeared through the whole atomic volume cannot account for these rare but stubborn large-angle deflections.",
+            "zh-Hans": "后来教材把这叫做原子的核式结构：质量和正电荷几乎都挤在很小的中心，电子在外围。这个时期的实验室里，更常说「中心电荷」。无论如何，正电涂满整个原子体积的枣糕图景，解释不了这些稀少却顽固的大角偏转。"
+          },
           "claim": {
             "source_tier": "textbook",
             "citation": "人教版选必三 第四§3–§4（教材用语：核式结构）",
@@ -106,7 +121,10 @@
           "charId": "char-watson",
           "emotion": "speak",
           "pose": "point-screen",
-          "text": "Later storytellers love the picture of a fifteen-inch shell striking tissue paper and bouncing back. It sounds fine — but that is late recollection, not a line from the nineteen-nine dark-room notebooks. We should not live on legends. Shall we try it ourselves at the apparatus?",
+          "text": {
+            "en": "Later storytellers love the picture of a fifteen-inch shell striking tissue paper and bouncing back. It sounds fine — but that is late recollection, not a line from the nineteen-nine dark-room notebooks. We should not live on legends. Shall we try it ourselves at the apparatus?",
+            "zh-Hans": "后人爱讲那个画面：十五英寸炮弹打在薄纸上又弹回来。听着痛快——可那是事后回忆，不是一九〇九年暗室本子上的原话。别靠传说过日子。要不要自己上实验台试一次？"
+          },
           "claim": {
             "source_tier": "interpretation",
             "citation": "Late recollection (often 1930s); era-op-shell-metaphor-late",
@@ -121,7 +139,10 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "lean-bench",
-          "text": "The bench is there. Change the foil if you like; watch whether the large-angle flashes stay scarce and stubborn. I will not close the case from a speech. Try the apparatus, then we can talk of a central charge again.",
+          "text": {
+            "en": "The bench is there. Change the foil if you like; watch whether the large-angle flashes stay scarce and stubborn. I will not close the case from a speech. Try the apparatus, then we can talk of a central charge again.",
+            "zh-Hans": "台子在那儿。箔厚你尽管改；看大角闪光是不是依旧又少又顽固。我不会靠一篇讲话把案子结掉。先试装置，再说中心电荷。"
+          },
           "claim": {
             "source_tier": "interpretation",
             "citation": "Invite to labEmbed; aligned to fact-gm1909-diffuse-reflection + era-op-caution-before-central-charge",
@@ -161,7 +182,10 @@
           "emotion": "think",
           "pose": "stand",
           "afterLab": true,
-          "text": "So those are the counts from the bench. Most paths still run nearly forward; a few large-angle flashes still turn up. Same contrast the dark-room notebooks keep repeating — quiet majority, stubborn minority. Does that match what you just saw?",
+          "text": {
+            "en": "So those are the counts from the bench. Most paths still run nearly forward; a few large-angle flashes still turn up. Same contrast the dark-room notebooks keep repeating — quiet majority, stubborn minority. Does that match what you just saw?",
+            "zh-Hans": "台子上的计数就是这样。绝大多数路径仍几乎朝前；少数大角闪光仍会出现。暗室本子里反复出现的对照——安静的大多数，顽固的少数。跟你刚看见的对得上吗？"
+          },
           "claim": {
             "source_tier": "primary",
             "citation": "Geiger & Marsden 1909; fact-gm1909-forward-majority + fact-gm1909-diffuse-reflection",
@@ -176,7 +200,10 @@
           "emotion": "speak",
           "pose": "sit-chair",
           "afterLab": true,
-          "text": "Scarce is not none. Geiger and Marsden counted this class of event on the screen; the notebook is not ornament. If your run showed even a handful of large deflections through a thin foil, you are looking at the same trouble a diffuse positive sphere does not like to admit.",
+          "text": {
+            "en": "Scarce is not none. Geiger and Marsden counted this class of event on the screen; the notebook is not ornament. If your run showed even a handful of large deflections through a thin foil, you are looking at the same trouble a diffuse positive sphere does not like to admit.",
+            "zh-Hans": "少，不等于没有。盖革和马斯登在屏上数过这类事件；本子不是摆设。若你这一轮在薄箔上哪怕只见到几回大偏转，你面对的就是弥散正电球不愿承认的麻烦。"
+          },
           "claim": {
             "source_tier": "primary",
             "citation": "H. Geiger & E. Marsden, Proc. R. Soc. A 82 (1909) 495–500",
@@ -191,7 +218,10 @@
           "emotion": "speak",
           "pose": "point-screen",
           "afterLab": true,
-          "text": "I still take a concentrated central charge as the working hypothesis — positive electricity gathered in a very small region — not a slogan and not a closed case. What we press next is how the pattern changes with foil thickness, and whether large angles stay too common for compound scattering alone. Until a more decisive proof, keep what was seen apart from what is guessed.",
+          "text": {
+            "en": "I still take a concentrated central charge as the working hypothesis — positive electricity gathered in a very small region — not a slogan and not a closed case. What we press next is how the pattern changes with foil thickness, and whether large angles stay too common for compound scattering alone. Until a more decisive proof, keep what was seen apart from what is guessed.",
+            "zh-Hans": "我仍把集中的中心电荷当作工作假说——正电聚在很小一块——不是口号，也不是结案。接下来要压的是：箔厚一变，图样怎么变；大角是否仍多到单靠多次散射说不过去。在更干脆的证明到来以前，看见的和猜的，先分开放。"
+          },
           "claim": {
             "source_tier": "primary",
             "citation": "E. Rutherford, Phil. Mag. 21 (1911) 669–688",
@@ -204,7 +234,10 @@
           "speakerRole": "narrator",
           "emotion": "idle",
           "afterLab": true,
-          "text": "The laboratory has given you a readout, not a verdict. Forward majority and rare large angles are what was seen; central charge is still a working account. Textbooks later say nuclear model; that word is not the banner of this room. The lodge is for sorting those two piles before you come back to the foil.",
+          "text": {
+            "en": "The laboratory has given you a readout, not a verdict. Forward majority and rare large angles are what was seen; central charge is still a working account. Textbooks later say nuclear model; that word is not the banner of this room. The lodge is for sorting those two piles before you come back to the foil.",
+            "zh-Hans": "实验室给的是读数，不是判决。前进占多数、大角稀少，是看见的；中心电荷仍是工作说明。后来教材说核式结构；那个词不是这间屋子的旗号。租屋里先把这两堆分开，再回箔前。"
+          },
           "claim": {
             "source_tier": "textbook",
             "citation": "人教版选必三 第四§3–§4；era-op-nucleus-word-anachronism",
@@ -228,7 +261,10 @@
           "charId": "char-watson",
           "emotion": "think",
           "pose": "sit-stool",
-          "text": "At night I read the day's scintillation counts again. Most paths nearly forward, a few at large angles — the diffuse positive sphere of the plum-pudding picture never seems to pile up so violent a deflection. The central-charge sketch, though, can make sense of those sharp flashes on the screen. The dull numbers from daylight start to bite after dark.",
+          "text": {
+            "en": "At night I read the day's scintillation counts again. Most paths nearly forward, a few at large angles — the diffuse positive sphere of the plum-pudding picture never seems to pile up so violent a deflection. The central-charge sketch, though, can make sense of those sharp flashes on the screen. The dull numbers from daylight start to bite after dark.",
+            "zh-Hans": "夜里我又把白天的闪烁计数读了一遍。绝大多数几乎朝前，少数大角——枣糕图景里那团弥散正电，怎么也堆不出这么猛的偏转。中心电荷那张草图，倒能说明屏上那些刺眼的闪光。白天乏味的数字，夜里才开始咬人。"
+          },
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — teaching synthesis; fact-ruth1911-plum-pudding-fails-large-angle",
@@ -243,7 +279,10 @@
           "charId": "char-watson",
           "emotion": "speak",
           "pose": "sit-stool",
-          "text": "If we keep the plum-pudding picture — positive electricity smeared through the whole volume, large angles only as the tail of many weak turns — what would the apparatus have to hide? The rare returning paths are still in the notebook. I can restate the counts. I cannot make the diffuse sphere produce them.",
+          "text": {
+            "en": "If we keep the plum-pudding picture — positive electricity smeared through the whole volume, large angles only as the tail of many weak turns — what would the apparatus have to hide? The rare returning paths are still in the notebook. I can restate the counts. I cannot make the diffuse sphere produce them.",
+            "zh-Hans": "若仍守着枣糕图景——正电涂满整个体积，大角只是多次弱偏转的尾巴——装置还得藏住什么？本子里那些稀少的折回路径还在。我可以重述计数，却没法让弥散球把它们变出来。"
+          },
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review; era-op-thomson-uniform-sphere + era-op-compound-scattering-default",
@@ -258,7 +297,10 @@
           "charId": "char-rutherford",
           "emotion": "idle",
           "pose": "sit-chair",
-          "text": "Large angles are scarce — everyone grants that — yet they are not zero. Geiger and Marsden put those rare flashes into the notebook; they are not there for ornament. If the positive charge is truly concentrated at the centre, those rare large-angle paths can stand; if we cling to a diffuse sphere plus compound scattering alone, the returning paths become a nuisance. I want an account that will bear the apparatus and the foil thickness — not a neat slogan.",
+          "text": {
+            "en": "Large angles are scarce — everyone grants that — yet they are not zero. Geiger and Marsden put those rare flashes into the notebook; they are not there for ornament. If the positive charge is truly concentrated at the centre, those rare large-angle paths can stand; if we cling to a diffuse sphere plus compound scattering alone, the returning paths become a nuisance. I want an account that will bear the apparatus and the foil thickness — not a neat slogan.",
+            "zh-Hans": "大角很少——谁都承认——可绝不是零。盖革和马斯登把那些稀少闪光记进本子；那不是装饰。若正电真的集中在中心，那些稀少大角路径才站得住；若仍死守弥散球加多次散射，折回的路径就成了麻烦。我要的是经得起装置和箔厚的说明，不是一句漂亮口号。"
+          },
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review — aligned to fact-gm1909-diffuse-reflection + fact-ruth1911-central-charge",
@@ -273,7 +315,10 @@
           "charId": "char-rutherford",
           "emotion": "speak",
           "pose": "sit-chair",
-          "text": "Tomorrow we go back to foil thickness and the angular pattern. Central charge remains a working hypothesis; I will not treat it as dogma until the apparatus has had another say. Sleep on the distinction: what Geiger and Marsden counted, and what I am still only proposing.",
+          "text": {
+            "en": "Tomorrow we go back to foil thickness and the angular pattern. Central charge remains a working hypothesis; I will not treat it as dogma until the apparatus has had another say. Sleep on the distinction: what Geiger and Marsden counted, and what I am still only proposing.",
+            "zh-Hans": "明天回箔厚和角分布。中心电荷仍是工作假说；装置没再发言以前，我不会把它当教条。先分清：盖革和马斯登数到的，和我此刻只是在提出的。"
+          },
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review; era-op-caution-before-central-charge",
@@ -286,7 +331,10 @@
           "speaker": "旁白",
           "speakerRole": "narrator",
           "emotion": "idle",
-          "text": "In the lodge we first keep what was seen apart from what is guessed: observation here, hypothesis there. Tomorrow, back in the laboratory — change the foil thickness, watch whether the angular pattern shifts. Asking the apparatus again beats arguing under the lamp.",
+          "text": {
+            "en": "In the lodge we first keep what was seen apart from what is guessed: observation here, hypothesis there. Tomorrow, back in the laboratory — change the foil thickness, watch whether the angular pattern shifts. Asking the apparatus again beats arguing under the lamp.",
+            "zh-Hans": "租屋里先把看见的和猜的分开：观测归观测，假说归假说。明天回实验室——改箔厚，看角分布变不变。再问装置，胜过在灯下空争。"
+          },
           "claim": {
             "source_tier": "interpretation",
             "citation": "Lodge night review bridge — replaces former char-geiger stub",
