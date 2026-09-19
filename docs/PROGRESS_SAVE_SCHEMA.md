@@ -16,7 +16,10 @@ Related: [`DEBATE_ARCHITECTURE.md`](./DEBATE_ARCHITECTURE.md) §14 · [`DEBATE_S
   "unlock": {
     "labEmbedVisit": false,
     "freeUnlocked": false,
-    "hardUnlocked": false
+    "hardUnlocked": false,
+    "lodgeComplete": false,
+    "quizPassed": false,
+    "teaserSeen": false
   },
   "settings": {
     "locale": "en"
@@ -49,6 +52,9 @@ Related: [`DEBATE_ARCHITECTURE.md`](./DEBATE_ARCHITECTURE.md) §14 · [`DEBATE_S
 | `labEmbedVisit` | Player returned from ≥1 Infinitas / labEmbed | First successful embed session / readout ack |
 | `freeUnlocked` | `debateMode: free` available | First labEmbed **or** lodge beat (content flag — exact beat still open in V3 §8) |
 | `hardUnlocked` | `debateMode: hard` available | Recommend after `labEmbedVisit === true` |
+| `lodgeComplete` | Coupland lodge pedagogy finished | End of lodge dialogue / soft choice (M3.5) |
+| `quizPassed` | Exit quiz ≥ `passNeed` | Optional city overlay submit (M3.5) |
+| `teaserSeen` | Bohr locked teaser shown on city | First render of teaser card (M3.5) |
 
 Unlocks are **durable progress** (survive venue exit). Clearing them only on chapter reset (§5).
 

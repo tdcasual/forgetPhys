@@ -24,4 +24,7 @@ export {
   getLastLabReadout,
   restorePendingLabEmbed,
   appendSoftChoiceTags,
+  markLodgeComplete,
+  markQuizPassed,
+  markTeaserSeen,
 } from "./storage";

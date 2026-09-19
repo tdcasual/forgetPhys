@@ -1,7 +1,17 @@
 import manchesterRaw from "./data/manchester.json";
 import manchesterChoicesRaw from "./data/manchester-choices.json";
-import { cityChapterSchema, scriptedChoicesFileSchema } from "./schema";
-import type { CityChapter, VenueContent, ScriptedChoicesFile } from "./schema";
+import manchesterExitQuizRaw from "./data/manchester-exit-quiz.json";
+import {
+  cityChapterSchema,
+  scriptedChoicesFileSchema,
+  manchesterExitQuizSchema,
+} from "./schema";
+import type {
+  CityChapter,
+  VenueContent,
+  ScriptedChoicesFile,
+  ManchesterExitQuiz,
+} from "./schema";
 
 export {
   atlasNodeSchema,
@@ -38,6 +48,16 @@ export {
   type ScriptedChoiceOption,
   type ScriptedChoice,
   type ScriptedChoicesFile,
+  bilingualTextSchema,
+  exitQuizChoiceSchema,
+  exitQuizQuestionSchema,
+  exitQuizTeaserSchema,
+  manchesterExitQuizSchema,
+  type BilingualText,
+  type ExitQuizChoice,
+  type ExitQuizQuestion,
+  type ExitQuizTeaser,
+  type ManchesterExitQuiz,
 } from "./schema";
 
 export {
@@ -104,6 +124,9 @@ export const manchester: CityChapter = cityChapterSchema.parse(manchesterRaw);
 
 export const manchesterChoices: ScriptedChoicesFile =
   scriptedChoicesFileSchema.parse(manchesterChoicesRaw);
+
+export const manchesterExitQuiz: ManchesterExitQuiz =
+  manchesterExitQuizSchema.parse(manchesterExitQuizRaw);
 
 export function venueById(
   chapter: CityChapter,

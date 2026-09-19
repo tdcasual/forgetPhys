@@ -1,0 +1,123 @@
+{
+  "id": "manchester-exit-quiz",
+  "chapterId": "ch1-manchester",
+  "localeSot": "en",
+  "title": {
+    "en": "Coupland — what did we learn?",
+    "zh-Hans": "Coupland——我们学到了什么？"
+  },
+  "passNeed": 2,
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": {
+        "en": "Most α-particles go nearly straight through the foil. What working picture does that support?",
+        "zh-Hans": "绝大多数 α 几乎笔直穿过箔。这支持怎样的工作图景？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "en": "The atom is mostly empty space (aside from a concentrated centre).",
+            "zh-Hans": "原子大部分是空的（中心另有集中区域）。"
+          },
+          "correct": true
+        },
+        {
+          "id": "b",
+          "label": {
+            "en": "Positive electricity fills the whole atomic volume evenly.",
+            "zh-Hans": "正电均匀填满整个原子体积。"
+          },
+          "correct": false
+        },
+        {
+          "id": "c",
+          "label": {
+            "en": "α-particles have no charge.",
+            "zh-Hans": "α 粒子不带电。"
+          },
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "prompt": {
+        "en": "Rare large-angle deflections (diffuse reflection) are awkward for which model?",
+        "zh-Hans": "稀少的大角偏转（漫反射）让哪种模型为难？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "en": "Plum-pudding / diffuse positive charge plus compound scattering alone.",
+            "zh-Hans": "枣糕 / 弥散正电 + 仅靠多次散射。"
+          },
+          "correct": true
+        },
+        {
+          "id": "b",
+          "label": {
+            "en": "Any model with a concentrated central charge.",
+            "zh-Hans": "任何带集中中心电荷的模型。"
+          },
+          "correct": false
+        },
+        {
+          "id": "c",
+          "label": {
+            "en": "Models that ignore the zinc-sulphide screen.",
+            "zh-Hans": "忽略硫化锌屏的模型。"
+          },
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "prompt": {
+        "en": "In 1909–11 lab talk, which phrase is safer than banner “nucleus”?",
+        "zh-Hans": "在一九〇九—一一年的实验室说法里，哪一句比口号式「原子核」更稳妥？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "en": "Concentrated central charge.",
+            "zh-Hans": "集中的中心电荷。"
+          },
+          "correct": true
+        },
+        {
+          "id": "b",
+          "label": {
+            "en": "Fifteen-inch shell on tissue paper as a dark-room notebook line.",
+            "zh-Hans": "把十五英寸炮弹打薄纸当成暗室本子原话。"
+          },
+          "correct": false
+        },
+        {
+          "id": "c",
+          "label": {
+            "en": "Geiger speaking the win condition for Hard mode.",
+            "zh-Hans": "让盖革来说 Hard 的胜利条件。"
+          },
+          "correct": false
+        }
+      ]
+    }
+  ],
+  "teaser": {
+    "id": "teaser-bohr-copenhagen",
+    "locked": true,
+    "title": {
+      "en": "Next: Copenhagen · Bohr (1912–13)",
+      "zh-Hans": "下一站：哥本哈根 · 玻尔（1912–13）"
+    },
+    "blurb": {
+      "en": "Central charge is on the table — but spectra and atomic stability still wait. Bohr’s apartment/study chapter stays locked for now.",
+      "zh-Hans": "中心电荷已经摆上桌——光谱与原子稳定仍待解。玻尔书房/公寓章暂锁。"
+    }
+  }
+}

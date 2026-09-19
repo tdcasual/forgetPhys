@@ -11,6 +11,12 @@ export type ProgressUnlock = {
   labEmbedVisit: boolean;
   freeUnlocked: boolean;
   hardUnlocked: boolean;
+  /** M3.5 — Coupland lodge dialogue (or soft choice) finished. */
+  lodgeComplete: boolean;
+  /** M3.5 — exit quiz scored ≥ passNeed. */
+  quizPassed: boolean;
+  /** M3.5 — Bohr locked teaser card was shown on city page. */
+  teaserSeen: boolean;
 };
 
 export type ProgressSettings = {
