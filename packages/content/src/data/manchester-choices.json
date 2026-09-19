@@ -7,12 +7,18 @@
     {
       "id": "choice-model-push",
       "placement": "afterLab",
-      "prompt": "After those counts — which picture do you lean on for now?",
+      "prompt": {
+        "en": "After those counts — which picture do you lean on for now?",
+        "zh-Hans": "看过这些计数——眼下你更倾向哪张图景？"
+      },
       "notes": "M3.2 §B choice-model-push. Wrong push → one-line pushback; does not soft-lock Hard.",
       "options": [
         {
           "id": "opt-keep-plum-pudding",
-          "label": "Keep the plum-pudding picture — positive electricity spread through the atom.",
+          "label": {
+            "en": "Keep the plum-pudding picture — positive electricity spread through the atom.",
+            "zh-Hans": "仍守枣糕图景——正电散布在整个原子里。"
+          },
           "softEffect": "Watson/Rutherford one-line pushback on large-angle rarity; Hard still open.",
           "tags": [
             "model-pushback"
@@ -25,7 +31,10 @@
               "charId": "char-watson",
               "emotion": "think",
               "pose": "stand",
-              "text": "If the positive electricity is smeared through the whole volume, those rare large-angle flashes are awkward — scarce, yes, but still on the screen. Can the diffuse sphere really throw a few paths that far?",
+              "text": {
+                "en": "If the positive electricity is smeared through the whole volume, those rare large-angle flashes are awkward — scarce, yes, but still on the screen. Can the diffuse sphere really throw a few paths that far?",
+                "zh-Hans": "若正电涂满整个体积，那些稀少的大角闪光就很难办——少，没错，可屏上仍在。弥散球真能把少数路径甩那么远？"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -40,7 +49,10 @@
               "charId": "char-rutherford",
               "emotion": "speak",
               "pose": "sit-chair",
-              "text": "Scarce is not none. Geiger and Marsden counted that class of event; I will not let a neat plum-pudding slogan brush them aside. We may still speak carefully — but not as if the large angles were a trifle.",
+              "text": {
+                "en": "Scarce is not none. Geiger and Marsden counted that class of event; I will not let a neat plum-pudding slogan brush them aside. We may still speak carefully — but not as if the large angles were a trifle.",
+                "zh-Hans": "少，不等于没有。盖革和马斯登数过这类事件；我不会让一句漂亮的枣糕口号把它们抹掉。话仍可说得谨慎——但不能把大角当小事。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -52,7 +64,10 @@
         },
         {
           "id": "opt-try-central-charge",
-          "label": "Try the working hypothesis — a concentrated central charge.",
+          "label": {
+            "en": "Try the working hypothesis — a concentrated central charge.",
+            "zh-Hans": "先试工作假说——集中的中心电荷。"
+          },
           "softEffect": "Cautious affirm; still not a closed case; lexicon prefers central charge.",
           "tags": [
             "model-central-charge"
@@ -65,7 +80,10 @@
               "charId": "char-rutherford",
               "emotion": "speak",
               "pose": "point-screen",
-              "text": "Then take it as a working hypothesis: positive electricity gathered in a very small region at the centre. Most paths barely turn; a few turn hard. That is an account to press against the foil — not a verdict spoken as if the case were closed.",
+              "text": {
+                "en": "Then take it as a working hypothesis: positive electricity gathered in a very small region at the centre. Most paths barely turn; a few turn hard. That is an account to press against the foil — not a verdict spoken as if the case were closed.",
+                "zh-Hans": "那就先当作工作假说：正电聚在中心很小一块。绝大多数路径几乎不转，少数转得很硬。这是拿去压箔的说明——不是结案的口气。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -80,12 +98,18 @@
     {
       "id": "choice-shell-metaphor",
       "placement": "lab",
-      "prompt": "That fifteen-inch shell striking tissue paper — how shall we treat it?",
+      "prompt": {
+        "en": "That fifteen-inch shell striking tissue paper — how shall we treat it?",
+        "zh-Hans": "那枚十五英寸炮弹打在薄纸上——我们怎么对待它？"
+      },
       "notes": "M3.2 §B choice-shell-metaphor. Accept-as-fact → interpretation warning; reject → cleaner lexicon.",
       "options": [
         {
           "id": "opt-shell-as-lab-fact",
-          "label": "Treat it as what happened in the dark room.",
+          "label": {
+            "en": "Treat it as what happened in the dark room.",
+            "zh-Hans": "就当它是暗室里发生过的事。"
+          },
           "softEffect": "InterpretationBadge / lodge tag warning; Watson corrects late recollection.",
           "tags": [
             "interpretation-warning",
@@ -99,7 +123,10 @@
               "charId": "char-watson",
               "emotion": "speak",
               "pose": "point-screen",
-              "text": "Careful — that shell-and-tissue picture is a later story. It is not a line from the nineteen-nine dark-room notebooks. Fine as a vivid later telling; dangerous if we file it as a lab fact.",
+              "text": {
+                "en": "Careful — that shell-and-tissue picture is a later story. It is not a line from the nineteen-nine dark-room notebooks. Fine as a vivid later telling; dangerous if we file it as a lab fact.",
+                "zh-Hans": "小心——炮弹打薄纸是后来的故事，不是一九〇九年暗室本子上的句子。当作生动的事后说法可以；当成实验事实就危险。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -112,7 +139,10 @@
               "speaker": "旁白",
               "speakerRole": "narrator",
               "emotion": "idle",
-              "text": "Marked as late recollection, not a Coupland dark-room quotation. Keep the shell metaphor off the evidence board as a primary cite.",
+              "text": {
+                "en": "Marked as late recollection, not a Coupland dark-room quotation. Keep the shell metaphor off the evidence board as a primary cite.",
+                "zh-Hans": "已标为事后回忆，不是 Coupland 暗室原话。炮弹比喻不要当作一手证据上板。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -124,7 +154,10 @@
         },
         {
           "id": "opt-shell-as-late-story",
-          "label": "Treat it as a later story — not a 1909 notebook line.",
+          "label": {
+            "en": "Treat it as a later story — not a 1909 notebook line.",
+            "zh-Hans": "当作事后故事——不是一九〇九年本子上的原话。"
+          },
           "softEffect": "Cleaner lexicon; no interpretation warning.",
           "tags": [
             "lexicon-clean"
@@ -137,7 +170,10 @@
               "charId": "char-rutherford",
               "emotion": "speak",
               "pose": "sit-chair",
-              "text": "Keep to the screen and the notebook: diffuse reflection, foil, counts. Leave the shell picture for later storytellers.",
+              "text": {
+                "en": "Keep to the screen and the notebook: diffuse reflection, foil, counts. Leave the shell picture for later storytellers.",
+                "zh-Hans": "盯住屏和本子：漫反射、箔、计数。炮弹画面留给后来讲故事的人。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -152,12 +188,18 @@
     {
       "id": "choice-return-bench",
       "placement": "lodge",
-      "prompt": "After this lodge review — back to the foil thickness on the bench?",
+      "prompt": {
+        "en": "After this lodge review — back to the foil thickness on the bench?",
+        "zh-Hans": "租屋复盘之后——要不要回台上改箔厚？"
+      },
       "notes": "M3.2 §B choice-return-bench. Yes → deep-link lab; No → stay city/lodge.",
       "options": [
         {
           "id": "opt-return-lab",
-          "label": "Yes — return to the apparatus and change the foil.",
+          "label": {
+            "en": "Yes — return to the apparatus and change the foil.",
+            "zh-Hans": "要——回装置前改箔厚。"
+          },
           "softEffect": "Deep-link coupland-lab / labEmbed; resume foil-thickness check.",
           "tags": [
             "deep-link-lab"
@@ -170,7 +212,10 @@
               "charId": "char-rutherford",
               "emotion": "speak",
               "pose": "lean-bench",
-              "text": "Then back to the bench. Change the foil thickness; watch whether the angular pattern shifts. Central charge stays a working hypothesis until the apparatus has another say.",
+              "text": {
+                "en": "Then back to the bench. Change the foil thickness; watch whether the angular pattern shifts. Central charge stays a working hypothesis until the apparatus has another say.",
+                "zh-Hans": "那就回台上。改箔厚，看角分布变不变。中心电荷仍是工作假说，等装置再发言。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -185,7 +230,10 @@
               "charId": "char-watson",
               "emotion": "speak",
               "pose": "stand",
-              "text": "Right — counts first, slogans later. Shall we try the foil again?",
+              "text": {
+                "en": "Right — counts first, slogans later. Shall we try the foil again?",
+                "zh-Hans": "对——先计数，后口号。要不要再试一回箔？"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -197,7 +245,10 @@
         },
         {
           "id": "opt-stay-city",
-          "label": "Not yet — stay with the city for now.",
+          "label": {
+            "en": "Not yet — stay with the city for now.",
+            "zh-Hans": "先不——暂时留在城里。"
+          },
           "softEffect": "Remain on city/lodge map; lab deep-link deferred.",
           "tags": [
             "stay-city"
@@ -210,7 +261,10 @@
               "charId": "char-watson",
               "emotion": "think",
               "pose": "sit-stool",
-              "text": "Fair. We can keep observation and guess in separate piles a little longer — and come back to the foil when you are ready.",
+              "text": {
+                "en": "Fair. We can keep observation and guess in separate piles a little longer — and come back to the foil when you are ready.",
+                "zh-Hans": "行。观测和猜测先分开放一会儿——等你准备好了再回箔前。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
@@ -223,7 +277,10 @@
               "speaker": "旁白",
               "speakerRole": "narrator",
               "emotion": "idle",
-              "text": "The bench will wait. Coupland Street remains open; the foil check can resume from the laboratory node.",
+              "text": {
+                "en": "The bench will wait. Coupland Street remains open; the foil check can resume from the laboratory node.",
+                "zh-Hans": "实验台可以等。Coupland Street 还开着；改箔可从实验室节点再进。"
+              },
               "interpretation": true,
               "claim": {
                 "source_tier": "interpretation",
