@@ -122,8 +122,8 @@
           "emotion": "speak",
           "pose": "point-screen",
           "text": {
-            "en": "Later storytellers love the picture of a fifteen-inch shell striking tissue paper and bouncing back. It sounds fine — but that is late recollection, not a line from the nineteen-nine dark-room notebooks. We should not live on legends. Shall we try it ourselves at the apparatus?",
-            "zh-Hans": "后人爱讲那个画面：十五英寸炮弹打在薄纸上又弹回来。听着痛快——可那是事后回忆，不是一九〇九年暗室本子上的原话。别靠传说过日子。要不要自己上实验台试一次？"
+            "en": "Later storytellers love the picture of a fifteen-inch shell striking tissue paper and bouncing back. It sounds fine — but that is late recollection, not a line from the nineteen-nine dark-room notebooks. Do not take a legend for a notebook fact. Shall we try it ourselves at the apparatus?",
+            "zh-Hans": "后人爱讲那个画面：十五英寸炮弹打在薄纸上又弹回来。听着痛快——可那是事后回忆，不是一九〇九年暗室本子上的原话。别拿传说当本子上的事实。要不要自己上实验台试一次？"
           },
           "claim": {
             "source_tier": "interpretation",
@@ -262,8 +262,8 @@
           "emotion": "think",
           "pose": "sit-stool",
           "text": {
-            "en": "At night I read the day's scintillation counts again. Most paths nearly forward, a few at large angles — the diffuse positive sphere of the plum-pudding picture never seems to pile up so violent a deflection. The central-charge sketch, though, can make sense of those sharp flashes on the screen. The dull numbers from daylight start to bite after dark.",
-            "zh-Hans": "夜里我又把白天的闪烁计数读了一遍。绝大多数几乎朝前，少数大角——枣糕图景里那团弥散正电，怎么也堆不出这么猛的偏转。中心电荷那张草图，倒能说明屏上那些刺眼的闪光。白天乏味的数字，夜里才开始咬人。"
+            "en": "At night I read the day's scintillation counts again. Most paths nearly forward, a few at large angles — the diffuse positive sphere of the plum-pudding picture never seems to pile up so violent a deflection. The central-charge sketch, though, can make sense of those sharp flashes on the screen. Dull numbers from daylight only line up with the screen after dark.",
+            "zh-Hans": "夜里我又把白天的闪烁计数读了一遍。绝大多数几乎朝前，少数大角——枣糕图景里那团弥散正电，怎么也堆不出这么猛的偏转。中心电荷那张草图，倒能说明屏上那些刺眼的闪光。白天乏味的数字，夜里才对得上屏上的闪光。"
           },
           "claim": {
             "source_tier": "interpretation",
